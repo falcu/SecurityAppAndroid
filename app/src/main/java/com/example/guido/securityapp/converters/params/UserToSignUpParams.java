@@ -12,27 +12,26 @@ import org.json.JSONObject;
 public class UserToSignUpParams extends Converter {
 
     @Override
-    public Object convert(Object toConvert) throws Exception {
+    public Object convert(Object toConvert) throws Exception{
 
         UserTO maybeUser = (UserTO) toConvert;
 
         if(maybeUser==null)
             throw new IllegalArgumentException("I'm expecting a UserTO");
 
-        if (maybeUser.getEmail().isEmpty() || maybeUser.getPassword().isEmpty())
+        if (maybeUser.getName().isEmpty() || maybeUser.getEmail().isEmpty() || maybeUser.getPassword().isEmpty() || maybeUser.getRegistrationId().isEmpty())
             throw new IncompleteUserException("Key information is missing in the userTO");
 
         JSONObject user_details = new JSONObject();
         JSONObject userJSON = new JSONObject();
+        user_details.put("name", maybeUser.getName());
         user_details.put("email", maybeUser.getEmail());
         user_details.put("password", maybeUser.getPassword());
         user_details.put("password_confirmation", maybeUser.getPassword());
         JSONObject deviceJSON = new JSONObject();
-        if(maybeUser.getRegistrationId()!=null) {
-            deviceJSON.put("registration_id", maybeUser.getRegistrationId());
-            user_details.put("device", deviceJSON);
-        }
-        userJSON.put("userTO", user_details);
+        deviceJSON.put("registration_id", maybeUser.getRegistrationId());
+        user_details.put("device", deviceJSON);
+        userJSON.put("user", user_details);
 
         return userJSON.toString();
     }

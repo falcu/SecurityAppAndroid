@@ -1,5 +1,6 @@
 package com.example.guido.securityapp.activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,12 +8,12 @@ import android.view.MenuItem;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.builders.BuilderRegisterIdService;
-import com.example.guido.securityapp.services.RegisterIdService;
+import com.example.guido.securityapp.services.ServiceRegisterId;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    private RegisterIdService service;
+    private ServiceRegisterId service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +21,10 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         setService();
         try {
-            service.setRegistrationIdWithErrorDialog(this);
+            service.setRegistrationIdWithErrorDialogAsync(this);
             String regId = service.getRegistrationId();
+            Intent intent = new Intent(this,SignUpActivity.class);
+            this.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }

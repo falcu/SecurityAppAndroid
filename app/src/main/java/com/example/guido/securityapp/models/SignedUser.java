@@ -5,16 +5,16 @@ package com.example.guido.securityapp.models;
  */
 public class SignedUser {
 
-    private int id;
+    private String id;
     private String name;
     private String email;
     private String token;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
