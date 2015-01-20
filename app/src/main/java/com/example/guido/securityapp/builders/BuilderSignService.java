@@ -32,7 +32,7 @@ public class BuilderSignService {
 
     private static void build(SignOptions option)
     {
-        IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.signed_user_file_key),new JsonToObject(SignedUser.class),new HttpUserResponseToJson());
+        IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.signed_user_store_key),new JsonToObject(SignedUser.class),new HttpUserResponseToJson());
         SignHttpService httpService = null;
         ServiceSign serviceSign = null;
 

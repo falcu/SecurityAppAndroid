@@ -18,7 +18,7 @@ public class BuilderRegisterIdService {
     {
         if(service==null)
         {
-            String identifier = MyApplication.getContext().getString(R.string.register_id_key);
+            String identifier = MyApplication.getContext().getString(R.string.register_id_store_key);
             IDataStore store = new ServiceStore(identifier,new DefaultConverter(),new DefaultConverter());
             service = new ServiceRegisterId(store);
         }

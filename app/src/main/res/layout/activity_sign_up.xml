@@ -16,7 +16,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical">
+            android:layout_height="match_parent" android:orientation="vertical">
 
             <EditText android:id="@+id/name" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_name"
@@ -25,17 +25,13 @@
                 android:imeOptions="actionUnspecified" android:inputType="text"
                 android:maxLines="1" android:singleLine="true" />
 
-            <AutoCompleteTextView android:id="@+id/email" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="@string/prompt_email"
-                android:inputType="textEmailAddress" android:maxLines="1"
-                android:singleLine="true" />
+            <fragment
+                android:name="com.example.guido.securityapp.fragments.SignInFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/signin_fragment"
+                tools:layout="@layout/fragment_sign_in" />
 
-            <EditText android:id="@+id/password" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="@string/prompt_password"
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
-                android:imeOptions="actionUnspecified" android:inputType="textPassword"
-                android:maxLines="1" android:singleLine="true" />
 
             <Button android:id="@+id/email_sign_in_button" style="?android:textAppearanceSmall"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
