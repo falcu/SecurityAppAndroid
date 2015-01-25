@@ -114,6 +114,12 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
         }
     }
 
+    @Override
+    public void clearErrors() {
+        mEmailView.setError(null);
+        mPasswordView.setError(null);
+    }
+
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,

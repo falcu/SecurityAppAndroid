@@ -23,7 +23,7 @@ public class MainActivity extends ActionBarActivity {
         try {
             service.setRegistrationIdWithErrorDialogAsync(this);
             String regId = service.getRegistrationId();
-            Intent intent = new Intent(this,SignUpActivity.class);
+            Intent intent = new Intent(this,SignInActivity.class);
             this.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();

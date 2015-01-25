@@ -6,4 +6,5 @@ package com.example.guido.securityapp.interfaces;
 public interface ISetFragmentError {
 
     public void setError(String key, String error);
+    public void clearErrors();
 }

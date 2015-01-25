@@ -6,4 +6,5 @@
     <string name="password_error_key">password_error</string>
     <string name="email_key">email</string>
     <string name="password_key">password</string>
+    <string name="action_sign_in">Sign in</string>
 </resources>

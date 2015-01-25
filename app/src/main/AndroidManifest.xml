@@ -35,9 +35,12 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
+            android:name=".activities.SignInActivity"
+            android:label="@string/title_activity_sign_in" >
+        </activity>
+        <activity
             android:name=".activities.SignUpActivity"
-            android:label="@string/title_activity_sign_up"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:label="@string/title_activity_sign_up" >
         </activity>
     </application>
 
