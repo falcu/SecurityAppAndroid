@@ -12,22 +12,19 @@ public class ComposedValidator implements IValidate {
 
     @Override
     public boolean isValid(Object objectToValidate) {
-        boolean isValid = false;
-        if(composedValidator!=null)
-            isValid = composedValidator.isValid(objectToValidate);
-        if(!isValid)
-            isValid = validator.isValid(objectToValidate);
-
-        return isValid;
+        if(composedValidator==null)
+            return validator.isValid(objectToValidate);
+        else
+            return validator.isValid(objectToValidate) && composedValidator.isValid(objectToValidate);
     }
 
     @Override
     public String getError(Object objectToValidate) {
-        String error = "";
-        if(composedValidator!=null)
+        String error = validator.getError(objectToValidate);
+        if((error==null ||  error.isEmpty()) && composedValidator!=null)
+        {
             error = composedValidator.getError(objectToValidate);
-        if(error.isEmpty())
-            error = validator.getError(objectToValidate);
+        }
 
         return error;
     }

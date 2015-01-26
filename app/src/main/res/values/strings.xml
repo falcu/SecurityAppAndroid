@@ -8,7 +8,6 @@
     <string name="register_id_store_key">register_id</string>
     <string name="global_preferences_key">global</string>
     <string name="sever_url">http://192.168.1.145:3000</string>
-    <string name="title_activity_sign_in">SignInActivity</string>
-    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_activity_create_group">CreateGroupActivity</string>
 
 </resources>

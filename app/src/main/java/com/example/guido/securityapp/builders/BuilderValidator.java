@@ -4,6 +4,7 @@ import com.example.guido.securityapp.interfaces.IValidate;
 import com.example.guido.securityapp.validators.ComposedValidator;
 import com.example.guido.securityapp.validators.EmailValidator;
 import com.example.guido.securityapp.validators.EmptyStringValidator;
+import com.example.guido.securityapp.validators.LongStringValidator;
 import com.example.guido.securityapp.validators.ShortStringValidator;
 
 /**
@@ -21,6 +22,8 @@ public class BuilderValidator {
                 return getPasswordValidator();
             case NAME:
                 return getNameValidator();
+            case GROUP_NAME:
+                return getGroupNameValidator();
         }
 
         throw new IllegalArgumentException("There is not a validator for that type");
@@ -28,28 +31,22 @@ public class BuilderValidator {
 
     private IValidate getEmailValidator()
     {
-        ComposedValidator composedValidator1 = new ComposedValidator();
-        ComposedValidator composedValidator2 = new ComposedValidator();
         EmptyStringValidator emptyStringValidator = new EmptyStringValidator();
         EmailValidator emailValidator = new EmailValidator();
-        composedValidator2.setValidator(emptyStringValidator);
-        composedValidator1.setValidator(emailValidator);
-        composedValidator1.compose(composedValidator2);
+        ComposedValidator composedValidator = makeComposedValidatorWith(emptyStringValidator);
+        composedValidator.compose(makeComposedValidatorWith(emailValidator));
 
-        return composedValidator1;
+        return composedValidator;
     }
 
     private IValidate getPasswordValidator()
     {
-        ComposedValidator composedValidator1 = new ComposedValidator();
-        ComposedValidator composedValidator2 = new ComposedValidator();
         EmptyStringValidator emptyStringValidator = new EmptyStringValidator();
         ShortStringValidator shortStringValidator = new ShortStringValidator(4);
-        composedValidator2.setValidator(emptyStringValidator);
-        composedValidator1.setValidator(shortStringValidator);
-        composedValidator1.compose(composedValidator2);
+        ComposedValidator composedValidator = makeComposedValidatorWith(emptyStringValidator);
+        composedValidator.compose(makeComposedValidatorWith(shortStringValidator));
 
-        return composedValidator1;
+        return composedValidator;
     }
 
     private IValidate getNameValidator()
@@ -57,12 +54,30 @@ public class BuilderValidator {
         return new EmptyStringValidator();
     }
 
+    private IValidate getGroupNameValidator()
+    {
+        ComposedValidator composedValidator = makeComposedValidatorWith(new EmptyStringValidator());
+        ComposedValidator composedValidator2 = makeComposedValidatorWith(new ShortStringValidator(3));
+        composedValidator2.compose(makeComposedValidatorWith(new LongStringValidator(20)));
+        composedValidator.compose(composedValidator2);
+
+        return composedValidator;
+    }
+
+    private ComposedValidator makeComposedValidatorWith(IValidate validator)
+    {
+        ComposedValidator composedValidator = new ComposedValidator();
+        composedValidator.setValidator(validator);
+        return composedValidator;
+    }
+
 
     public enum ValidatorType
     {
         EMAIL,
         PASSWORD,
-        NAME
+        NAME,
+        GROUP_NAME
     }
 }
 

@@ -30,8 +30,8 @@ import java.util.List;
  */
 public class SignInFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, ISetFragmentError, IFragmentGetData {
 
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
+    private AutoCompleteTextView emailView;
+    private EditText passwordView;
 
 
     public SignInFragment() {
@@ -45,8 +45,8 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
 
-        mEmailView = (AutoCompleteTextView) view.findViewById(R.id.email);
-        mPasswordView = (EditText) view.findViewById(R.id.password);
+        emailView = (AutoCompleteTextView) view.findViewById(R.id.email);
+        passwordView = (EditText) view.findViewById(R.id.password);
         populateAutoComplete();
         return view;
     }
@@ -91,7 +91,7 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
                 new ArrayAdapter<String>(this.getActivity(),
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
+        emailView.setAdapter(adapter);
     }
 
     @Override
@@ -104,20 +104,20 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
 
         if(key.equals(MyApplication.getContext().getString(R.string.email_error_key).toString()))
         {
-            mEmailView.setError(error);
-            mEmailView.requestFocus();
+            emailView.setError(error);
+            emailView.requestFocus();
         }
         else if(key.equals(MyApplication.getContext().getString(R.string.password_error_key).toString()))
         {
-            mPasswordView.setError(error);
-            mPasswordView.requestFocus();
+            passwordView.setError(error);
+            passwordView.requestFocus();
         }
     }
 
     @Override
     public void clearErrors() {
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
+        emailView.setError(null);
+        passwordView.setError(null);
     }
 
     private interface ProfileQuery {
@@ -134,8 +134,8 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
     public HashMap<String, Object> getData() {
 
         HashMap<String,Object> data = new HashMap<>();
-        data.put(getString(R.string.email_key),mEmailView.getText());
-        data.put(getString(R.string.password_key),mPasswordView.getText());
+        data.put(getString(R.string.email_key), emailView.getText());
+        data.put(getString(R.string.password_key), passwordView.getText());
 
         return data;
     }

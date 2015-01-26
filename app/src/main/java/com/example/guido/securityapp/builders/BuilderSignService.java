@@ -52,4 +52,10 @@ public class BuilderSignService {
         serviceSign = new ServiceSign(store,httpService,errorAnalyzer);
         services.put(option,serviceSign);
     }
+
+    public enum SignOptions {
+
+        SIGN_IN,SIGN_UP
+    }
+
 }

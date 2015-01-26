@@ -8,32 +8,48 @@ import android.view.MenuItem;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.builders.BuilderRegisterIdService;
+import com.example.guido.securityapp.builders.BuilderSignService;
+import com.example.guido.securityapp.interfaces.ISignService;
 import com.example.guido.securityapp.services.ServiceRegisterId;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    private ServiceRegisterId service;
+    private ServiceRegisterId serviceRegisterId;
+    private ISignService signService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setService();
+        //TODO REMOVE DUMMY CODE
+        Intent createGroupIntent = new Intent(this,CreateGroupActivity.class);
+        startActivity(createGroupIntent);
+        //END TODO
+
+   /*     setRegisterIdService();
+        setSignService();
         try {
-            service.setRegistrationIdWithErrorDialogAsync(this);
-            String regId = service.getRegistrationId();
-            Intent intent = new Intent(this,SignInActivity.class);
-            this.startActivity(intent);
+            serviceRegisterId.setRegistrationIdWithErrorDialogAsync(this);
+            if(!signService.isUserSingedIn())
+            {
+                Intent intent = new Intent(this,SignInActivity.class);
+                this.startActivity(intent);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 
-    protected void setService()
+    protected void setRegisterIdService()
     {
-        service = BuilderRegisterIdService.buildRegisterIdService();
+        serviceRegisterId = BuilderRegisterIdService.buildRegisterIdService();
+    }
+
+    protected void setSignService()
+    {
+        signService = BuilderSignService.buildServiceSign(BuilderSignService.SignOptions.SIGN_IN);
     }
 
 

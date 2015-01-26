@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.guido.securityapp.fragments.CreateGroupFragment">
+>
+
+
+    <EditText android:id="@+id/group_name" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:hint="@string/group_name_hint_text"
+         android:inputType="text"
+        android:layout_weight="1"
+        android:maxLines="1" android:singleLine="true" />
+
+    <Button
+        android:layout_weight="1"
+        android:id="@+id/create_group_action"
+        android:text="Create Group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
+
+</LinearLayout>

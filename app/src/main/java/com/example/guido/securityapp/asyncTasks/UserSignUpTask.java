@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 
 import com.example.guido.securityapp.builders.BuilderRegisterIdService;
 import com.example.guido.securityapp.builders.BuilderSignService;
-import com.example.guido.securityapp.builders.SignOptions;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.models.UserTO;
 import com.example.guido.securityapp.services.ServiceRegisterId;
@@ -43,7 +42,7 @@ public class UserSignUpTask extends AsyncTask<Void, Void, TaskResult>{
                 userTransferObject.setEmail(email);
                 userTransferObject.setPassword(password);
                 userTransferObject.setRegistrationId(regId);
-                ServiceSign serviceSign = BuilderSignService.buildServiceSign(SignOptions.SIGN_UP);
+                ServiceSign serviceSign = BuilderSignService.buildServiceSign(BuilderSignService.SignOptions.SIGN_UP);
                 serviceSign.sign(userTransferObject);
                 if(serviceSign.wasRequestWithError())
                 {

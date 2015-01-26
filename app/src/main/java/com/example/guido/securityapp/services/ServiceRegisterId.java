@@ -116,10 +116,17 @@ public class ServiceRegisterId {
 
     private void registerInBackground() throws Exception{
         new AsyncTask<Void, Void, String>() {
+
+
             @Override
             protected String doInBackground(Void... params) {
                 String msg = register();
                 return msg;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
             }
 
             @Override
