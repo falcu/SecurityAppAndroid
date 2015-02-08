@@ -41,7 +41,7 @@ public class BuilderGroupService {
     {
         if(!services.containsKey(GroupServices.CREATE))
         {
-            IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_key), new JsonToObject(Group.class),new HttpCreateGroupResponseToJson());
+            IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new HttpCreateGroupResponseToJson());
             HttpRequestService service = new HttpRequestService(new PostHttpManager(), new BuilderCreateGroupRequest());
             IErrorAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
             services.put(GroupServices.CREATE,new ServiceCreateGroup(store,service,errorAnalyzer));
@@ -52,7 +52,7 @@ public class BuilderGroupService {
     {
         if(!services.containsKey(GroupServices.GROUP_INFORMATION))
         {
-            IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_key), new JsonToObject(Group.class),new HttpGroupInfoResponseToJson());
+            IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new HttpGroupInfoResponseToJson());
             HttpRequestService service = new HttpRequestService(new GetHttpManager(), new BuilderGetGroupInfoRequest());
             IErrorAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
             services.put(GroupServices.GROUP_INFORMATION,new ServiceGroupInformation(store,service,errorAnalyzer));

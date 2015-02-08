@@ -2,4 +2,5 @@
 <resources>
     <string name="title_activity_security">SecurityActivity</string>
     <string name="hello_world">This is my main security activity</string>
+    <string name="action_group_configuration">Group Configuration</string>
 </resources>

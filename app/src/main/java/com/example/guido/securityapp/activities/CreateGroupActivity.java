@@ -8,6 +8,8 @@ import android.os.Bundle;
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.fragments.DescriptionFragment;
+import com.example.guido.securityapp.fragments.Option;
+import com.example.guido.securityapp.interfaces.IFragmentOptions;
 import com.example.guido.securityapp.interfaces.IFragmentResultHandler;
 import com.example.guido.securityapp.interfaces.IFragmentVisibility;
 import com.example.guido.securityapp.interfaces.IProgressBar;
@@ -30,13 +32,16 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
         hideFragment(R.id.create_group_fragment);
         hideFragment(R.id.description_fragment);
         ((DescriptionFragment)getFragmentManager().findFragmentById(R.id.description_fragment)).setDescription("In order to join a group, the creator must add you to the group. The creator just needs your email");
+        IFragmentOptions fragmentOptions = (IFragmentOptions) getFragmentManager().findFragmentById(R.id.options_fragment);
+        fragmentOptions.addOption(new Option(MyApplication.getContext().getString(R.string.create_group_text),MyApplication.getContext().getString(R.string.create_group_key)));
+        fragmentOptions.addOption(new Option(MyApplication.getContext().getString(R.string.join_group_text),MyApplication.getContext().getString(R.string.join_group_key)));
     }
 
 
     @Override
     public void handle(Object data) {
         String key = (String)data;
-        if(key.equals(getString(R.string.group_key)))
+        if(key.equals(getString(R.string.create_group_key)))
         {
             showFragment(R.id.create_group_fragment);
             hideFragment(R.id.description_fragment);
@@ -71,7 +76,7 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
         if (taskResult.isSuccesful()) {
             Intent i = new Intent();
             i.putExtra(MyApplication.getContext().getString(R.string.IS_ACTIVITY_FINISH),true);
-            setResult(Activity.RESULT_OK,i);
+            setResult(Activity.RESULT_OK, i);
             finish();
         } else {
             showError(taskResult.getError());
