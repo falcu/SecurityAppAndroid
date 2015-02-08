@@ -3,59 +3,61 @@ package com.example.guido.securityapp.builders;
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.converters.Converter;
-import com.example.guido.securityapp.converters.params.UserToSignInParams;
-import com.example.guido.securityapp.converters.params.UserToSignUpParams;
+import com.example.guido.securityapp.converters.params.CreateGroupToParams;
 import com.example.guido.securityapp.interfaces.IBuildRequestPackage;
-import com.example.guido.securityapp.models.UserTO;
+import com.example.guido.securityapp.models.CreateGroupTO;
 import com.example.guido.securityapp.restful.RequestPackage;
 
 /**
- * Created by guido on 1/17/15.
+ * Created by guido on 2/1/15.
  */
-public class BuilderSignUpUserRequest implements IBuildRequestPackage {
+public class BuilderCreateGroupRequest implements IBuildRequestPackage{
 
-    protected UserTO userTO;
-    protected String serverUri;
-    public BuilderSignUpUserRequest()
+    private String serverUri;
+    private CreateGroupTO groupTO;
+
+    public BuilderCreateGroupRequest()
     {
         serverUri = MyApplication.getContext().getString(R.string.sever_url);
     }
     @Override
-    public RequestPackage build() throws Exception{
-        if(userTO ==null)
+    public RequestPackage build() throws Exception {
+        if(groupTO ==null)
             throw new IllegalArgumentException("Object must be set first");
 
         RequestPackage requestPackage = new RequestPackage();
         Converter paramsConverter = getConverter();
-        paramsConverter.setObject(userTO);
+        paramsConverter.setObject(groupTO);
         requestPackage.setConverter(paramsConverter);
         requestPackage.setHeaderProperty("Content-Type","application/json");
         requestPackage.setHeaderProperty("Accept","application/json");
+        requestPackage.setHeaderProperty("Authorization", "Token token=" + groupTO.getToken());
         requestPackage.setUri(getFullUri());
 
         return requestPackage;
     }
 
-    protected String getFullUri()
-    {
-       return serverUri + "/api/users/create";
-    }
-
     protected Converter getConverter()
     {
-        return new UserToSignUpParams();
+        return new CreateGroupToParams();
+    }
+
+    protected String getFullUri()
+    {
+        return serverUri + "/api/groups/create";
     }
 
     @Override
-    public void setObject(Object objectInput) throws Exception{
+    public void setObject(Object objectInput) throws Exception {
         try
         {
-            UserTO maybeUserTO = (UserTO) objectInput;
-            this.userTO = maybeUserTO;
+            CreateGroupTO maybeGroup = (CreateGroupTO) objectInput;
+            this.groupTO = maybeGroup;
         }
         catch (ClassCastException e)
         {
-            throw new IllegalArgumentException("I was expecting a userTO, but received "+objectInput.getClass());
+            throw new IllegalArgumentException("I was expecting a "+CreateGroupTO.class.toString()+" but received "+objectInput.getClass().toString());
         }
+
     }
 }

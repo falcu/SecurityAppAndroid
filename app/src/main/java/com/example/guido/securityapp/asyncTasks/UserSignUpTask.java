@@ -1,5 +1,6 @@
 package com.example.guido.securityapp.asyncTasks;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.example.guido.securityapp.builders.BuilderRegisterIdService;
@@ -13,18 +14,18 @@ import com.example.guido.securityapp.services.ServiceSign;
 /**
  * Created by guido on 1/24/15.
  */
-public class UserSignUpTask extends AsyncTask<Void, Void, TaskResult>{
+public class UserSignUpTask extends AsynTaskWithHandlers{
     private final String name;
     private final String email;
     private final String password;
-    private ITaskHandler handler;
+    private Activity activity;
 
 
-    public UserSignUpTask(String name, String email, String password, ITaskHandler handler) {
+    public UserSignUpTask(String name, String email, String password,Activity activity) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.handler = handler;
+        this.activity = activity;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class UserSignUpTask extends AsyncTask<Void, Void, TaskResult>{
 
         try {
             ServiceRegisterId serviceRegisterId = BuilderRegisterIdService.buildRegisterIdService();
-            serviceRegisterId.setRegistrationIdWithErrorDialog(this.handler.getActivityInstance());
+            serviceRegisterId.setRegistrationIdWithErrorDialog(this.activity);
             String regId = serviceRegisterId.getRegistrationId();
             if(!regId.isEmpty())
             {
@@ -55,16 +56,6 @@ public class UserSignUpTask extends AsyncTask<Void, Void, TaskResult>{
         }
 
         return result;
-    }
-
-    @Override
-    protected void onPostExecute(TaskResult success) {
-        handler.onPostExecute(success);
-    }
-
-    @Override
-    protected void onCancelled() {
-        handler.onCancelled();
     }
 
 }

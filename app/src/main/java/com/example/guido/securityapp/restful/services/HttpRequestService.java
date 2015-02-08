@@ -1,32 +1,30 @@
 package com.example.guido.securityapp.restful.services;
 
 import com.example.guido.securityapp.interfaces.IBuildRequestPackage;
-import com.example.guido.securityapp.models.UserTO;
+import com.example.guido.securityapp.models.CreateGroupTO;
 import com.example.guido.securityapp.restful.HttpManager;
 import com.example.guido.securityapp.restful.RequestPackage;
 
-import org.json.JSONObject;
-
 /**
- * Created by guido on 1/17/15.
+ * Created by guido on 2/1/15.
  */
-public class SignHttpService {
+public class HttpRequestService {
 
     private HttpManager httpManager;
     private IBuildRequestPackage builder;
 
-    public SignHttpService(HttpManager httpManager, IBuildRequestPackage builder)
+    public HttpRequestService(HttpManager httpManager,IBuildRequestPackage builder)
     {
         this.httpManager = httpManager;
         this.builder = builder;
     }
 
-    public String sign(UserTO userTO) throws Exception{
-        builder.setObject(userTO);
+    public String request(Object objectTO) throws Exception
+    {
+        builder.setObject(objectTO);
         RequestPackage requestPackage = builder.build();
         String jsonData = httpManager.getData(requestPackage);
 
         return jsonData;
-
     }
 }

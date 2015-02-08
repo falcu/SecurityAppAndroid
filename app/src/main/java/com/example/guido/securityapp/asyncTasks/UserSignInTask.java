@@ -10,17 +10,15 @@ import com.example.guido.securityapp.services.ServiceSign;
 /**
  * Created by guido on 1/24/15.
  */
-public class UserSignInTask extends AsyncTask<Void, Void, TaskResult> {
+public class UserSignInTask extends AsynTaskWithHandlers{
 
     private final String email;
     private final String password;
-    private ITaskHandler handler;
 
 
-    public UserSignInTask(String email, String password, ITaskHandler handler) {
+    public UserSignInTask(String email, String password) {
         this.email = email;
         this.password = password;
-        this.handler = handler;
     }
 
     @Override
@@ -45,15 +43,5 @@ public class UserSignInTask extends AsyncTask<Void, Void, TaskResult> {
         }
 
         return result;
-    }
-
-    @Override
-    protected void onPostExecute(TaskResult success) {
-        handler.onPostExecute(success);
-    }
-
-    @Override
-    protected void onCancelled() {
-        handler.onCancelled();
     }
 }

@@ -5,9 +5,14 @@
     <string name="main_activity_text">Welcome!</string>
     <string name="action_settings">Settings</string>
     <string name="signed_user_store_key">signed_user</string>
+    <string name="group_store_key">group</string>
     <string name="register_id_store_key">register_id</string>
     <string name="global_preferences_key">global</string>
     <string name="sever_url">http://192.168.1.145:3000</string>
     <string name="title_activity_create_group">CreateGroupActivity</string>
+
+    <integer name="ACTIVITY_FINISH">1</integer>
+
+    <string name="IS_ACTIVITY_FINISH">activity_finish</string>
 
 </resources>

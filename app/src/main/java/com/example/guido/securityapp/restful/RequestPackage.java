@@ -12,7 +12,6 @@ import java.util.Map;
 public class RequestPackage {
 
     private String uri;
-    private String method = "GET";
     private Converter paramsConverter;
     private Map<String,String> headerProperties = new HashMap<>();
 
@@ -22,14 +21,6 @@ public class RequestPackage {
 
     public void setUri(String uri) {
         this.uri = uri;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
     }
 
     public void setConverter(Converter paramsCalculator) {

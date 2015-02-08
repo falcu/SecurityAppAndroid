@@ -2,6 +2,7 @@ package com.example.guido.securityapp.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -64,9 +65,8 @@ public abstract class SignActivity extends Activity implements ITaskHandler {
         boolean loggin = validateFields();
 
         if (loggin) {
-            // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            progressBar.showProgress(true);
+
             authTask = getSignTask();
             authTask.execute((Void) null);
         }
@@ -114,11 +114,24 @@ public abstract class SignActivity extends Activity implements ITaskHandler {
     }
 
     @Override
+    public void onPreExecute()
+    {
+        progressBar.showProgress(true);
+    }
+
+    protected void beforeFinish() {
+        Intent i = new Intent();
+        i.putExtra(MyApplication.getContext().getResources().getString(R.string.IS_ACTIVITY_FINISH),true);
+        setResult(Activity.RESULT_OK,i);
+    }
+
+    @Override
     public void onPostExecute(TaskResult taskResult) {
         authTask = null;
         progressBar.showProgress(false);
 
         if (taskResult.isSuccesful()) {
+            beforeFinish();
             finish();
         } else {
             showError(taskResult.getError());
@@ -130,12 +143,7 @@ public abstract class SignActivity extends Activity implements ITaskHandler {
         progressBar.showProgress(false);
     }
 
-    @Override
-    public Activity getActivityInstance() {
-        return this;
-    }
-
-    private void showError(String error)
+    protected void showError(String error)
     {
         new AlertDialog.Builder(this).setTitle("Error").setMessage(error).show();
     }

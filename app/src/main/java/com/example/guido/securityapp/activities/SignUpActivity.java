@@ -1,5 +1,7 @@
 package com.example.guido.securityapp.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -42,7 +44,9 @@ public class SignUpActivity extends SignActivity {
         String email = getFragmentData().getData().get(getString(R.string.email_key)).toString();
         String password = getFragmentData().getData().get(getString(R.string.password_key)).toString();
         String name = nameView.getText().toString();
-        return new UserSignUpTask(name, email, password,this);
+        UserSignUpTask task = new UserSignUpTask(name, email, password,this);
+        task.addHandler(this);
+        return task;
     }
 
     @Override
@@ -68,4 +72,5 @@ public class SignUpActivity extends SignActivity {
         }
         return true;
     }
+
 }

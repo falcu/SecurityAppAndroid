@@ -50,7 +50,7 @@ public class GroupOptionsFragment extends Fragment implements View.OnClickListen
         switch (id)
         {
             case R.id.create_group_option:
-                return getString(R.string.create_group_key);
+                return getString(R.string.group_key);
             case R.id.join_group_option:
                 return getString(R.string.join_group_key);
         }

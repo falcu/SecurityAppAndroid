@@ -29,9 +29,24 @@ public class SignInActivity extends SignActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SignInActivity.this,SignUpActivity.class);
-                SignInActivity.this.startActivity(intent);
+                SignInActivity.this.startActivityForResult(intent,MyApplication.getContext().getResources().getInteger(R.integer.ACTIVITY_FINISH));
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode==MyApplication.getContext().getResources().getInteger(R.integer.ACTIVITY_FINISH))
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                if(data.getBooleanExtra(MyApplication.getContext().getString(R.string.IS_ACTIVITY_FINISH),false)) {
+                    beforeFinish();
+                    finish();
+                }
+            }
+        }
     }
 
     @Override
@@ -43,7 +58,9 @@ public class SignInActivity extends SignActivity {
     protected  AsyncTask<Void, Void, TaskResult>  getSignTask() {
         String email = getFragmentData().getData().get(getString(R.string.email_key)).toString();
         String password = getFragmentData().getData().get(getString(R.string.password_key)).toString();
-       return new UserSignInTask(email, password,this);
+        UserSignInTask task = new UserSignInTask(email,password);
+        task.addHandler(this);
+       return task;
     }
 
     @Override
@@ -55,4 +72,6 @@ public class SignInActivity extends SignActivity {
     protected boolean validateFields() {
         return validateEmail() && validatePassword();
     }
+
+
 }

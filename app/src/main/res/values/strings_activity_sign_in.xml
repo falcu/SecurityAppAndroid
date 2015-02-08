@@ -2,4 +2,5 @@
 <resources>
     <string name="signUpClickLink"><u>New user? Sign up</u></string>
     <string name="title_activity_sign_in">SignInActivity</string>
+    <integer name="LOGIN_SUCCEED">1</integer>
 </resources>
