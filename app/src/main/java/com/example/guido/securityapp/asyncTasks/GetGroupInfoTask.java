@@ -2,6 +2,7 @@ package com.example.guido.securityapp.asyncTasks;
 
 import com.example.guido.securityapp.builders.BuilderGroupService;
 import com.example.guido.securityapp.builders.BuilderServiceUserToken;
+import com.example.guido.securityapp.services.ServiceGroupInformation;
 
 /**
  * Created by guido on 2/5/15.
@@ -13,7 +14,12 @@ public class GetGroupInfoTask extends AsynTaskWithHandlers {
         try
         {
             String token = BuilderServiceUserToken.build().getToken();
-            BuilderGroupService.buildGroupInformationService().updateGroupInformation(token);
+            ServiceGroupInformation service = BuilderGroupService.buildGroupInformationService();
+            service.updateGroupInformation(token);
+            if(service.wasRequestWithError()){
+                result.setError(service.getLastErrorMessage());
+            }
+
         }
         catch (Exception e)
         {

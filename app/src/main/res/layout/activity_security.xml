@@ -12,10 +12,10 @@
 
     <fragment
         android:id="@+id/alarm_fragment"
-        android:name="com.example.guido.securityapp.fragments.AlarmFragment"
+        android:name="com.example.guido.securityapp.fragments.DelayedActionFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_alarm">
+        tools:layout="@layout/fragment_delayed_action">
         </fragment>
 
 

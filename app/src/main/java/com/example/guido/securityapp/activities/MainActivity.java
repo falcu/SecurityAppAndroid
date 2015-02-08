@@ -69,7 +69,7 @@ public class MainActivity extends ActionBarActivity {
                     }
                     catch (Exception e)
                     {
-
+                        return;
                     }
                 }
 
