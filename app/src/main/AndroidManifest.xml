@@ -51,7 +51,7 @@
             android:label="@string/title_activity_security" >
         </activity>
         <activity
-            android:name=".activities.GroupConfigurationActivity"
+            android:name=".activities.GroupConfigurationCreatorActivity"
             android:label="@string/title_activity_group_configuration" >
         </activity>
     </application>

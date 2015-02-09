@@ -10,7 +10,7 @@ import com.example.guido.securityapp.models.SignedUser;
 import com.example.guido.securityapp.restful.PostHttpManager;
 import com.example.guido.securityapp.restful.PutHttpManager;
 import com.example.guido.securityapp.restful.services.HttpRequestService;
-import com.example.guido.securityapp.services.ServiceBadHttpRequestAnalyzer;
+import com.example.guido.securityapp.services.http_analyzers.ServiceBadHttpRequestAnalyzer;
 import com.example.guido.securityapp.services.ServiceSign;
 import com.example.guido.securityapp.services.ServiceStore;
 

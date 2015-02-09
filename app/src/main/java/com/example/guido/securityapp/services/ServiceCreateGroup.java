@@ -9,17 +9,12 @@ import com.example.guido.securityapp.restful.services.HttpRequestService;
 /**
  * Created by guido on 2/1/15.
  */
-public class ServiceCreateGroup implements IServiceError{
+public class ServiceCreateGroup extends ServiceBase{
 
-    private IDataStore store;
-    private HttpRequestService httpService;
-    private IErrorAnalyzer errorAnalyzer;
 
     public ServiceCreateGroup(IDataStore store, HttpRequestService httpService, IErrorAnalyzer errorAnalyzer)
     {
-        this.store = store;
-        this.httpService = httpService;
-        this.errorAnalyzer = errorAnalyzer;
+       super(store,httpService,errorAnalyzer);
     }
 
     public void createGroup(CreateGroupTO createGroupTO) throws Exception
@@ -29,15 +24,5 @@ public class ServiceCreateGroup implements IServiceError{
         if(!errorAnalyzer.didLastDataHaveError())
             store.save(data);
 
-    }
-
-    @Override
-    public boolean wasRequestWithError() {
-        return errorAnalyzer.didLastDataHaveError();
-    }
-
-    @Override
-    public String getLastErrorMessage() {
-        return errorAnalyzer.getLastErrorMessage();
     }
 }

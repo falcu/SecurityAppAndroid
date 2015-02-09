@@ -12,7 +12,7 @@ import com.example.guido.securityapp.restful.GetHttpManager;
 import com.example.guido.securityapp.restful.PostHttpManager;
 import com.example.guido.securityapp.restful.services.HttpRequestService;
 import com.example.guido.securityapp.services.ServiceCreateGroup;
-import com.example.guido.securityapp.services.ServiceBadHttpRequestAnalyzer;
+import com.example.guido.securityapp.services.http_analyzers.ServiceBadHttpRequestAnalyzer;
 import com.example.guido.securityapp.services.ServiceGroupInformation;
 import com.example.guido.securityapp.services.ServiceStore;
 

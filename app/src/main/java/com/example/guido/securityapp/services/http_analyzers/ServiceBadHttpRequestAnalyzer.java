@@ -1,4 +1,4 @@
-package com.example.guido.securityapp.services;
+package com.example.guido.securityapp.services.http_analyzers;
 
 import com.example.guido.securityapp.interfaces.IErrorAnalyzer;
 

@@ -6,32 +6,38 @@ import com.example.guido.securityapp.converters.Converter;
 import com.example.guido.securityapp.converters.params.CreateGroupToParams;
 import com.example.guido.securityapp.interfaces.IBuildRequestPackage;
 import com.example.guido.securityapp.models.CreateGroupTO;
+import com.example.guido.securityapp.models.NewMemberTO;
 import com.example.guido.securityapp.restful.RequestPackage;
 
 /**
- * Created by guido on 2/1/15.
+ * Created by guido on 2/8/15.
  */
-public class BuilderCreateGroupRequest extends BuilderBaseRequestWithToken{
 
+public class BuilderAddMemberRequest extends BuilderBaseRequestWithToken{
 
-    public BuilderCreateGroupRequest()
+    public BuilderAddMemberRequest()
     {
         super();
     }
 
-    @Override
+    //TODO implement getConverter
     protected Converter getConverter()
     {
-        return new CreateGroupToParams();
+        return null;
+    }
+
+    protected String getFullUri()
+    {
+        return serverUri + "/api/groups/add_single_group";
     }
 
     @Override
     protected String getSpecificUri() {
-        return "/api/groups/create";
+        return "/api/groups/add_single_group";
     }
 
     @Override
     protected Class getSpecificClass() {
-        return CreateGroupTO.class;
+        return NewMemberTO.class;
     }
 }

@@ -11,17 +11,11 @@ import com.example.guido.securityapp.restful.services.HttpRequestService;
 /**
  * Created by guido on 1/17/15.
  */
-public class ServiceSign implements ISignService, IServiceError {
-
-    private IDataStore store;
-    private HttpRequestService httpService;
-    private IErrorAnalyzer errorAnalyzer;
+public class ServiceSign extends ServiceBase implements ISignService {
 
     public ServiceSign(IDataStore store, HttpRequestService httpService, IErrorAnalyzer errorAnalyzer)
     {
-        this.store = store;
-        this.httpService = httpService;
-        this.errorAnalyzer = errorAnalyzer;
+        super(store,httpService,errorAnalyzer);
     }
     @Override
     public boolean isUserSingedIn() {
@@ -50,13 +44,4 @@ public class ServiceSign implements ISignService, IServiceError {
         return signedUser;
     }
 
-    @Override
-    public boolean wasRequestWithError() {
-        return errorAnalyzer.didLastDataHaveError();
-    }
-
-    @Override
-    public String getLastErrorMessage() {
-        return errorAnalyzer.getLastErrorMessage();
-    }
 }

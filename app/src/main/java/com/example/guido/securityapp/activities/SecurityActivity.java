@@ -2,7 +2,6 @@ package com.example.guido.securityapp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +42,7 @@ public class SecurityActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_group_configuration) {
-            Intent i = new Intent(this,GroupConfigurationActivity.class);
+            Intent i = new Intent(this,GroupConfigurationCreatorActivity.class);
             startActivity(i);
         }
 

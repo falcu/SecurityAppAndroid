@@ -9,9 +9,8 @@ import com.example.guido.securityapp.converters.params.UserToSignInParams;
 public class BuilderSignInUserRequest extends BuilderSignUpUserRequest{
 
     @Override
-    protected String getFullUri()
-    {
-        return serverUri + "/api/users/sign_in";
+    protected String getSpecificUri() {
+        return "/api/users/sign_in";
     }
 
     @Override
