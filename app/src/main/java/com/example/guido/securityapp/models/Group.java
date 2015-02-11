@@ -10,6 +10,7 @@ public class Group {
     private String name;
     private String id;
     private String creatorId;
+    private Member creator;
     private List<Member> members;
 
     public Group() {
@@ -45,5 +46,13 @@ public class Group {
 
     public void setMembers(List<Member> members) {
         this.members = members;
+    }
+
+    public Member getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Member creator) {
+        this.creator = creator;
     }
 }

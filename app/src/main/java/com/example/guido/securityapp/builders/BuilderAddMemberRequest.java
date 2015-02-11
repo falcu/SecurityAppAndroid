@@ -4,6 +4,7 @@ import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.converters.Converter;
 import com.example.guido.securityapp.converters.params.CreateGroupToParams;
+import com.example.guido.securityapp.converters.params.NewMemberToParams;
 import com.example.guido.securityapp.interfaces.IBuildRequestPackage;
 import com.example.guido.securityapp.models.CreateGroupTO;
 import com.example.guido.securityapp.models.NewMemberTO;
@@ -20,10 +21,9 @@ public class BuilderAddMemberRequest extends BuilderBaseRequestWithToken{
         super();
     }
 
-    //TODO implement getConverter
     protected Converter getConverter()
     {
-        return null;
+        return new NewMemberToParams();
     }
 
     protected String getFullUri()

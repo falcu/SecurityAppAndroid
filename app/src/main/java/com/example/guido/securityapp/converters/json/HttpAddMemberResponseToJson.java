@@ -6,20 +6,20 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * Created by guido on 2/5/15.
+ * Created by guido on 2/9/15.
  */
-public class HttpGroupInfoResponseToJson extends Converter {
+public class HttpAddMemberResponseToJson extends Converter {
     @Override
     public Object convert(Object objectToConvert) throws Exception {
         try
         {
             String serverJson = (String) objectToConvert;
             JSONObject json = new JSONObject(serverJson);
-            JSONArray groupJsonArray = json.getJSONArray("group_info");
+            JSONObject groupInfoJson = json.getJSONObject("group_info");
             //Application supports only one group
-            JSONObject groupJson = groupJsonArray.getJSONObject(0).getJSONObject("group");
-            JSONArray members = groupJsonArray.getJSONObject(0).getJSONArray("members");
-            JSONObject creator = groupJsonArray.getJSONObject(0).getJSONObject("creator");
+            JSONObject groupJson = groupInfoJson.getJSONObject("group");
+            JSONArray members = groupInfoJson.getJSONArray("members");
+            JSONObject creator = groupInfoJson.getJSONObject("creator");
 
             JSONObject modifiedJson = new JSONObject();
             modifiedJson.put("name",groupJson.get("name"));

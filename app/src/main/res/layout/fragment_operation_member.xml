@@ -6,14 +6,12 @@
 
     <EditText android:id="@+id/member_email" android:layout_width="match_parent"
         android:layout_height="wrap_content" android:hint="@string/add_member_hint"
-        android:imeActionId="@+id/login"
-        android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionUnspecified" android:inputType="text"
         android:maxLines="1" android:singleLine="true" />
 
-    <Button android:id="@+id/add_member_action" style="?android:textAppearanceSmall"
+    <Button android:id="@+id/operation_member_action" style="?android:textAppearanceSmall"
         android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" android:text="@string/add_member_action_text"
+        android:layout_marginTop="16dp" android:text="@string/operation_member_action_text"
         android:textStyle="bold" />
 
 </LinearLayout>

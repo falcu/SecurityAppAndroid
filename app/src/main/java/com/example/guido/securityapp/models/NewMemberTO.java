@@ -7,8 +7,15 @@ import com.example.guido.securityapp.interfaces.IGetToken;
  */
 public class NewMemberTO implements IGetToken {
     private String email;
-    private int groupId;
+    private String groupId;
     private String token;
+
+    public NewMemberTO(String email,String groupId,String token)
+    {
+        this.email = email;
+        this.groupId = groupId;
+        this.token = token;
+    }
 
     public String getEmail() {
         return email;
@@ -18,11 +25,11 @@ public class NewMemberTO implements IGetToken {
         this.email = email;
     }
 
-    public int getGroupId() {
+    public String getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
 

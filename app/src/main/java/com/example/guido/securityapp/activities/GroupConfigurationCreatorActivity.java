@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.example.guido.securityapp.R;
+import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.factories.FactoryGroupConfigurationFragments;
 import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.Option;
@@ -13,10 +14,11 @@ import com.example.guido.securityapp.interfaces.IFragmentOptions;
 import com.example.guido.securityapp.interfaces.IFragmentResultHandler;
 import com.example.guido.securityapp.interfaces.IFragmentVisibility;
 import com.example.guido.securityapp.interfaces.IProgressBar;
+import com.example.guido.securityapp.interfaces.ITaskHandler;
 
 import java.util.Iterator;
 
-public class GroupConfigurationCreatorActivity extends Activity implements IFragmentResultHandler {
+public class GroupConfigurationCreatorActivity extends Activity implements IFragmentResultHandler,ITaskHandler {
 
     private IProgressBar progressBar;
 
@@ -44,7 +46,6 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
                     fragmentOptions.addOption(new Option(fragment.getDescription(),fragment.getKey()));
                 }
                 fragmentTransaction.commit();
-           // hideAllFragments();
         }
         catch (Exception e)
         {
@@ -83,15 +84,23 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         }
     }
 
-    private void hideAllFragments()
-    {
-        Iterator<BaseFragmentOption> fragments = getFragments();
-        while(fragments.hasNext())
+
+    @Override
+    public void onPreExecute() {
+        progressBar.showProgress(true);
+    }
+
+    @Override
+    public void onPostExecute(TaskResult taskResult) {
+        progressBar.showProgress(false);
+        if(taskResult.isSuccesful())
         {
-            BaseFragmentOption fragmentOption = fragments.next();
-            fragmentOption.hide();
+            finish();
         }
     }
 
-
+    @Override
+    public void onCancelled() {
+        progressBar.showProgress(false);
+    }
 }
