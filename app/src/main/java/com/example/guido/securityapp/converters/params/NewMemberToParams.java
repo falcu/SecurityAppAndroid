@@ -28,7 +28,7 @@ public class NewMemberToParams extends Converter {
         }
         catch (ClassCastException e)
         {
-            throw new IllegalArgumentException("I was expecting "+CreateGroupTO.class.toString()+" but received "+objectToConvert.getClass().toString());
+            throw new IllegalArgumentException("I was expecting "+NewMemberTO.class.toString()+" but received "+objectToConvert.getClass().toString());
         }
     }
 }

@@ -77,7 +77,7 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         while(fragments.hasNext())
         {
             BaseFragmentOption fragmentOption = fragments.next();
-            if(fragmentOption.getId()!=(selectedFragment.getId()))
+            if(fragmentOption.getIdentifier()!=selectedFragment.getIdentifier())
             {
                 fragmentOption.hide();
             }

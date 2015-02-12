@@ -4,6 +4,7 @@ import android.app.Fragment;
 
 import com.example.guido.securityapp.fragments.AddMemberFragment;
 import com.example.guido.securityapp.fragments.BaseFragmentOption;
+import com.example.guido.securityapp.fragments.RemoveMemberFragment;
 
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -52,6 +53,7 @@ public class FactoryGroupConfigurationFragments
         creatorFragmentsById = new HashMap<>();
         creatorFragmentsByKey = new HashMap<>();
         addMemberFragment();
+        removeMemberFragment();
 
     }
 
@@ -65,6 +67,18 @@ public class FactoryGroupConfigurationFragments
         addMemberFragment.setDescription("Add member");
         creatorFragmentsById.put(id,addMemberFragment);
         creatorFragmentsByKey.put(key,addMemberFragment);
+    }
+
+    private static void removeMemberFragment()
+    {
+        String key = "remove_member";
+        Integer id = 2;
+        RemoveMemberFragment removeMemberFragment = new RemoveMemberFragment();
+        removeMemberFragment.setIdentifier(id);
+        removeMemberFragment.setKey(key);
+        removeMemberFragment.setDescription("Remove member");
+        creatorFragmentsById.put(id,removeMemberFragment);
+        creatorFragmentsByKey.put(key,removeMemberFragment);
     }
 
 

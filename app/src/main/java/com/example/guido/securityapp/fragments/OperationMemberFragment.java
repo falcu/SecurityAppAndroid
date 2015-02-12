@@ -10,10 +10,16 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.guido.securityapp.R;
+import com.example.guido.securityapp.asyncTasks.AddMemberTask;
+import com.example.guido.securityapp.asyncTasks.OperationMemberTask;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
+import com.example.guido.securityapp.builders.BuilderGroupService;
+import com.example.guido.securityapp.builders.BuilderServiceUserToken;
 import com.example.guido.securityapp.builders.BuilderValidator;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.interfaces.IValidate;
+import com.example.guido.securityapp.models.NewMemberTO;
+import com.example.guido.securityapp.services.ServiceGroupInformation;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,8 +30,6 @@ public abstract class OperationMemberFragment extends BaseFragmentOption impleme
     protected EditText userEmailEditText;
     protected IValidate emailValidator;
     protected Button actionButton;
-    protected int id;
-    protected String key;
 
 
     @Override
@@ -57,7 +61,7 @@ public abstract class OperationMemberFragment extends BaseFragmentOption impleme
         {
             try
             {
-                actionToPerform();
+                actionToPerform(email);
             }
             catch (Exception e){
                 userEmailEditText.setError(e.getMessage());
@@ -73,7 +77,17 @@ public abstract class OperationMemberFragment extends BaseFragmentOption impleme
 
     }
 
-    protected abstract void actionToPerform();
+    protected void actionToPerform(String email) throws Exception{
+        ServiceGroupInformation serviceGroupInformation = BuilderGroupService.buildGroupInformationService();
+        String groupId = serviceGroupInformation.getGroup().getId();
+        String token = BuilderServiceUserToken.build().getToken();
+        OperationMemberTask task = makeTask(new NewMemberTO(email,groupId,token));
+        task.addHandler(this);
+        task.addHandler((ITaskHandler)getActivity());
+        task.execute((Void)null);
+    }
+
+    protected abstract OperationMemberTask makeTask(NewMemberTO newMemberTO);
 
     @Override
     public void onPreExecute() {

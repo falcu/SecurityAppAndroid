@@ -8,7 +8,7 @@ import org.json.JSONObject;
 /**
  * Created by guido on 2/9/15.
  */
-public class HttpAddMemberResponseToJson extends Converter {
+public class HttpOperationMemberResponseToJson extends Converter {
     @Override
     public Object convert(Object objectToConvert) throws Exception {
         try

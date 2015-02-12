@@ -26,11 +26,6 @@ public class BuilderAddMemberRequest extends BuilderBaseRequestWithToken{
         return new NewMemberToParams();
     }
 
-    protected String getFullUri()
-    {
-        return serverUri + "/api/groups/add_single_group";
-    }
-
     @Override
     protected String getSpecificUri() {
         return "/api/groups/add_single_group";
