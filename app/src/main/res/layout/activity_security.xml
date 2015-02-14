@@ -24,6 +24,12 @@
 
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/dummyTextView"
+        android:text="dummy text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
 
 </LinearLayout>

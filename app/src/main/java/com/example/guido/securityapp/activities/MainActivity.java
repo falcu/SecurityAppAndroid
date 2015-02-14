@@ -11,6 +11,7 @@ import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.GetGroupInfoTask;
 import com.example.guido.securityapp.builders.BuilderGroupService;
 import com.example.guido.securityapp.builders.BuilderRegisterIdService;
+import com.example.guido.securityapp.builders.BuilderServiceLocationSingleton;
 import com.example.guido.securityapp.builders.BuilderServiceUserToken;
 import com.example.guido.securityapp.builders.BuilderSignService;
 import com.example.guido.securityapp.converters.json.HttpCreateGroupResponseToJson;
@@ -18,15 +19,17 @@ import com.example.guido.securityapp.converters.json.JsonToObject;
 import com.example.guido.securityapp.interfaces.IDataStore;
 import com.example.guido.securityapp.interfaces.ISignService;
 import com.example.guido.securityapp.models.Group;
+import com.example.guido.securityapp.services.ServiceLocation;
 import com.example.guido.securityapp.services.ServiceRegisterId;
 import com.example.guido.securityapp.services.ServiceStore;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     private ServiceRegisterId serviceRegisterId;
     private ISignService signService;
     private ActivityCoordinator activityCoordinator;
+    private ServiceLocation serviceLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +39,23 @@ public class MainActivity extends ActionBarActivity {
 
         try
         {
+            serviceLocation = BuilderServiceLocationSingleton.getServiceLocation();
+            serviceLocation.startService();
             serviceRegisterId = makeRegisterService();
             serviceRegisterId.setRegistrationIdWithErrorDialogAsync(this);
             activityCoordinator = makeActivityCoordinator();
             activityCoordinator.runCorrespondingActivityFromWithRequestCode(this,MyApplication.getContext().getResources().getInteger(R.integer.ACTIVITY_FINISH));
         }
-        catch (Exception e){}
+        catch (Exception e){
+            String message = e.getMessage();
+        }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        serviceLocation.stopService();
     }
 
     protected ActivityCoordinator makeActivityCoordinator()

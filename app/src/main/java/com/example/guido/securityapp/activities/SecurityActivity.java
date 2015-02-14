@@ -5,17 +5,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
+import com.example.guido.securityapp.builders.BuilderServiceLocationSingleton;
+import com.example.guido.securityapp.exceptions.NoAvailableLocation;
 import com.example.guido.securityapp.interfaces.ICommand;
 import com.example.guido.securityapp.interfaces.IFragmentDelayedButton;
+import com.example.guido.securityapp.models.MyLocation;
+import com.example.guido.securityapp.services.ServiceLocation;
 
 public class SecurityActivity extends Activity {
+    private TextView dummyTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_security);
+        dummyTextView = (TextView)findViewById(R.id.dummyTextView);
         initializeFragments();
     }
 
@@ -54,7 +61,17 @@ public class SecurityActivity extends Activity {
 
         @Override
         public void execute() {
-
+            ServiceLocation serviceLocation = BuilderServiceLocationSingleton.getServiceLocation();
+            try
+            {
+                MyLocation myLocation = serviceLocation.getLocation();
+                String message = "Latitude: " +myLocation.getLatitude()+"\n"+"Longitude: "+myLocation.getLongitude()+"\n"+"Old: "+myLocation.getTimeOld();
+                dummyTextView.setText(message);
+            }
+            catch (NoAvailableLocation e)
+            {
+                dummyTextView.setText("No available location");
+            }
         }
     }
 
