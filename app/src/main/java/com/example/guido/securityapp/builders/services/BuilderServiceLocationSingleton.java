@@ -1,4 +1,4 @@
-package com.example.guido.securityapp.builders;
+package com.example.guido.securityapp.builders.services;
 
 import com.example.guido.securityapp.services.ServiceLocation;
 

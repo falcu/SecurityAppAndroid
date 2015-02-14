@@ -1,7 +1,9 @@
-package com.example.guido.securityapp.builders;
+package com.example.guido.securityapp.builders.services;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.builders.http_requests.BuilderCreateGroupRequest;
+import com.example.guido.securityapp.builders.http_requests.BuilderGetGroupInfoRequest;
 import com.example.guido.securityapp.converters.json.HttpCreateGroupResponseToJson;
 import com.example.guido.securityapp.converters.json.HttpGroupInfoResponseToJson;
 import com.example.guido.securityapp.converters.json.JsonToObject;
@@ -21,7 +23,7 @@ import java.util.HashMap;
 /**
  * Created by guido on 2/1/15.
  */
-public class BuilderGroupService {
+public class BuilderServiceGroup {
 
     private static HashMap<GroupServices,Object> services = new HashMap();
 

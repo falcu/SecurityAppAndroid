@@ -6,13 +6,11 @@ import android.content.Intent;
 import com.example.guido.securityapp.asyncTasks.AsynTaskWithHandlers;
 import com.example.guido.securityapp.asyncTasks.GetGroupInfoTask;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
-import com.example.guido.securityapp.builders.BuilderGroupService;
-import com.example.guido.securityapp.builders.BuilderSignService;
+import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
+import com.example.guido.securityapp.builders.services.BuilderServiceSign;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.services.ServiceGroupInformation;
 import com.example.guido.securityapp.services.ServiceSign;
-
-import java.util.Dictionary;
 
 /**
  * Created by guido on 2/7/15.
@@ -27,8 +25,8 @@ public class ActivityCoordinator implements ITaskHandler{
 
     public ActivityCoordinator()
     {
-        serviceSign = BuilderSignService.buildServiceSign(BuilderSignService.SignOptions.SIGN_IN);
-        serviceGroup = BuilderGroupService.buildGroupInformationService();
+        serviceSign = BuilderServiceSign.buildServiceSign(BuilderServiceSign.SignOptions.SIGN_IN);
+        serviceGroup = BuilderServiceGroup.buildGroupInformationService();
     }
 
     public void runCorrespondingActivityFromWithRequestCode(Activity mainActivity,int requestCode) throws Exception

@@ -1,7 +1,9 @@
-package com.example.guido.securityapp.builders;
+package com.example.guido.securityapp.builders.services;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.builders.http_requests.BuilderAddMemberRequest;
+import com.example.guido.securityapp.builders.http_requests.BuilderRemoveMemberRequest;
 import com.example.guido.securityapp.converters.json.HttpOperationMemberResponseToJson;
 import com.example.guido.securityapp.converters.json.JsonToObject;
 import com.example.guido.securityapp.interfaces.IDataStore;
@@ -18,7 +20,7 @@ import java.util.HashMap;
 /**
  * Created by guido on 2/9/15.
  */
-public class BuilderOperationMemberService {
+public class BuilderServiceOperationMember {
 
     private static HashMap<MemberOperation,ServiceOperationToMember> services = new HashMap<>();
 

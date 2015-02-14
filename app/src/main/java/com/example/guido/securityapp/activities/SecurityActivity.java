@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
-import com.example.guido.securityapp.builders.BuilderServiceLocationSingleton;
+import com.example.guido.securityapp.builders.services.BuilderServiceLocationSingleton;
 import com.example.guido.securityapp.exceptions.NoAvailableLocation;
 import com.example.guido.securityapp.interfaces.ICommand;
 import com.example.guido.securityapp.interfaces.IFragmentDelayedButton;

@@ -1,7 +1,7 @@
 package com.example.guido.securityapp.services;
 
-import com.example.guido.securityapp.builders.BuilderGroupService;
-import com.example.guido.securityapp.builders.BuilderSignService;
+import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
+import com.example.guido.securityapp.builders.services.BuilderServiceSign;
 import com.example.guido.securityapp.exceptions.MissingDataException;
 import com.example.guido.securityapp.models.Group;
 import com.example.guido.securityapp.models.SignedUser;
@@ -41,11 +41,11 @@ public class ServiceGroupMember {
 
     protected ServiceSign makeServiceSign()
     {
-        return BuilderSignService.buildServiceSign(BuilderSignService.SignOptions.SIGN_IN);
+        return BuilderServiceSign.buildServiceSign(BuilderServiceSign.SignOptions.SIGN_IN);
     }
 
     protected ServiceGroupInformation makeServiceGroupInformation()
     {
-        return BuilderGroupService.buildGroupInformationService();
+        return BuilderServiceGroup.buildGroupInformationService();
     }
 }

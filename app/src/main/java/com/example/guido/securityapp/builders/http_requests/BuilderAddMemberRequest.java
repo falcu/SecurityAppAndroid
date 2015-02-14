@@ -1,20 +1,14 @@
-package com.example.guido.securityapp.builders;
+package com.example.guido.securityapp.builders.http_requests;
 
-import com.example.guido.securityapp.R;
-import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.converters.Converter;
-import com.example.guido.securityapp.converters.params.CreateGroupToParams;
 import com.example.guido.securityapp.converters.params.NewMemberToParams;
-import com.example.guido.securityapp.interfaces.IBuildRequestPackage;
-import com.example.guido.securityapp.models.CreateGroupTO;
 import com.example.guido.securityapp.models.NewMemberTO;
-import com.example.guido.securityapp.restful.RequestPackage;
 
 /**
  * Created by guido on 2/8/15.
  */
 
-public class BuilderAddMemberRequest extends BuilderBaseRequestWithToken{
+public class BuilderAddMemberRequest extends BuilderBaseRequestWithToken {
 
     public BuilderAddMemberRequest()
     {

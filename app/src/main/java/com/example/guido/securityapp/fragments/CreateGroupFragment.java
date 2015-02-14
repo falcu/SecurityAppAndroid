@@ -12,7 +12,7 @@ import android.widget.EditText;
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.CreateGroupTask;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
-import com.example.guido.securityapp.builders.BuilderServiceUserToken;
+import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
 import com.example.guido.securityapp.builders.BuilderValidator;
 import com.example.guido.securityapp.exceptions.UnableToRetreiveTokenException;
 import com.example.guido.securityapp.interfaces.IFragmentVisibility;

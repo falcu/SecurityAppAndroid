@@ -1,6 +1,6 @@
 package com.example.guido.securityapp.asyncTasks;
 
-import com.example.guido.securityapp.builders.BuilderGroupService;
+import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
 import com.example.guido.securityapp.models.CreateGroupTO;
 import com.example.guido.securityapp.services.ServiceCreateGroup;
 
@@ -20,7 +20,7 @@ public class CreateGroupTask extends AsynTaskWithHandlers{
         TaskResult result = new TaskResult();
         try
         {
-            ServiceCreateGroup service = BuilderGroupService.buildCreateService();
+            ServiceCreateGroup service = BuilderServiceGroup.buildCreateService();
             service.createGroup(createGroupTO);
             if(service.wasRequestWithError())
             {

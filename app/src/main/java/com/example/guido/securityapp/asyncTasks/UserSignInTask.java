@@ -1,9 +1,6 @@
 package com.example.guido.securityapp.asyncTasks;
 
-import android.os.AsyncTask;
-
-import com.example.guido.securityapp.builders.BuilderSignService;
-import com.example.guido.securityapp.interfaces.ITaskHandler;
+import com.example.guido.securityapp.builders.services.BuilderServiceSign;
 import com.example.guido.securityapp.models.UserTO;
 import com.example.guido.securityapp.services.ServiceSign;
 
@@ -30,7 +27,7 @@ public class UserSignInTask extends AsynTaskWithHandlers{
               UserTO userTransferObject = new UserTO();
               userTransferObject.setEmail(email);
               userTransferObject.setPassword(password);
-              ServiceSign serviceSign = BuilderSignService.buildServiceSign(BuilderSignService.SignOptions.SIGN_IN);
+              ServiceSign serviceSign = BuilderServiceSign.buildServiceSign(BuilderServiceSign.SignOptions.SIGN_IN);
               serviceSign.sign(userTransferObject);
               if(serviceSign.wasRequestWithError())
               {

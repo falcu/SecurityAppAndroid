@@ -1,4 +1,4 @@
-package com.example.guido.securityapp.builders;
+package com.example.guido.securityapp.builders.http_requests;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;

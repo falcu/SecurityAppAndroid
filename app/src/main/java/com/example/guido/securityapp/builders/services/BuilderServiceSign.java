@@ -1,7 +1,9 @@
-package com.example.guido.securityapp.builders;
+package com.example.guido.securityapp.builders.services;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.builders.http_requests.BuilderSignInUserRequest;
+import com.example.guido.securityapp.builders.http_requests.BuilderSignUpUserRequest;
 import com.example.guido.securityapp.converters.json.HttpUserResponseToJson;
 import com.example.guido.securityapp.converters.json.JsonToObject;
 import com.example.guido.securityapp.interfaces.IDataStore;
@@ -19,7 +21,7 @@ import java.util.HashMap;
 /**
  * Created by guido on 1/18/15.
  */
-public class BuilderSignService {
+public class BuilderServiceSign {
 
     private static HashMap<SignOptions,ServiceSign> services = new HashMap<>();
 

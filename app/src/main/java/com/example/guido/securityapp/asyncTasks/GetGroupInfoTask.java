@@ -1,7 +1,7 @@
 package com.example.guido.securityapp.asyncTasks;
 
-import com.example.guido.securityapp.builders.BuilderGroupService;
-import com.example.guido.securityapp.builders.BuilderServiceUserToken;
+import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
+import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
 import com.example.guido.securityapp.models.TokenTO;
 import com.example.guido.securityapp.services.ServiceGroupInformation;
 
@@ -15,7 +15,7 @@ public class GetGroupInfoTask extends AsynTaskWithHandlers {
         try
         {
             String token = BuilderServiceUserToken.build().getToken();
-            ServiceGroupInformation service = BuilderGroupService.buildGroupInformationService();
+            ServiceGroupInformation service = BuilderServiceGroup.buildGroupInformationService();
             service.updateGroupInformation(new TokenTO(token));
             if(service.wasRequestWithError()){
                 result.setError(service.getLastErrorMessage());

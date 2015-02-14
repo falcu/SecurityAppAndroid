@@ -1,4 +1,4 @@
-package com.example.guido.securityapp.builders;
+package com.example.guido.securityapp.builders.services;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
@@ -10,7 +10,7 @@ import com.example.guido.securityapp.services.ServiceStore;
 /**
  * Created by guido on 1/18/15.
  */
-public class BuilderRegisterIdService {
+public class BuilderServiceRegisterId {
 
     private static ServiceRegisterId service = null;
 

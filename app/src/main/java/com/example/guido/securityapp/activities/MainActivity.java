@@ -2,26 +2,14 @@ package com.example.guido.securityapp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.example.guido.securityapp.R;
-import com.example.guido.securityapp.asyncTasks.GetGroupInfoTask;
-import com.example.guido.securityapp.builders.BuilderGroupService;
-import com.example.guido.securityapp.builders.BuilderRegisterIdService;
-import com.example.guido.securityapp.builders.BuilderServiceLocationSingleton;
-import com.example.guido.securityapp.builders.BuilderServiceUserToken;
-import com.example.guido.securityapp.builders.BuilderSignService;
-import com.example.guido.securityapp.converters.json.HttpCreateGroupResponseToJson;
-import com.example.guido.securityapp.converters.json.JsonToObject;
-import com.example.guido.securityapp.interfaces.IDataStore;
+import com.example.guido.securityapp.builders.services.BuilderServiceRegisterId;
+import com.example.guido.securityapp.builders.services.BuilderServiceLocationSingleton;
 import com.example.guido.securityapp.interfaces.ISignService;
-import com.example.guido.securityapp.models.Group;
 import com.example.guido.securityapp.services.ServiceLocation;
 import com.example.guido.securityapp.services.ServiceRegisterId;
-import com.example.guido.securityapp.services.ServiceStore;
 
 
 public class MainActivity extends Activity {
@@ -65,7 +53,7 @@ public class MainActivity extends Activity {
 
     protected ServiceRegisterId makeRegisterService()
     {
-        return BuilderRegisterIdService.buildRegisterIdService();
+        return BuilderServiceRegisterId.buildRegisterIdService();
     }
 
 

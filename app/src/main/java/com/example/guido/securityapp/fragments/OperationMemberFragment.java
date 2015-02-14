@@ -10,11 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.guido.securityapp.R;
-import com.example.guido.securityapp.asyncTasks.AddMemberTask;
 import com.example.guido.securityapp.asyncTasks.OperationMemberTask;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
-import com.example.guido.securityapp.builders.BuilderGroupService;
-import com.example.guido.securityapp.builders.BuilderServiceUserToken;
+import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
+import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
 import com.example.guido.securityapp.builders.BuilderValidator;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.interfaces.IValidate;
@@ -78,7 +77,7 @@ public abstract class OperationMemberFragment extends BaseFragmentOption impleme
     }
 
     protected void actionToPerform(String email) throws Exception{
-        ServiceGroupInformation serviceGroupInformation = BuilderGroupService.buildGroupInformationService();
+        ServiceGroupInformation serviceGroupInformation = BuilderServiceGroup.buildGroupInformationService();
         String groupId = serviceGroupInformation.getGroup().getId();
         String token = BuilderServiceUserToken.build().getToken();
         OperationMemberTask task = makeTask(new NewMemberTO(email,groupId,token));

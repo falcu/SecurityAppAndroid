@@ -1,8 +1,7 @@
 package com.example.guido.securityapp.asyncTasks;
 
-import com.example.guido.securityapp.builders.BuilderOperationMemberService;
+import com.example.guido.securityapp.builders.services.BuilderServiceOperationMember;
 import com.example.guido.securityapp.models.NewMemberTO;
-import com.example.guido.securityapp.services.ServiceOperationToMember;
 
 /**
  * Created by guido on 2/9/15.
@@ -15,8 +14,8 @@ public class AddMemberTask extends OperationMemberTask{
     }
 
     @Override
-    protected BuilderOperationMemberService.MemberOperation getOperation() {
-        return BuilderOperationMemberService.MemberOperation.ADD;
+    protected BuilderServiceOperationMember.MemberOperation getOperation() {
+        return BuilderServiceOperationMember.MemberOperation.ADD;
     }
 
     @Override

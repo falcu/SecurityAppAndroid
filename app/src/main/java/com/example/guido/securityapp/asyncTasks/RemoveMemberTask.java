@@ -1,6 +1,6 @@
 package com.example.guido.securityapp.asyncTasks;
 
-import com.example.guido.securityapp.builders.BuilderOperationMemberService;
+import com.example.guido.securityapp.builders.services.BuilderServiceOperationMember;
 import com.example.guido.securityapp.models.NewMemberTO;
 
 /**
@@ -15,8 +15,8 @@ public class RemoveMemberTask extends OperationMemberTask{
     }
 
     @Override
-    protected BuilderOperationMemberService.MemberOperation getOperation() {
-        return BuilderOperationMemberService.MemberOperation.REMOVE;
+    protected BuilderServiceOperationMember.MemberOperation getOperation() {
+        return BuilderServiceOperationMember.MemberOperation.REMOVE;
     }
 
     @Override
