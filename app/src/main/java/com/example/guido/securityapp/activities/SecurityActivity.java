@@ -22,7 +22,7 @@ public class SecurityActivity extends Activity {
     private void initializeFragments()
     {
         IFragmentDelayedButton delayedAction = (IFragmentDelayedButton) getFragmentManager().findFragmentById(R.id.alarm_fragment);
-        delayedAction.setText("ALARM");
+        delayedAction.setImage(R.drawable.panic_icon);
         delayedAction.setDelayedAction(new DummyCommand());
     }
 

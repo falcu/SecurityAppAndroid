@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.guido.securityapp.R;
+import com.example.guido.securityapp.asyncTasks.AsynTaskWithHandlers;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.asyncTasks.UserSignInTask;
 import com.example.guido.securityapp.asyncTasks.UserSignUpTask;
@@ -40,7 +41,7 @@ public class SignUpActivity extends SignActivity {
     }
 
     @Override
-    protected  AsyncTask<Void, Void, TaskResult>  getSignTask() {
+    protected AsynTaskWithHandlers getSignTask() {
         String email = getFragmentData().getData().get(getString(R.string.email_key)).toString();
         String password = getFragmentData().getData().get(getString(R.string.password_key)).toString();
         String name = nameView.getText().toString();

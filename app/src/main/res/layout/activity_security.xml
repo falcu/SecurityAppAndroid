@@ -7,16 +7,22 @@
     android:orientation="vertical"
     tools:context="com.example.guido.securityapp.activities.SecurityActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        >
 
     <fragment
         android:id="@+id/alarm_fragment"
-        android:name="com.example.guido.securityapp.fragments.DelayedActionFragment"
+        android:name="com.example.guido.securityapp.fragments.DelayedActionFragmentWithProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_delayed_action">
+        tools:layout="@layout/fragment_delayed_action_fragment_with_progress_bar">
         </fragment>
+
+    </FrameLayout>
 
 
 

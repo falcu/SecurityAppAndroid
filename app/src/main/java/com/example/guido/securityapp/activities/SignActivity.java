@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.guido.securityapp.R;
+import com.example.guido.securityapp.asyncTasks.AsynTaskWithHandlers;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.asyncTasks.UserSignUpTask;
 import com.example.guido.securityapp.builders.BuilderValidator;
@@ -24,7 +25,7 @@ import com.example.guido.securityapp.interfaces.IValidate;
  */
 public abstract class SignActivity extends Activity implements ITaskHandler {
 
-    protected AsyncTask<Void, Void, TaskResult>  authTask = null;
+    protected AsynTaskWithHandlers authTask = null;
     protected IProgressBar progressBar;
     protected IValidate emailValidator;
     protected IValidate passwordValidator;
@@ -72,7 +73,7 @@ public abstract class SignActivity extends Activity implements ITaskHandler {
         }
     }
 
-    protected abstract  AsyncTask<Void, Void, TaskResult>  getSignTask();
+    protected abstract AsynTaskWithHandlers getSignTask();
 
     protected IFragmentGetData getFragmentData()
     {
@@ -134,7 +135,7 @@ public abstract class SignActivity extends Activity implements ITaskHandler {
             beforeFinish();
             finish();
         } else {
-            showError(taskResult.getError());
+            getFragmentErrorSetter().setError(getString(R.string.password_error_key),taskResult.getError());
         }
     }
     @Override
@@ -142,10 +143,4 @@ public abstract class SignActivity extends Activity implements ITaskHandler {
         authTask = null;
         progressBar.showProgress(false);
     }
-
-    protected void showError(String error)
-    {
-        new AlertDialog.Builder(this).setTitle("Error").setMessage(error).show();
-    }
-
 }

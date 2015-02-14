@@ -1,6 +1,7 @@
 package com.example.guido.securityapp.fragments;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,8 +9,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.guido.securityapp.R;
+import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.interfaces.ICommand;
 import com.example.guido.securityapp.interfaces.IFragmentDelayedButton;
 
@@ -18,10 +21,10 @@ import com.example.guido.securityapp.interfaces.IFragmentDelayedButton;
  */
 public class DelayedActionFragment extends Fragment implements View.OnTouchListener, IFragmentDelayedButton {
 
-    private Button button;
-    private final long pressedDuration = 3000; //in milliseconds
+    protected ImageButton button;
+    protected long pressedDuration = 3000; //in milliseconds
+    protected ICommand action;
     private Thread longClickSensor = null;
-    private ICommand action;
 
     public DelayedActionFragment() {
         // Required empty public constructor
@@ -33,7 +36,7 @@ public class DelayedActionFragment extends Fragment implements View.OnTouchListe
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View theView = inflater.inflate(R.layout.fragment_delayed_action, container, false);
-        button = (Button) theView.findViewById(R.id.alarm_action);
+        button = (ImageButton) theView.findViewById(R.id.alarm_action);
         button.setOnTouchListener(this);
 
         return theView;
@@ -42,24 +45,45 @@ public class DelayedActionFragment extends Fragment implements View.OnTouchListe
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_DOWN && longClickSensor == null) {
-            longClickSensor = new Thread(new DelayedAction(pressedDuration,action));
-            longClickSensor.start();
-        } else if (event.getAction() == MotionEvent.ACTION_UP && longClickSensor!=null) {
-            longClickSensor.interrupt();
-            longClickSensor = null;
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            actionDown();
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            actionUp();
         }
         return false;
     }
 
-    @Override
-    public void setText(String text) {
-        button.setText(text);
+    protected void actionDown()
+    {
+        if(longClickSensor == null) {
+            longClickSensor = new Thread(new DelayedAction(pressedDuration, action));
+            longClickSensor.start();
+        }
     }
+
+    protected void actionUp()
+    {
+        if(longClickSensor != null) {
+            longClickSensor.interrupt();
+            longClickSensor = null;
+        }
+    }
+
 
     @Override
     public void setDelayedAction(ICommand action) {
         this.action = action;
+    }
+
+    @Override
+    public void setImage(int resourceId) {
+        Drawable drawable = MyApplication.getContext().getResources().getDrawable(resourceId);
+        button.setImageDrawable(drawable);
+    }
+
+    @Override
+    public void setDelayTime(int milliseconds) {
+        this.pressedDuration = milliseconds;
     }
 
     public class DelayedAction implements Runnable
