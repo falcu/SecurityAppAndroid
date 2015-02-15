@@ -7,9 +7,9 @@ import android.widget.Toast;
 /**
  * Created by guido on 2/11/15.
  */
-public class ToastWrapper {
+public class ToastHelper {
 
-    public ToastWrapper(){}
+    public ToastHelper(){}
 
     public void showLongDurationMessage(Context context,String message)
     {

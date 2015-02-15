@@ -7,7 +7,7 @@ import com.example.guido.securityapp.builders.http_requests.BuilderSignUpUserReq
 import com.example.guido.securityapp.converters.json.HttpUserResponseToJson;
 import com.example.guido.securityapp.converters.json.JsonToObject;
 import com.example.guido.securityapp.interfaces.IDataStore;
-import com.example.guido.securityapp.interfaces.IErrorAnalyzer;
+import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.models.SignedUser;
 import com.example.guido.securityapp.restful.PostHttpManager;
 import com.example.guido.securityapp.restful.PutHttpManager;
@@ -38,7 +38,7 @@ public class BuilderServiceSign {
         IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.signed_user_store_key),new JsonToObject(SignedUser.class),new HttpUserResponseToJson());
         HttpRequestService httpService = null;
         ServiceSign serviceSign = null;
-        IErrorAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
+        IMessageAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
 
         switch (option)
         {

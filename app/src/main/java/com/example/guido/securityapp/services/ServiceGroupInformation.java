@@ -1,9 +1,7 @@
 package com.example.guido.securityapp.services;
 
 import com.example.guido.securityapp.interfaces.IDataStore;
-import com.example.guido.securityapp.interfaces.IErrorAnalyzer;
-import com.example.guido.securityapp.interfaces.IServiceError;
-import com.example.guido.securityapp.models.CreateGroupTO;
+import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.models.Group;
 import com.example.guido.securityapp.models.TokenTO;
 import com.example.guido.securityapp.restful.services.HttpRequestService;
@@ -14,7 +12,7 @@ import com.example.guido.securityapp.restful.services.HttpRequestService;
 public class ServiceGroupInformation extends ServiceBase{
 
 
-    public ServiceGroupInformation(IDataStore store, HttpRequestService httpService, IErrorAnalyzer errorAnalyzer)
+    public ServiceGroupInformation(IDataStore store, HttpRequestService httpService, IMessageAnalyzer errorAnalyzer)
     {
         super(store,httpService,errorAnalyzer);
     }
@@ -23,7 +21,7 @@ public class ServiceGroupInformation extends ServiceBase{
     {
         String data = httpService.request(userToken);
         errorAnalyzer.analyze(data);
-        if(!errorAnalyzer.didLastDataHaveError())
+        if(!errorAnalyzer.didLastDataHaveMessage())
             store.save(data);
 
     }

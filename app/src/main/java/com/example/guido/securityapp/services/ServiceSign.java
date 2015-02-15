@@ -1,8 +1,7 @@
 package com.example.guido.securityapp.services;
 
 import com.example.guido.securityapp.interfaces.IDataStore;
-import com.example.guido.securityapp.interfaces.IErrorAnalyzer;
-import com.example.guido.securityapp.interfaces.IServiceError;
+import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.interfaces.ISignService;
 import com.example.guido.securityapp.models.SignedUser;
 import com.example.guido.securityapp.models.UserTO;
@@ -13,7 +12,7 @@ import com.example.guido.securityapp.restful.services.HttpRequestService;
  */
 public class ServiceSign extends ServiceBase implements ISignService {
 
-    public ServiceSign(IDataStore store, HttpRequestService httpService, IErrorAnalyzer errorAnalyzer)
+    public ServiceSign(IDataStore store, HttpRequestService httpService, IMessageAnalyzer errorAnalyzer)
     {
         super(store,httpService,errorAnalyzer);
     }
@@ -32,7 +31,7 @@ public class ServiceSign extends ServiceBase implements ISignService {
 
         String data = httpService.request(userTO);
         errorAnalyzer.analyze(data);
-        if(!errorAnalyzer.didLastDataHaveError())
+        if(!errorAnalyzer.didLastDataHaveMessage())
             store.save(data);
 
     }

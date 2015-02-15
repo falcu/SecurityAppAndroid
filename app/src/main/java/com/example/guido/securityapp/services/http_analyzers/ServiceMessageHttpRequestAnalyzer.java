@@ -6,12 +6,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by guido on 1/25/15.
+ * Created by guido on 2/15/15.
  */
-public class ServiceBadHttpRequestAnalyzer implements IMessageAnalyzer {
+public class ServiceMessageHttpRequestAnalyzer implements IMessageAnalyzer {
 
-    private boolean didLastDataHaveError;
-    private String lastError = null;
+    private boolean didLastDataHaveMessage;
+    private String lastMessage = null;
+
     @Override
     public void analyze(Object data) {
         if(data.getClass()!=String.class)
@@ -20,10 +21,10 @@ public class ServiceBadHttpRequestAnalyzer implements IMessageAnalyzer {
         try {
             JSONObject json = new JSONObject((String)data);
             reset();
-            if(json.has("error"))
+            if(json.has("message"))
             {
-                didLastDataHaveError = true;
-                lastError = json.getString("error");
+                didLastDataHaveMessage = true;
+                lastMessage = json.getString("message");
             }
         } catch (JSONException e) {
             throw new IllegalArgumentException("Bad string format: it's not a json");
@@ -32,17 +33,17 @@ public class ServiceBadHttpRequestAnalyzer implements IMessageAnalyzer {
 
     @Override
     public boolean didLastDataHaveMessage() {
-        return didLastDataHaveError;
+        return didLastDataHaveMessage;
     }
 
     @Override
     public String getLastMessage() {
-        return lastError;
+        return lastMessage;
     }
 
     private void reset()
     {
-        didLastDataHaveError = false;
-        lastError = "";
+        didLastDataHaveMessage = false;
+        lastMessage = "";
     }
 }

@@ -8,7 +8,7 @@ import com.example.guido.securityapp.converters.json.HttpCreateGroupResponseToJs
 import com.example.guido.securityapp.converters.json.HttpGroupInfoResponseToJson;
 import com.example.guido.securityapp.converters.json.JsonToObject;
 import com.example.guido.securityapp.interfaces.IDataStore;
-import com.example.guido.securityapp.interfaces.IErrorAnalyzer;
+import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.models.Group;
 import com.example.guido.securityapp.restful.GetHttpManager;
 import com.example.guido.securityapp.restful.PostHttpManager;
@@ -45,7 +45,7 @@ public class BuilderServiceGroup {
         {
             IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new HttpCreateGroupResponseToJson());
             HttpRequestService service = new HttpRequestService(new PostHttpManager(), new BuilderCreateGroupRequest());
-            IErrorAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
+            IMessageAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
             services.put(GroupServices.CREATE,new ServiceCreateGroup(store,service,errorAnalyzer));
         }
     }
@@ -56,7 +56,7 @@ public class BuilderServiceGroup {
         {
             IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new HttpGroupInfoResponseToJson());
             HttpRequestService service = new HttpRequestService(new GetHttpManager(), new BuilderGetGroupInfoRequest());
-            IErrorAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
+            IMessageAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
             services.put(GroupServices.GROUP_INFORMATION,new ServiceGroupInformation(store,service,errorAnalyzer));
         }
     }

@@ -1,7 +1,7 @@
 package com.example.guido.securityapp.services;
 
 import com.example.guido.securityapp.interfaces.IDataStore;
-import com.example.guido.securityapp.interfaces.IErrorAnalyzer;
+import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.interfaces.IServiceError;
 import com.example.guido.securityapp.restful.services.HttpRequestService;
 
@@ -12,9 +12,9 @@ public abstract class ServiceBase implements IServiceError {
 
     protected IDataStore store;
     protected HttpRequestService httpService;
-    protected IErrorAnalyzer errorAnalyzer;
+    protected IMessageAnalyzer errorAnalyzer;
 
-    public ServiceBase(IDataStore store, HttpRequestService httpService, IErrorAnalyzer errorAnalyzer)
+    public ServiceBase(IDataStore store, HttpRequestService httpService, IMessageAnalyzer errorAnalyzer)
     {
         this.store = store;
         this.httpService = httpService;
@@ -23,11 +23,11 @@ public abstract class ServiceBase implements IServiceError {
 
     @Override
     public boolean wasRequestWithError() {
-        return errorAnalyzer.didLastDataHaveError();
+        return errorAnalyzer.didLastDataHaveMessage();
     }
 
     @Override
     public String getLastErrorMessage() {
-        return errorAnalyzer.getLastErrorMessage();
+        return errorAnalyzer.getLastMessage();
     }
 }

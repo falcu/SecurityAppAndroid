@@ -5,7 +5,7 @@ import android.app.Fragment;
 
 import com.example.guido.securityapp.asyncTasks.AddMemberTask;
 import com.example.guido.securityapp.asyncTasks.OperationMemberTask;
-import com.example.guido.securityapp.helpers.ToastWrapper;
+import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.models.NewMemberTO;
 
 /**
@@ -30,7 +30,7 @@ public class AddMemberFragment extends OperationMemberFragment{
     @Override
     protected void postSuccessMessage()
     {
-        new ToastWrapper().showLongDurationMessage(getActivity(),"New member added");
+        new ToastHelper().showLongDurationMessage(getActivity(),"New member added");
     }
 
 

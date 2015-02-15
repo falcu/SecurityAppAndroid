@@ -7,7 +7,7 @@ import com.example.guido.securityapp.builders.http_requests.BuilderRemoveMemberR
 import com.example.guido.securityapp.converters.json.HttpOperationMemberResponseToJson;
 import com.example.guido.securityapp.converters.json.JsonToObject;
 import com.example.guido.securityapp.interfaces.IDataStore;
-import com.example.guido.securityapp.interfaces.IErrorAnalyzer;
+import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.models.Group;
 import com.example.guido.securityapp.restful.PutHttpManager;
 import com.example.guido.securityapp.restful.services.HttpRequestService;
@@ -49,7 +49,7 @@ public class BuilderServiceOperationMember {
             ServiceOperationToMember addService;
             IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new HttpOperationMemberResponseToJson());
             HttpRequestService httpService = new HttpRequestService(new PutHttpManager(), new BuilderAddMemberRequest());
-            IErrorAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
+            IMessageAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
             addService = new ServiceOperationToMember(store,httpService,errorAnalyzer);
             services.put(MemberOperation.ADD,addService);
         }
@@ -62,7 +62,7 @@ public class BuilderServiceOperationMember {
             ServiceOperationToMember addService;
             IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new HttpOperationMemberResponseToJson());
             HttpRequestService httpService = new HttpRequestService(new PutHttpManager(), new BuilderRemoveMemberRequest());
-            IErrorAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
+            IMessageAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
             addService = new ServiceOperationToMember(store,httpService,errorAnalyzer);
             services.put(MemberOperation.REMOVE,addService);
         }
