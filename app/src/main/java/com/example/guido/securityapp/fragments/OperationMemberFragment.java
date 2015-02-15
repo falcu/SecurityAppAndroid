@@ -86,7 +86,7 @@ public abstract class OperationMemberFragment extends BaseFragmentOption impleme
         task.execute((Void)null);
     }
 
-    protected abstract OperationMemberTask makeTask(NewMemberTO newMemberTO);
+    protected abstract OperationMemberTask makeTask(NewMemberTO newMemberTO) throws Exception;
 
     @Override
     public void onPreExecute() {

@@ -5,6 +5,7 @@ import android.app.Fragment;
 import com.example.guido.securityapp.fragments.AddMemberFragment;
 import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.RemoveMemberFragment;
+import com.example.guido.securityapp.fragments.RenameGroupFragment;
 
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -54,6 +55,7 @@ public class FactoryGroupConfigurationFragments
         creatorFragmentsByKey = new HashMap<>();
         addMemberFragment();
         removeMemberFragment();
+        renameGroupFragment();
 
     }
 
@@ -79,6 +81,18 @@ public class FactoryGroupConfigurationFragments
         removeMemberFragment.setDescription("Remove member");
         creatorFragmentsById.put(id,removeMemberFragment);
         creatorFragmentsByKey.put(key,removeMemberFragment);
+    }
+
+    private static void renameGroupFragment()
+    {
+        String key = "rename_group";
+        Integer id = 3;
+        RenameGroupFragment renameGroupFragment = new RenameGroupFragment();
+        renameGroupFragment.setIdentifier(id);
+        renameGroupFragment.setKey(key);
+        renameGroupFragment.setDescription("Rename group");
+        creatorFragmentsById.put(id,renameGroupFragment);
+        creatorFragmentsByKey.put(key,renameGroupFragment);
     }
 
 

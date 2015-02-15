@@ -10,9 +10,9 @@ import com.example.guido.securityapp.services.ServiceNotification;
 public class PanicNotificationTask extends AsynTaskWithHandlers{
     protected PanicTO panicTO;
 
-    public PanicNotificationTask(PanicTO panicTO)
+    public PanicNotificationTask(PanicTO panicTO) throws Exception
     {
-        this.panicTO = panicTO;
+        super(panicTO);
     }
 
     @Override
@@ -37,5 +37,15 @@ public class PanicNotificationTask extends AsynTaskWithHandlers{
             result.setError(e.getMessage());
         }
         return result;
+    }
+
+    @Override
+    protected Class getTransferObjectType() {
+        return PanicTO.class;
+    }
+
+    @Override
+    protected void setSpecificObject(Object transferObject) {
+        this.panicTO = (PanicTO) transferObject;
     }
 }

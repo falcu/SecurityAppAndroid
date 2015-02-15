@@ -14,8 +14,10 @@ import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.asyncTasks.UserSignInTask;
 import com.example.guido.securityapp.asyncTasks.UserSignUpTask;
 import com.example.guido.securityapp.builders.BuilderValidator;
+import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.IValidate;
+import com.example.guido.securityapp.models.UserTO;
 
 /**
  * Created by guido on 1/24/15.
@@ -45,9 +47,21 @@ public class SignUpActivity extends SignActivity {
         String email = getFragmentData().getData().get(getString(R.string.email_key)).toString();
         String password = getFragmentData().getData().get(getString(R.string.password_key)).toString();
         String name = nameView.getText().toString();
-        UserSignUpTask task = new UserSignUpTask(name, email, password,this);
-        task.addHandler(this);
-        return task;
+        try
+        {
+            UserTO userTO = new UserTO();
+            userTO.setName(name);
+            userTO.setEmail(email);
+            userTO.setPassword(password);
+            UserSignUpTask task = new UserSignUpTask(userTO,this);
+            task.addHandler(this);
+            return task;
+        }
+        catch (Exception e)
+        {
+            return null;
+            //TODO handle error
+        }
     }
 
     @Override
@@ -58,6 +72,13 @@ public class SignUpActivity extends SignActivity {
     @Override
     protected boolean validateFields() {
         return validateName() && validateEmail() && validatePassword();
+    }
+
+    @Override
+    protected void beforeFinish() {
+        super.beforeFinish();
+        ToastHelper helper = new ToastHelper();
+        helper.showLongDurationMessage(this,"You had successfully created a new user!");
     }
 
     private boolean validateName()

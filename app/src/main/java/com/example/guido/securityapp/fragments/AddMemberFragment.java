@@ -18,7 +18,7 @@ public class AddMemberFragment extends OperationMemberFragment{
     }
 
     @Override
-    protected OperationMemberTask makeTask(NewMemberTO newMemberTO) {
+    protected OperationMemberTask makeTask(NewMemberTO newMemberTO) throws Exception{
         return new AddMemberTask(newMemberTO);
     }
 

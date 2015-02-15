@@ -10,9 +10,19 @@ import com.example.guido.securityapp.services.ServiceOperationToMember;
 public abstract class OperationMemberTask extends AsynTaskWithHandlers{
     protected NewMemberTO newMemberTO;
 
-    public OperationMemberTask(NewMemberTO newMemberTO)
+    public OperationMemberTask(Object newMemberTO) throws Exception
     {
-        this.newMemberTO = newMemberTO;
+        super(newMemberTO);
+    }
+
+    @Override
+    protected Class getTransferObjectType() {
+        return NewMemberTO.class;
+    }
+
+    @Override
+    protected void setSpecificObject(Object transferObject) {
+        newMemberTO = (NewMemberTO) transferObject;
     }
 
     @Override

@@ -10,9 +10,9 @@ import com.example.guido.securityapp.services.ServiceCreateGroup;
 public class CreateGroupTask extends AsynTaskWithHandlers{
     private CreateGroupTO createGroupTO;
 
-    public CreateGroupTask(CreateGroupTO createGroupTO)
+    public CreateGroupTask(Object createGroupTO) throws Exception
     {
-        this.createGroupTO = createGroupTO;
+        super(createGroupTO);
     }
 
     @Override
@@ -26,11 +26,25 @@ public class CreateGroupTask extends AsynTaskWithHandlers{
             {
                 result.setError(service.getLastErrorMessage());
             }
+            else if(service.wasRequestWithMessage())
+            {
+                result.setResult(service.getLastMessage());
+            }
         }
         catch (Exception e)
         {
             result.setError("Unable to create group, try again");
         }
         return result;
+    }
+
+    @Override
+    protected Class getTransferObjectType() {
+        return CreateGroupTO.class;
+    }
+
+    @Override
+    protected void setSpecificObject(Object transferObject) {
+        this.createGroupTO = (CreateGroupTO) transferObject;
     }
 }

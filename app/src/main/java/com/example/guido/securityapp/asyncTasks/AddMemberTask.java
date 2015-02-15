@@ -8,7 +8,7 @@ import com.example.guido.securityapp.models.NewMemberTO;
  */
 public class AddMemberTask extends OperationMemberTask{
 
-    public AddMemberTask(NewMemberTO newMemberTO)
+    public AddMemberTask(NewMemberTO newMemberTO) throws Exception
     {
         super(newMemberTO);
     }
@@ -22,4 +22,6 @@ public class AddMemberTask extends OperationMemberTask{
     protected String getOwnErrorMessage() {
         return "Unable to add member, try again later";
     }
+
+
 }

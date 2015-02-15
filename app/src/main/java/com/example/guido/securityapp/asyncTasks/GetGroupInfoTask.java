@@ -9,6 +9,17 @@ import com.example.guido.securityapp.services.ServiceGroupInformation;
  * Created by guido on 2/5/15.
  */
 public class GetGroupInfoTask extends AsynTaskWithHandlers {
+
+    protected TokenTO tokenTO;
+
+    public GetGroupInfoTask(TokenTO transferObject) throws Exception {
+        super(transferObject);
+    }
+
+    public GetGroupInfoTask(){
+
+    }
+
     @Override
     protected TaskResult doInBackground(Void... params) {
         TaskResult result = new TaskResult();
@@ -28,5 +39,15 @@ public class GetGroupInfoTask extends AsynTaskWithHandlers {
         }
         return result;
 
+    }
+
+    @Override
+    protected Class getTransferObjectType() {
+        return TokenTO.class;
+    }
+
+    @Override
+    protected void setSpecificObject(Object transferObject) {
+        this.tokenTO = (TokenTO) transferObject;
     }
 }

@@ -10,11 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.guido.securityapp.R;
+import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.asyncTasks.AsynTaskWithHandlers;
 import com.example.guido.securityapp.asyncTasks.CreateGroupTask;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
 import com.example.guido.securityapp.builders.BuilderValidator;
 import com.example.guido.securityapp.exceptions.UnableToRetreiveTokenException;
+import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.interfaces.IFragmentVisibility;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.interfaces.IValidate;
@@ -26,9 +29,9 @@ import com.example.guido.securityapp.services.ServiceUserToken;
  */
 public class CreateGroupFragment extends Fragment implements IFragmentVisibility, View.OnClickListener, ITaskHandler {
 
-    private EditText groupNameView;
-    private IValidate groupNameValidator;
-    private ServiceUserToken serviceUserToken;
+    protected EditText groupNameView;
+    protected IValidate groupNameValidator;
+    protected ServiceUserToken serviceUserToken;
 
     public CreateGroupFragment() {
         // Required empty public constructor
@@ -63,29 +66,38 @@ public class CreateGroupFragment extends Fragment implements IFragmentVisibility
 
     @Override
     public void onClick(View v) {
+        if(!checkAndSetError())
+        {
+            AsynTaskWithHandlers task = createTask(getName());
+            task.execute((Void)null);
+        }
+    }
+
+    public boolean checkAndSetError()
+    {
         groupNameView.setError(null);
-        String groupName = groupNameView.getText().toString();
+        String groupName = getName();
         String error = groupNameValidator.getError(groupName);
         if(!error.isEmpty())
         {
             groupNameView.setError(error);
             groupNameView.requestFocus();
+            return true;
         }
-        else
-        {
-            CreateGroupTask task = createTask(groupName);
-            task.execute((Void)null);
-        }
+        return false;
     }
 
-    protected CreateGroupTask createTask(String groupName)
+    public String getName()
+    {
+        return groupNameView.getText().toString();
+    }
+
+    protected AsynTaskWithHandlers createTask(String groupName)
     {
         try
         {
             String token = serviceUserToken.getToken();
-            CreateGroupTO transferObject = new CreateGroupTO();
-            transferObject.setName(groupName);
-            transferObject.setToken(token);
+            Object transferObject = makeTransferObject(token,groupName);
             CreateGroupTask task = new CreateGroupTask(transferObject);
             task.addHandler(this);
             task.addHandler((ITaskHandler)getActivity());
@@ -102,6 +114,14 @@ public class CreateGroupFragment extends Fragment implements IFragmentVisibility
 
     }
 
+    protected Object makeTransferObject(String token,String groupName)
+    {
+        CreateGroupTO transferObject = new CreateGroupTO();
+        transferObject.setName(groupName);
+        transferObject.setToken(token);
+        return transferObject;
+    }
+
     @Override
     public void onPreExecute() {
 
@@ -109,7 +129,12 @@ public class CreateGroupFragment extends Fragment implements IFragmentVisibility
 
     @Override
     public void onPostExecute(TaskResult taskResult) {
-        if(!taskResult.isSuccesful())
+        if(taskResult.isSuccesful())
+        {
+            ToastHelper toastHelper = new ToastHelper();
+            toastHelper.showLongDurationMessage(MyApplication.getContext(),(String)taskResult.getResult());
+        }
+        else
         {
             groupNameView.setError(taskResult.getError());
             groupNameView.requestFocus();

@@ -16,8 +16,10 @@ import com.example.guido.securityapp.asyncTasks.AsynTaskWithHandlers;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.asyncTasks.UserSignInTask;
 import com.example.guido.securityapp.asyncTasks.UserSignUpTask;
+import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.IValidate;
+import com.example.guido.securityapp.models.UserTO;
 
 public class SignInActivity extends SignActivity {
 
@@ -59,9 +61,21 @@ public class SignInActivity extends SignActivity {
     protected AsynTaskWithHandlers getSignTask() {
         String email = getFragmentData().getData().get(getString(R.string.email_key)).toString();
         String password = getFragmentData().getData().get(getString(R.string.password_key)).toString();
-        UserSignInTask task = new UserSignInTask(email,password);
-        task.addHandler(this);
-       return task;
+        try
+        {
+            UserTO userTO = new UserTO();
+            userTO.setEmail(email);
+            userTO.setPassword(password);
+            UserSignInTask task = new UserSignInTask(userTO);
+            task.addHandler(this);
+            return task;
+        }
+        catch (Exception e)
+        {
+            return null;
+            //TODO HANDLE error
+        }
+
     }
 
     @Override
@@ -72,6 +86,13 @@ public class SignInActivity extends SignActivity {
     @Override
     protected boolean validateFields() {
         return validateEmail() && validatePassword();
+    }
+
+    @Override
+    protected void beforeFinish() {
+        super.beforeFinish();
+        ToastHelper helper = new ToastHelper();
+        helper.showLongDurationMessage(this,"You had successfully signed in!");
     }
 
 

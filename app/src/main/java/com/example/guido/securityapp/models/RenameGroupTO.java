@@ -10,10 +10,15 @@ public class RenameGroupTO implements IGetToken{
     private String newGroupName;
     private String groupId;
 
-    public RenameGroupTO(String token, String newGroupName, String groupId) {
-        this.token = token;
+    public RenameGroupTO(String newGroupName,String groupId)
+    {
         this.newGroupName = newGroupName;
         this.groupId = groupId;
+    }
+
+    public RenameGroupTO(String newGroupName, String groupId,String token) {
+        this(newGroupName,groupId);
+        this.token = token;
     }
 
     public String getToken() {

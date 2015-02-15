@@ -9,13 +9,11 @@ import com.example.guido.securityapp.services.ServiceSign;
  */
 public class UserSignInTask extends AsynTaskWithHandlers{
 
-    private final String email;
-    private final String password;
+    protected UserTO userTO;
 
 
-    public UserSignInTask(String email, String password) {
-        this.email = email;
-        this.password = password;
+    public UserSignInTask(UserTO userTO) throws Exception{
+        super(userTO);
     }
 
     @Override
@@ -23,12 +21,8 @@ public class UserSignInTask extends AsynTaskWithHandlers{
         TaskResult result = new TaskResult();
 
         try {
-
-              UserTO userTransferObject = new UserTO();
-              userTransferObject.setEmail(email);
-              userTransferObject.setPassword(password);
               ServiceSign serviceSign = BuilderServiceSign.buildServiceSign(BuilderServiceSign.SignOptions.SIGN_IN);
-              serviceSign.sign(userTransferObject);
+              serviceSign.sign(this.userTO);
               if(serviceSign.wasRequestWithError())
               {
                   result.setError(serviceSign.getLastErrorMessage());
@@ -40,5 +34,15 @@ public class UserSignInTask extends AsynTaskWithHandlers{
         }
 
         return result;
+    }
+
+    @Override
+    protected Class getTransferObjectType() {
+        return UserTO.class;
+    }
+
+    @Override
+    protected void setSpecificObject(Object transferObject) {
+        this.userTO = (UserTO) transferObject;
     }
 }

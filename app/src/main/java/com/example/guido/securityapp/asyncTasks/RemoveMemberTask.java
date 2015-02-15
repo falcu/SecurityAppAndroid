@@ -9,7 +9,7 @@ import com.example.guido.securityapp.models.NewMemberTO;
 public class RemoveMemberTask extends OperationMemberTask{
 
 
-    public RemoveMemberTask(NewMemberTO newMemberTO)
+    public RemoveMemberTask(NewMemberTO newMemberTO) throws Exception
     {
         super(newMemberTO);
     }

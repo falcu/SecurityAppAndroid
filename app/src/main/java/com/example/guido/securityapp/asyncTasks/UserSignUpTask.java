@@ -13,16 +13,12 @@ import com.example.guido.securityapp.services.ServiceSign;
  * Created by guido on 1/24/15.
  */
 public class UserSignUpTask extends AsynTaskWithHandlers{
-    private final String name;
-    private final String email;
-    private final String password;
+    protected UserTO userTO;
     private Activity activity;
 
 
-    public UserSignUpTask(String name, String email, String password,Activity activity) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
+    public UserSignUpTask(UserTO userTO,Activity activity) throws Exception{
+        super(userTO);
         this.activity = activity;
     }
 
@@ -36,13 +32,9 @@ public class UserSignUpTask extends AsynTaskWithHandlers{
             String regId = serviceRegisterId.getRegistrationId();
             if(!regId.isEmpty())
             {
-                UserTO userTransferObject = new UserTO();
-                userTransferObject.setName(name);
-                userTransferObject.setEmail(email);
-                userTransferObject.setPassword(password);
-                userTransferObject.setRegistrationId(regId);
+                this.userTO.setRegistrationId(regId);
                 ServiceSign serviceSign = BuilderServiceSign.buildServiceSign(BuilderServiceSign.SignOptions.SIGN_UP);
-                serviceSign.sign(userTransferObject);
+                serviceSign.sign(this.userTO);
                 if(serviceSign.wasRequestWithError())
                 {
                     result.setError(serviceSign.getLastErrorMessage());
@@ -54,6 +46,16 @@ public class UserSignUpTask extends AsynTaskWithHandlers{
         }
 
         return result;
+    }
+
+    @Override
+    protected Class getTransferObjectType() {
+        return UserTO.class;
+    }
+
+    @Override
+    protected void setSpecificObject(Object transferObject) {
+        this.userTO = (UserTO) transferObject;
     }
 
 }

@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 
+import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,13 @@ import java.util.List;
  */
 public abstract class AsynTaskWithHandlers extends AsyncTask<Void, Void, TaskResult> {
     protected List<ITaskHandler> handlers = new ArrayList<ITaskHandler>();
+
+    public AsynTaskWithHandlers(Object transferObject) throws Exception
+    {
+        setTransferObject(transferObject);
+    }
+
+    public AsynTaskWithHandlers(){}
 
     @Override
     protected abstract TaskResult doInBackground(Void... params);
@@ -43,6 +51,19 @@ public abstract class AsynTaskWithHandlers extends AsyncTask<Void, Void, TaskRes
     public void addHandler(ITaskHandler handler){handlers.add(handler);}
 
     public void removeHandler(ITaskHandler handler){handlers.remove(handler);}
+
+    protected abstract Class getTransferObjectType();
+
+    protected void setTransferObject(Object transferObject) throws InvalidClassException
+    {
+        if(!transferObject.getClass().equals(getTransferObjectType()))
+        {
+            throw new InvalidClassException("I was expecting a "+getTransferObjectType().toString()+", but got "+transferObject.getClass().toString());
+        }
+        setSpecificObject(transferObject);
+    }
+
+    protected abstract void setSpecificObject(Object transferObject);
 
 
 }

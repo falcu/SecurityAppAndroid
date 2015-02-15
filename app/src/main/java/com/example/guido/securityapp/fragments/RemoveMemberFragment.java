@@ -10,7 +10,7 @@ import com.example.guido.securityapp.models.NewMemberTO;
  */
 public class RemoveMemberFragment extends OperationMemberFragment{
     @Override
-    protected OperationMemberTask makeTask(NewMemberTO newMemberTO) {
+    protected OperationMemberTask makeTask(NewMemberTO newMemberTO) throws Exception{
         return new RemoveMemberTask(newMemberTO);
     }
 

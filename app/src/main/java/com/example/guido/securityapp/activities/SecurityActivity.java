@@ -3,6 +3,7 @@ package com.example.guido.securityapp.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -23,7 +24,7 @@ import com.example.guido.securityapp.models.MyLocation;
 import com.example.guido.securityapp.models.PanicTO;
 import com.example.guido.securityapp.services.ServiceLocation;
 
-public class SecurityActivity extends Activity implements ITaskHandler {
+public class SecurityActivity extends ActionBarActivity implements ITaskHandler {
 
     private IProgressBar progressBar;
 

@@ -4,19 +4,24 @@ import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.builders.http_requests.BuilderCreateGroupRequest;
 import com.example.guido.securityapp.builders.http_requests.BuilderGetGroupInfoRequest;
+import com.example.guido.securityapp.builders.http_requests.BuilderRenameGroupRequest;
 import com.example.guido.securityapp.converters.json.HttpCreateGroupResponseToJson;
 import com.example.guido.securityapp.converters.json.HttpGroupInfoResponseToJson;
+import com.example.guido.securityapp.converters.json.HttpOperationMemberResponseToJson;
 import com.example.guido.securityapp.converters.json.JsonToObject;
 import com.example.guido.securityapp.interfaces.IDataStore;
 import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.models.Group;
 import com.example.guido.securityapp.restful.GetHttpManager;
 import com.example.guido.securityapp.restful.PostHttpManager;
+import com.example.guido.securityapp.restful.PutHttpManager;
 import com.example.guido.securityapp.restful.services.HttpRequestService;
 import com.example.guido.securityapp.services.ServiceCreateGroup;
+import com.example.guido.securityapp.services.ServiceRenameGroup;
 import com.example.guido.securityapp.services.http_analyzers.ServiceBadHttpRequestAnalyzer;
 import com.example.guido.securityapp.services.ServiceGroupInformation;
 import com.example.guido.securityapp.services.ServiceStore;
+import com.example.guido.securityapp.services.http_analyzers.ServiceMessageHttpRequestAnalyzer;
 
 import java.util.HashMap;
 
@@ -39,14 +44,19 @@ public class BuilderServiceGroup {
         return (ServiceGroupInformation)services.get(GroupServices.GROUP_INFORMATION);
     }
 
+    public static ServiceRenameGroup builderRenameGroupService()
+    {
+        addRenameGroupService();
+        return (ServiceRenameGroup) services.get(GroupServices.RENAME);
+    }
+
     private static void addCreateService()
     {
         if(!services.containsKey(GroupServices.CREATE))
         {
             IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new HttpCreateGroupResponseToJson());
             HttpRequestService service = new HttpRequestService(new PostHttpManager(), new BuilderCreateGroupRequest());
-            IMessageAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
-            services.put(GroupServices.CREATE,new ServiceCreateGroup(store,service,errorAnalyzer));
+            services.put(GroupServices.CREATE,new ServiceCreateGroup(store,service,new ServiceBadHttpRequestAnalyzer(), new ServiceMessageHttpRequestAnalyzer()));
         }
     }
 
@@ -61,8 +71,18 @@ public class BuilderServiceGroup {
         }
     }
 
+    private static void addRenameGroupService()
+    {
+        if(!services.containsKey(GroupServices.RENAME))
+        {
+            IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new HttpOperationMemberResponseToJson());
+            HttpRequestService service = new HttpRequestService(new PutHttpManager(), new BuilderRenameGroupRequest());
+            services.put(GroupServices.RENAME,new ServiceRenameGroup(store,service,new ServiceBadHttpRequestAnalyzer(),new ServiceMessageHttpRequestAnalyzer()));
+        }
+    }
+
     private enum GroupServices
     {
-        CREATE, GROUP_INFORMATION
+        CREATE, GROUP_INFORMATION, RENAME
     }
 }

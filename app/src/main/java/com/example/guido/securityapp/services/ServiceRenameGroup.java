@@ -3,31 +3,27 @@ package com.example.guido.securityapp.services;
 import com.example.guido.securityapp.interfaces.IDataStore;
 import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.interfaces.IServiceMessage;
-import com.example.guido.securityapp.models.CreateGroupTO;
+import com.example.guido.securityapp.models.RenameGroupTO;
 import com.example.guido.securityapp.restful.services.HttpRequestService;
 
 /**
- * Created by guido on 2/1/15.
+ * Created by guido on 2/15/15.
  */
-public class ServiceCreateGroup extends ServiceBase implements IServiceMessage{
-
+public class ServiceRenameGroup extends ServiceBase implements IServiceMessage{
     protected IMessageAnalyzer messageAnalyzer;
 
-
-    public ServiceCreateGroup(IDataStore store, HttpRequestService httpService, IMessageAnalyzer errorAnalyzer, IMessageAnalyzer messageAnalyzer)
-    {
-       super(store,httpService,errorAnalyzer);
+    public ServiceRenameGroup(IDataStore store, HttpRequestService httpService, IMessageAnalyzer errorAnalyzer, IMessageAnalyzer messageAnalyzer) {
+        super(store, httpService, errorAnalyzer);
         this.messageAnalyzer = messageAnalyzer;
     }
 
-    public void createGroup(CreateGroupTO createGroupTO) throws Exception
+    public void renameGroup(RenameGroupTO renameGroupTO) throws Exception
     {
-        String data = httpService.request(createGroupTO);
+        String data = httpService.request(renameGroupTO);
         errorAnalyzer.analyze(data);
         messageAnalyzer.analyze(data);
         if(!errorAnalyzer.didLastDataHaveMessage())
             store.save(data);
-
     }
 
     @Override
