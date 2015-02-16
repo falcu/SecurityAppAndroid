@@ -4,11 +4,13 @@ import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.builders.http_requests.BuilderCreateGroupRequest;
 import com.example.guido.securityapp.builders.http_requests.BuilderGetGroupInfoRequest;
+import com.example.guido.securityapp.builders.http_requests.BuilderQuitGroupRequest;
 import com.example.guido.securityapp.builders.http_requests.BuilderRenameGroupRequest;
 import com.example.guido.securityapp.converters.json.HttpCreateGroupResponseToJson;
 import com.example.guido.securityapp.converters.json.HttpGroupInfoResponseToJson;
 import com.example.guido.securityapp.converters.json.HttpOperationMemberResponseToJson;
 import com.example.guido.securityapp.converters.json.JsonToObject;
+import com.example.guido.securityapp.interfaces.IDataRemover;
 import com.example.guido.securityapp.interfaces.IDataStore;
 import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.models.Group;
@@ -17,6 +19,8 @@ import com.example.guido.securityapp.restful.PostHttpManager;
 import com.example.guido.securityapp.restful.PutHttpManager;
 import com.example.guido.securityapp.restful.services.HttpRequestService;
 import com.example.guido.securityapp.services.ServiceCreateGroup;
+import com.example.guido.securityapp.services.ServiceDeleteData;
+import com.example.guido.securityapp.services.ServiceQuitGroup;
 import com.example.guido.securityapp.services.ServiceRenameGroup;
 import com.example.guido.securityapp.services.http_analyzers.ServiceBadHttpRequestAnalyzer;
 import com.example.guido.securityapp.services.ServiceGroupInformation;
@@ -50,6 +54,12 @@ public class BuilderServiceGroup {
         return (ServiceRenameGroup) services.get(GroupServices.RENAME);
     }
 
+    public static ServiceQuitGroup builderQuitGroupService()
+    {
+        addQuitGroupService();
+        return (ServiceQuitGroup) services.get(GroupServices.QUIT);
+    }
+
     private static void addCreateService()
     {
         if(!services.containsKey(GroupServices.CREATE))
@@ -81,8 +91,18 @@ public class BuilderServiceGroup {
         }
     }
 
+    private static void addQuitGroupService()
+    {
+        if(!services.containsKey(GroupServices.QUIT))
+        {
+            IDataRemover remover = new ServiceDeleteData(MyApplication.getContext().getString(R.string.group_store_key));
+            HttpRequestService service = new HttpRequestService(new PutHttpManager(), new BuilderQuitGroupRequest());
+            services.put(GroupServices.QUIT,new ServiceQuitGroup(new ServiceMessageHttpRequestAnalyzer(),service,new ServiceBadHttpRequestAnalyzer(),remover));
+        }
+    }
+
     private enum GroupServices
     {
-        CREATE, GROUP_INFORMATION, RENAME
+        CREATE, GROUP_INFORMATION, RENAME, QUIT
     }
 }

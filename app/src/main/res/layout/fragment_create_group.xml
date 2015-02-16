@@ -16,6 +16,8 @@
         android:layout_weight="1"
         android:id="@+id/create_group_action"
         android:text="Create Group"
+        style="?android:textAppearanceSmall"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

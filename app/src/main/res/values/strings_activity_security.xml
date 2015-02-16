@@ -2,4 +2,5 @@
 <resources>
     <string name="title_activity_security">SecurityActivity</string>
     <string name="action_group_configuration">Group Configuration</string>
+    <string name="quit_action_key">quit</string>
 </resources>

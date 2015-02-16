@@ -13,6 +13,7 @@ import java.util.List;
  */
 public abstract class AsynTaskWithHandlers extends AsyncTask<Void, Void, TaskResult> {
     protected List<ITaskHandler> handlers = new ArrayList<ITaskHandler>();
+    protected String resultIdentifier = "";
 
     public AsynTaskWithHandlers(Object transferObject) throws Exception
     {
@@ -20,6 +21,11 @@ public abstract class AsynTaskWithHandlers extends AsyncTask<Void, Void, TaskRes
     }
 
     public AsynTaskWithHandlers(){}
+
+    public void setResultIdentifier(String resultIdentifier)
+    {
+        this.resultIdentifier = resultIdentifier;
+    }
 
     @Override
     protected abstract TaskResult doInBackground(Void... params);
@@ -34,6 +40,7 @@ public abstract class AsynTaskWithHandlers extends AsyncTask<Void, Void, TaskRes
 
     @Override
     protected void onPostExecute(TaskResult taskResult) {
+        taskResult.setIdentifier(resultIdentifier);
         super.onPostExecute(taskResult);
         for(ITaskHandler handler : handlers){
             handler.onPostExecute(taskResult);

@@ -2,8 +2,11 @@ package com.example.guido.securityapp.factories;
 
 import android.app.Fragment;
 
+import com.example.guido.securityapp.R;
+import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.fragments.AddMemberFragment;
 import com.example.guido.securityapp.fragments.BaseFragmentOption;
+import com.example.guido.securityapp.fragments.QuitGroupFragment;
 import com.example.guido.securityapp.fragments.RemoveMemberFragment;
 import com.example.guido.securityapp.fragments.RenameGroupFragment;
 
@@ -56,12 +59,13 @@ public class FactoryGroupConfigurationFragments
         addMemberFragment();
         removeMemberFragment();
         renameGroupFragment();
+        quitGroupFragment();
 
     }
 
     private static void addMemberFragment()
     {
-        String key = "add_member";
+        String key = MyApplication.getContext().getResources().getString(R.string.add_member_action_key);
         Integer id = 1;
         AddMemberFragment addMemberFragment = new AddMemberFragment();
         addMemberFragment.setIdentifier(id);
@@ -73,7 +77,7 @@ public class FactoryGroupConfigurationFragments
 
     private static void removeMemberFragment()
     {
-        String key = "remove_member";
+        String key = MyApplication.getContext().getResources().getString(R.string.remove_member_action_key);
         Integer id = 2;
         RemoveMemberFragment removeMemberFragment = new RemoveMemberFragment();
         removeMemberFragment.setIdentifier(id);
@@ -85,7 +89,7 @@ public class FactoryGroupConfigurationFragments
 
     private static void renameGroupFragment()
     {
-        String key = "rename_group";
+        String key = MyApplication.getContext().getResources().getString(R.string.rename_group_action_key);
         Integer id = 3;
         RenameGroupFragment renameGroupFragment = new RenameGroupFragment();
         renameGroupFragment.setIdentifier(id);
@@ -93,6 +97,18 @@ public class FactoryGroupConfigurationFragments
         renameGroupFragment.setDescription("Rename group");
         creatorFragmentsById.put(id,renameGroupFragment);
         creatorFragmentsByKey.put(key,renameGroupFragment);
+    }
+
+    private static void quitGroupFragment()
+    {
+        String key = MyApplication.getContext().getResources().getString(R.string.quit_group_action_key);;
+        Integer id = 4;
+        QuitGroupFragment quitGroupFragment = new QuitGroupFragment();
+        quitGroupFragment.setIdentifier(id);
+        quitGroupFragment.setKey(key);
+        quitGroupFragment.setDescription("Quit group");
+        creatorFragmentsById.put(id,quitGroupFragment);
+        creatorFragmentsByKey.put(key,quitGroupFragment);
     }
 
 

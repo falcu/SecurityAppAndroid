@@ -8,6 +8,7 @@ public class TaskResult {
     private Object result = null;
     private String error = null;
     private Exception exception;
+    private String identifier = "";
 
 
     public boolean isSuccesful() {
@@ -58,5 +59,13 @@ public class TaskResult {
             isSuccesful = true;
         }
         this.exception = exception;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 }

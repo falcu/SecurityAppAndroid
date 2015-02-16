@@ -35,6 +35,23 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
         initializeFragments();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode==MyApplication.getContext().getResources().getInteger(R.integer.ACTIVITY_FINISH))
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                if(data.getBooleanExtra(MyApplication.getContext().getString(R.string.IS_ACTIVITY_FINISH),false)) {
+                    Intent i = new Intent();
+                    i.putExtra(MyApplication.getContext().getResources().getString(R.string.IS_ACTIVITY_FINISH),true);
+                    setResult(Activity.RESULT_OK,i);
+                    finish();
+                }
+            }
+        }
+    }
+
     private void initializeFragments()
     {
         IFragmentDelayedButton delayedAction = (IFragmentDelayedButton) getFragmentManager().findFragmentById(R.id.alarm_fragment);
@@ -61,7 +78,7 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_group_configuration) {
             Intent i = new Intent(this,GroupConfigurationCreatorActivity.class);
-            startActivity(i);
+            startActivityForResult(i,MyApplication.getContext().getResources().getInteger(R.integer.ACTIVITY_FINISH));
         }
 
         return super.onOptionsItemSelected(item);
