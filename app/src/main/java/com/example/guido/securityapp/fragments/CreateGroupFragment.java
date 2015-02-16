@@ -16,8 +16,9 @@ import com.example.guido.securityapp.asyncTasks.CreateGroupTask;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
 import com.example.guido.securityapp.builders.BuilderValidator;
-import com.example.guido.securityapp.exceptions.UnableToRetreiveTokenException;
+import com.example.guido.securityapp.exceptions.UnableToLoadTokenException;
 import com.example.guido.securityapp.helpers.ToastHelper;
+import com.example.guido.securityapp.interfaces.IFragmentExceptionHandler;
 import com.example.guido.securityapp.interfaces.IFragmentVisibility;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.interfaces.IValidate;
@@ -68,8 +69,19 @@ public class CreateGroupFragment extends Fragment implements IFragmentVisibility
     public void onClick(View v) {
         if(!checkAndSetError())
         {
-            AsynTaskWithHandlers task = createTask(getName());
-            task.execute((Void)null);
+            try
+            {
+                AsynTaskWithHandlers task = createTask(getName());
+                task.execute((Void)null);
+            }
+            catch (UnableToLoadTokenException e){
+                IFragmentExceptionHandler exceptionHandler = (IFragmentExceptionHandler) getActivity();
+                exceptionHandler.handle(e);
+            }
+            catch (Exception e){
+                //TODO HANDLE MORE GENERAL EXCEPTION
+            }
+
         }
     }
 
@@ -92,26 +104,14 @@ public class CreateGroupFragment extends Fragment implements IFragmentVisibility
         return groupNameView.getText().toString();
     }
 
-    protected AsynTaskWithHandlers createTask(String groupName)
+    protected AsynTaskWithHandlers createTask(String groupName) throws Exception
     {
-        try
-        {
             String token = serviceUserToken.getToken();
             Object transferObject = makeTransferObject(token,groupName);
             CreateGroupTask task = new CreateGroupTask(transferObject);
             task.addHandler(this);
             task.addHandler((ITaskHandler)getActivity());
             return task;
-        }
-        catch (UnableToRetreiveTokenException e){
-
-            //TODO CALL ACTIVITY MANAGER, A NEW ACTIVITY SHOULD BE CALLED
-            return null;
-        }
-        catch (Exception e){
-            return null;
-        }
-
     }
 
     protected Object makeTransferObject(String token,String groupName)

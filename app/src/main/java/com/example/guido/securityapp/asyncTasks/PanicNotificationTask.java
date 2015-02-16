@@ -34,7 +34,7 @@ public class PanicNotificationTask extends AsynTaskWithHandlers{
         }
         catch (Exception e)
         {
-            result.setError(e.getMessage());
+            result.setError("Unable to send alarm");
         }
         return result;
     }

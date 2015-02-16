@@ -15,6 +15,9 @@ import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
 import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
 import com.example.guido.securityapp.builders.BuilderValidator;
+import com.example.guido.securityapp.exceptions.UnableToLoadGroupException;
+import com.example.guido.securityapp.exceptions.UnableToLoadTokenException;
+import com.example.guido.securityapp.interfaces.IFragmentExceptionHandler;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.interfaces.IValidate;
 import com.example.guido.securityapp.models.NewMemberTO;
@@ -61,6 +64,11 @@ public abstract class OperationMemberFragment extends BaseFragmentOption impleme
             try
             {
                 actionToPerform(email);
+            }
+            catch (UnableToLoadGroupException|UnableToLoadTokenException e)
+            {
+                IFragmentExceptionHandler exceptionHandler = (IFragmentExceptionHandler) getActivity();
+                exceptionHandler.handle(e);
             }
             catch (Exception e){
                 userEmailEditText.setError(e.getMessage());

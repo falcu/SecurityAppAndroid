@@ -1,6 +1,6 @@
 package com.example.guido.securityapp.services;
 
-import com.example.guido.securityapp.exceptions.UnableToRetreiveTokenException;
+import com.example.guido.securityapp.exceptions.UnableToLoadTokenException;
 
 /**
  * Created by guido on 2/1/15.
@@ -23,7 +23,7 @@ public class ServiceUserToken {
         }
         catch (Exception e)
         {
-            throw new UnableToRetreiveTokenException(e.getMessage());
+            throw new UnableToLoadTokenException(e.getMessage());
         }
 
     }

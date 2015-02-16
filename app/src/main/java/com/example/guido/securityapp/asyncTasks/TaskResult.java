@@ -7,6 +7,7 @@ public class TaskResult {
     private boolean isSuccesful = true;
     private Object result = null;
     private String error = null;
+    private Exception exception;
 
 
     public boolean isSuccesful() {
@@ -38,8 +39,24 @@ public class TaskResult {
         }
         else
         {
-            isSuccesful = true;
+            if(exception==null) {isSuccesful = true;}
             this.error = null;
         }
+    }
+
+    public Exception getException() {
+        return exception;
+    }
+
+    public void setException(Exception exception) {
+        if(exception!=null)
+        {
+            isSuccesful = false;
+        }
+        else if(error == null)
+        {
+            isSuccesful = true;
+        }
+        this.exception = exception;
     }
 }

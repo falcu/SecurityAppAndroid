@@ -1,5 +1,6 @@
 package com.example.guido.securityapp.services;
 
+import com.example.guido.securityapp.exceptions.UnableToLoadGroupException;
 import com.example.guido.securityapp.interfaces.IDataStore;
 import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.models.Group;
@@ -28,8 +29,15 @@ public class ServiceGroupInformation extends ServiceBase{
 
     public Group getGroup() throws Exception
     {
-        Group maybeGroup = (Group) store.load();
-        return maybeGroup;
+        try
+        {
+           Group maybeGroup = (Group) store.load();
+            return maybeGroup;
+        }
+        catch (Exception e)
+        {
+            throw new UnableToLoadGroupException("Unable to load group");
+        }
     }
 
     public boolean belongsToGroup()

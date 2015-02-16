@@ -10,6 +10,7 @@ import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.factories.FactoryGroupConfigurationFragments;
 import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.Option;
+import com.example.guido.securityapp.interfaces.IFragmentExceptionHandler;
 import com.example.guido.securityapp.interfaces.IFragmentOptions;
 import com.example.guido.securityapp.interfaces.IFragmentResultHandler;
 import com.example.guido.securityapp.interfaces.IFragmentVisibility;
@@ -18,7 +19,7 @@ import com.example.guido.securityapp.interfaces.ITaskHandler;
 
 import java.util.Iterator;
 
-public class GroupConfigurationCreatorActivity extends Activity implements IFragmentResultHandler,ITaskHandler {
+public class GroupConfigurationCreatorActivity extends Activity implements IFragmentResultHandler,ITaskHandler,IFragmentExceptionHandler {
 
     private IProgressBar progressBar;
 
@@ -102,5 +103,10 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
     @Override
     public void onCancelled() {
         progressBar.showProgress(false);
+    }
+
+    @Override
+    public void handle(Exception e) {
+
     }
 }

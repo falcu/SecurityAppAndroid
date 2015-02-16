@@ -2,7 +2,8 @@ package com.example.guido.securityapp.asyncTasks;
 
 import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
 import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
-import com.example.guido.securityapp.exceptions.UnableToRetreiveTokenException;
+import com.example.guido.securityapp.exceptions.UnableToLoadGroupException;
+import com.example.guido.securityapp.exceptions.UnableToLoadTokenException;
 import com.example.guido.securityapp.models.RenameGroupTO;
 import com.example.guido.securityapp.services.ServiceRenameGroup;
 
@@ -21,8 +22,6 @@ public class RenameGroupTask extends AsynTaskWithHandlers{
         TaskResult result = new TaskResult();
         try
         {
-            String token = BuilderServiceUserToken.build().getToken();
-            this.renameGroupTO.setToken(token);
             ServiceRenameGroup service = BuilderServiceGroup.builderRenameGroupService();
             service.renameGroup(renameGroupTO);
             if(service.wasRequestWithError())

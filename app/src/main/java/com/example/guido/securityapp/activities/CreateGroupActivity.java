@@ -9,13 +9,14 @@ import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.fragments.DescriptionFragment;
 import com.example.guido.securityapp.fragments.Option;
+import com.example.guido.securityapp.interfaces.IFragmentExceptionHandler;
 import com.example.guido.securityapp.interfaces.IFragmentOptions;
 import com.example.guido.securityapp.interfaces.IFragmentResultHandler;
 import com.example.guido.securityapp.interfaces.IFragmentVisibility;
 import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 
-public class CreateGroupActivity extends Activity implements IFragmentResultHandler, ITaskHandler {
+public class CreateGroupActivity extends Activity implements IFragmentResultHandler,IFragmentExceptionHandler, ITaskHandler {
 
     private IProgressBar progressBar;
     @Override
@@ -91,5 +92,10 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
     @Override
     public void onCancelled() {
         progressBar.showProgress(false);
+    }
+
+    @Override
+    public void handle(Exception e) {
+        //TODO HANDLE EXCEPTION
     }
 }
