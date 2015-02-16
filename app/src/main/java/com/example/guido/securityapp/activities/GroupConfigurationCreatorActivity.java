@@ -8,11 +8,12 @@ import android.os.Bundle;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
+import com.example.guido.securityapp.commands.FinishCommand;
 import com.example.guido.securityapp.commands.NullCommand;
+import com.example.guido.securityapp.commands.QuitCommand;
 import com.example.guido.securityapp.factories.FactoryGroupConfigurationFragments;
 import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.Option;
-import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.interfaces.ICommand;
 import com.example.guido.securityapp.interfaces.IFragmentExceptionHandler;
 import com.example.guido.securityapp.interfaces.IFragmentOptions;
@@ -138,44 +139,10 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
 
     }
 
-    protected void finishActivityWith(Intent intent)
+    public void finishActivityWith(Intent intent)
     {
         setResult(Activity.RESULT_OK,intent);
         finish();
-    }
-
-    public class QuitCommand implements ICommand
-    {
-
-        private GroupConfigurationCreatorActivity activity;
-
-        public QuitCommand(GroupConfigurationCreatorActivity activity)
-        {
-            this.activity = activity;
-        }
-        @Override
-        public void execute() {
-            Intent i = new Intent();
-            i.putExtra(MyApplication.getContext().getResources().getString(R.string.IS_ACTIVITY_FINISH),true);
-            new ToastHelper().showLongDurationMessage(activity,"You've quit the group!");
-            activity.finishActivityWith(i);
-        }
-    }
-
-    public class FinishCommand implements ICommand
-    {
-
-        private GroupConfigurationCreatorActivity activity;
-
-        public FinishCommand(GroupConfigurationCreatorActivity activity)
-        {
-            this.activity = activity;
-        }
-        @Override
-        public void execute() {
-            Intent i = new Intent();
-            this.activity.finishActivityWith(i);
-        }
     }
 
     public abstract class DoubleDispatch
