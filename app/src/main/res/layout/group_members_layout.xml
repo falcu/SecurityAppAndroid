@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/member_icon"
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+           android:src="@drawable/member_icon" >
+        </ImageView>
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <TextView
+                android:id="@+id/member_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Member's name"/>
+            <TextView
+                android:id="@+id/member_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="member@android.com"/>
+        </LinearLayout>
+
+    </TableRow>
+
+</TableLayout>

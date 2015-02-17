@@ -7,6 +7,14 @@ public class Member {
     protected String name;
     protected String email;
 
+    public Member(){}
+
+    public Member(String name,String email)
+    {
+        this.name = name;
+        this.email = email;
+    }
+
     public String getName() {
         return name;
     }

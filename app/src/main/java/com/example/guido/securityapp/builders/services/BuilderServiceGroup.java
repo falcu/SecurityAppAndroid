@@ -64,7 +64,7 @@ public class BuilderServiceGroup {
     {
         if(!services.containsKey(GroupServices.CREATE))
         {
-            IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new HttpCreateGroupResponseToJson());
+            IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new HttpOperationMemberResponseToJson());
             HttpRequestService service = new HttpRequestService(new PostHttpManager(), new BuilderCreateGroupRequest());
             services.put(GroupServices.CREATE,new ServiceCreateGroup(store,service,new ServiceBadHttpRequestAnalyzer(), new ServiceMessageHttpRequestAnalyzer()));
         }

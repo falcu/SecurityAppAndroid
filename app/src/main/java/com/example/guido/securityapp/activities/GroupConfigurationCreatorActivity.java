@@ -164,7 +164,8 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
             try
             {
                 String maybeString = (String)  objectToAnalyze;
-                if(!maybeString.equals(MyApplication.getContext().getString(R.string.quit_group_action_key)))
+                String quitKey = MyApplication.getContext().getString(R.string.quit_group_action_key);
+                if(!maybeString.equals(quitKey))
                 {
                     action.execute();
                 }

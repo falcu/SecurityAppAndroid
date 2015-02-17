@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.PanicNotificationTask;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
+import com.example.guido.securityapp.builders.adapters.BuilderGroupMembersAdapter;
 import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
 import com.example.guido.securityapp.builders.services.BuilderServiceLocationSingleton;
 import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
@@ -18,8 +18,10 @@ import com.example.guido.securityapp.exceptions.NoAvailableLocation;
 import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.interfaces.ICommand;
 import com.example.guido.securityapp.interfaces.IFragmentDelayedButton;
+import com.example.guido.securityapp.interfaces.IListFragment;
 import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
+import com.example.guido.securityapp.interfaces.IUpdate;
 import com.example.guido.securityapp.models.MyLocation;
 import com.example.guido.securityapp.models.PanicTO;
 import com.example.guido.securityapp.services.ServiceLocation;
@@ -48,6 +50,13 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
                     setResult(Activity.RESULT_OK,i);
                     finish();
                 }
+                else if(data.getBooleanExtra(MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP),false))
+                {
+                    IUpdate listFragment = (IUpdate) getFragmentManager().findFragmentById(R.id.members_list_fragment);
+                    IUpdate groupDetails = (IUpdate) getFragmentManager().findFragmentById(R.id.group_details_fragment);
+                    listFragment.update();
+                    groupDetails.update();
+                }
             }
         }
     }
@@ -59,6 +68,8 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
         delayedAction.setDelayedAction(new PanicNotificationCommand(this));
         progressBar = (IProgressBar) getFragmentManager().findFragmentById(R.id.alarm_progress_bar);
         progressBar.showProgress(false);
+        IListFragment listFragment = (IListFragment) getFragmentManager().findFragmentById(R.id.members_list_fragment);
+        listFragment.setBuilderAdapter(new BuilderGroupMembersAdapter(this));
     }
 
     @Override
@@ -78,7 +89,7 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_group_configuration) {
             Intent i = new Intent(this,GroupConfigurationCreatorActivity.class);
-            startActivityForResult(i,MyApplication.getContext().getResources().getInteger(R.integer.ACTIVITY_FINISH));
+            startActivityForResult(i, MyApplication.getContext().getResources().getInteger(R.integer.ACTIVITY_FINISH));
         }
 
         return super.onOptionsItemSelected(item);
