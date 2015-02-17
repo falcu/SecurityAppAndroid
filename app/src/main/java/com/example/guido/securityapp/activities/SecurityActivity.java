@@ -13,8 +13,10 @@ import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.builders.adapters.BuilderGroupMembersAdapter;
 import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
 import com.example.guido.securityapp.builders.services.BuilderServiceLocationSingleton;
+import com.example.guido.securityapp.builders.services.BuilderServiceSignOut;
 import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
 import com.example.guido.securityapp.exceptions.NoAvailableLocation;
+import com.example.guido.securityapp.helpers.ConfirmDialogHelper;
 import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.interfaces.ICommand;
 import com.example.guido.securityapp.interfaces.IFragmentDelayedButton;
@@ -22,19 +24,36 @@ import com.example.guido.securityapp.interfaces.IListFragment;
 import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.interfaces.IUpdate;
+import com.example.guido.securityapp.interfaces.OnYesClickListener;
 import com.example.guido.securityapp.models.MyLocation;
 import com.example.guido.securityapp.models.PanicTO;
 import com.example.guido.securityapp.services.ServiceLocation;
+import com.example.guido.securityapp.services.ServiceSignOut;
 
 public class SecurityActivity extends ActionBarActivity implements ITaskHandler {
 
     private IProgressBar progressBar;
+    private ConfirmDialogHelper signOutConfigmDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_security);
         initializeFragments();
+        signOutConfigmDialog = new ConfirmDialogHelper();
+        signOutConfigmDialog.setOnYesClickListener(new OnYesClickListener() {
+            @Override
+            public void onYesClicked() {
+                ServiceSignOut serviceSignOut = BuilderServiceSignOut.build();
+                serviceSignOut.signOut();
+                if(!serviceSignOut.wasRequestWithError())
+                {
+                    ToastHelper toastHelper= new ToastHelper();
+                    toastHelper.showLongDurationMessage(SecurityActivity.this,"You signed out!");
+                    SecurityActivity.this.finishActivity();
+                }
+            }
+        });
     }
 
     @Override
@@ -45,10 +64,7 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
             if(resultCode == Activity.RESULT_OK)
             {
                 if(data.getBooleanExtra(MyApplication.getContext().getString(R.string.IS_ACTIVITY_FINISH),false)) {
-                    Intent i = new Intent();
-                    i.putExtra(MyApplication.getContext().getResources().getString(R.string.IS_ACTIVITY_FINISH),true);
-                    setResult(Activity.RESULT_OK,i);
-                    finish();
+                    finishActivity();
                 }
                 else if(data.getBooleanExtra(MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP),false))
                 {
@@ -59,6 +75,14 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
                 }
             }
         }
+    }
+
+    protected void finishActivity()
+    {
+        Intent i = new Intent();
+        i.putExtra(MyApplication.getContext().getResources().getString(R.string.IS_ACTIVITY_FINISH),true);
+        setResult(Activity.RESULT_OK,i);
+        finish();
     }
 
     private void initializeFragments()
@@ -90,6 +114,10 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
         if (id == R.id.action_group_configuration) {
             Intent i = new Intent(this,GroupConfigurationCreatorActivity.class);
             startActivityForResult(i, MyApplication.getContext().getResources().getInteger(R.integer.ACTIVITY_FINISH));
+        }
+        else if(id == R.id.action_sign_out)
+        {
+            signOutConfigmDialog.showYesNoDialog(this,"SIGN OUT","Are you sure you want to sign out?");
         }
 
         return super.onOptionsItemSelected(item);
