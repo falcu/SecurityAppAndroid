@@ -4,11 +4,14 @@ import android.app.Fragment;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
+import com.example.guido.securityapp.builders.services.BuilderServiceGroupMember;
 import com.example.guido.securityapp.fragments.AddMemberFragment;
 import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.QuitGroupFragment;
 import com.example.guido.securityapp.fragments.RemoveMemberFragment;
 import com.example.guido.securityapp.fragments.RenameGroupFragment;
+import com.example.guido.securityapp.services.ServiceGroupMember;
 
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -20,31 +23,43 @@ import java.util.List;
  */
 public class FactoryGroupConfigurationFragments
 {
-    private static HashMap<Integer,BaseFragmentOption> creatorFragmentsById;
     private static HashMap<String,BaseFragmentOption> creatorFragmentsByKey;
+    private static HashMap<String,BaseFragmentOption> regularMemberFragmentByKey;
 
-
-    public static Iterator<BaseFragmentOption> getCreatorFragments()
+    public static Iterator<BaseFragmentOption> getCreatorFragments() throws Exception
     {
         checkIfInitialize();
-        return creatorFragmentsById.values().iterator();
+        if(isCreator())
+        {
+            return creatorFragmentsByKey.values().iterator();
+        }
+        else
+        {
+            return regularMemberFragmentByKey.values().iterator();
+        }
     }
 
-    public static BaseFragmentOption getFragmentByKey(String key)
+    public static BaseFragmentOption getFragmentByKey(String key) throws Exception
     {
         checkIfInitialize();
-        return creatorFragmentsByKey.get(key);
+        if(isCreator())
+        {
+            return creatorFragmentsByKey.get(key);
+        }
+        else
+        {
+            return regularMemberFragmentByKey.get(key);
+        }
     }
 
-    public static void clean()
+    private static boolean isCreator() throws Exception
     {
-        creatorFragmentsById = null;
-        creatorFragmentsByKey = null;
+        return BuilderServiceGroupMember.build().IsCurrentUserCreator();
     }
 
     private static void checkIfInitialize()
     {
-        if(creatorFragmentsById == null || creatorFragmentsByKey == null)
+        if(creatorFragmentsByKey == null || regularMemberFragmentByKey == null)
         {
             clean();
             initialize();
@@ -52,10 +67,17 @@ public class FactoryGroupConfigurationFragments
         }
     }
 
+
+    public static void clean()
+    {
+        creatorFragmentsByKey = null;
+        regularMemberFragmentByKey = null;
+    }
+
     private static void initialize()
     {
-        creatorFragmentsById = new HashMap<>();
         creatorFragmentsByKey = new HashMap<>();
+        regularMemberFragmentByKey = new HashMap<>();
         addMemberFragment();
         removeMemberFragment();
         renameGroupFragment();
@@ -71,7 +93,6 @@ public class FactoryGroupConfigurationFragments
         addMemberFragment.setIdentifier(id);
         addMemberFragment.setKey(key);
         addMemberFragment.setDescription("Add member");
-        creatorFragmentsById.put(id,addMemberFragment);
         creatorFragmentsByKey.put(key,addMemberFragment);
     }
 
@@ -83,7 +104,6 @@ public class FactoryGroupConfigurationFragments
         removeMemberFragment.setIdentifier(id);
         removeMemberFragment.setKey(key);
         removeMemberFragment.setDescription("Remove member");
-        creatorFragmentsById.put(id,removeMemberFragment);
         creatorFragmentsByKey.put(key,removeMemberFragment);
     }
 
@@ -95,7 +115,6 @@ public class FactoryGroupConfigurationFragments
         renameGroupFragment.setIdentifier(id);
         renameGroupFragment.setKey(key);
         renameGroupFragment.setDescription("Rename group");
-        creatorFragmentsById.put(id,renameGroupFragment);
         creatorFragmentsByKey.put(key,renameGroupFragment);
     }
 
@@ -107,8 +126,8 @@ public class FactoryGroupConfigurationFragments
         quitGroupFragment.setIdentifier(id);
         quitGroupFragment.setKey(key);
         quitGroupFragment.setDescription("Quit group");
-        creatorFragmentsById.put(id,quitGroupFragment);
         creatorFragmentsByKey.put(key,quitGroupFragment);
+        regularMemberFragmentByKey.put(key,quitGroupFragment);
     }
 
 

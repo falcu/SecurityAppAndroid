@@ -1,6 +1,8 @@
 package com.example.guido.securityapp.fragments;
 
 
+import android.app.ActionBar;
+import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -39,15 +41,29 @@ public class OptionsFragment extends Fragment implements IFragmentOptions, View.
         return theView;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
 
     @Override
     public void addOption(Option option) {
-        RadioButton newOption = new RadioButton(getActivity());
+        LayoutInflater inflater =  (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View customView = LayoutInflater.from(getActivity()).inflate(R.layout.custom_radio_button, null);
+        //RadioButton newOption = new RadioButton(getActivity());
         options.add(option);
         int id = options.size();
-        newOption.setId(id);
-        newOption.setText(option.getText());
-        optionsGroup.addView(newOption);
+        RadioButton customButton = (RadioButton) customView.findViewById(R.id.radio_button);
+        customButton.setText(option.getText());
+        customButton.setId(id);
+        customButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+      //  newOption.setId(id);
+     //   newOption.setText(option.getText());
+          optionsGroup.addView(customButton);
+
         setupClickListener(getView(),id);
     }
 

@@ -13,10 +13,10 @@ public class ServiceGroupMember {
     private ServiceSign serviceSign;
     private ServiceGroupInformation serviceGroupInformation;
 
-    public ServiceGroupMember()
+    public ServiceGroupMember(ServiceSign serviceSign,ServiceGroupInformation serviceGroupInformation)
     {
-        serviceSign = makeServiceSign();
-        serviceGroupInformation = makeServiceGroupInformation();
+        this.serviceSign = serviceSign;
+        this.serviceGroupInformation = serviceGroupInformation;
     }
 
     public boolean IsCurrentUserCreator() throws Exception
@@ -37,15 +37,5 @@ public class ServiceGroupMember {
     public boolean IsRegularMember() throws Exception
     {
         return !IsCurrentUserCreator();
-    }
-
-    protected ServiceSign makeServiceSign()
-    {
-        return BuilderServiceSign.buildServiceSign(BuilderServiceSign.SignOptions.SIGN_IN);
-    }
-
-    protected ServiceGroupInformation makeServiceGroupInformation()
-    {
-        return BuilderServiceGroup.buildGroupInformationService();
     }
 }

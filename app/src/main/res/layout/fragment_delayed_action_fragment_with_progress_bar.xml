@@ -6,11 +6,11 @@
 
     <ImageButton
         android:id="@+id/alarm_action"
-        android:layout_width="wrap_content"
-        android:src="@drawable/panic_icon"
+        android:adjustViewBounds="true"
+        android:layout_width="120dip"
         android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:background="@null"
+        android:layout_height="120dip"
+        android:background="@drawable/panic_icon"
         android:text="Text to set"/>
 
     <ProgressBar

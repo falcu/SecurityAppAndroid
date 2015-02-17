@@ -1,0 +1,7 @@
+<RadioButton
+    android:id="@+id/radio_button"
+    android:text="My text"
+    android:background="@drawable/custom_button_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

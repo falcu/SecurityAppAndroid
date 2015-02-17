@@ -8,9 +8,12 @@ import android.os.Bundle;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
+import com.example.guido.securityapp.builders.services.BuilderServiceDataCorrupted;
 import com.example.guido.securityapp.commands.FinishCommand;
+import com.example.guido.securityapp.commands.ForceFinishCommand;
 import com.example.guido.securityapp.commands.NullCommand;
-import com.example.guido.securityapp.commands.QuitCommand;
+import com.example.guido.securityapp.exceptions.UnableToLoadGroupException;
+import com.example.guido.securityapp.exceptions.UnableToLoadTokenException;
 import com.example.guido.securityapp.factories.FactoryGroupConfigurationFragments;
 import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.Option;
@@ -20,6 +23,7 @@ import com.example.guido.securityapp.interfaces.IFragmentOptions;
 import com.example.guido.securityapp.interfaces.IFragmentResultHandler;
 import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
+import com.example.guido.securityapp.services.ServiceDataCorrupted;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,20 +44,34 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         initialize();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        letDispatchersDecideAction(null);
+    }
+
     protected List<DoubleDispatch> makeDoubleDispatchers()
     {
         ArrayList<DoubleDispatch> dispatchers = new ArrayList<>();
 
-        QuitCommand quitCommand = new QuitCommand(this);
+        ForceFinishCommand forceFinishCommand = new ForceFinishCommand(this);
         QuitResultDoubleDispatch quitDispatcher = new QuitResultDoubleDispatch();
-        quitDispatcher.setAction(quitCommand);
+        quitDispatcher.setAction(forceFinishCommand);
 
         FinishCommand finishCommand = new FinishCommand(this);
         NotQuitResultDoubleDispatch notQuitDispatcher = new NotQuitResultDoubleDispatch();
         notQuitDispatcher.setAction(finishCommand);
 
+        ExceptionDoubleDispatch exceptionDoubleDispatch = new ExceptionDoubleDispatch();
+        exceptionDoubleDispatch.setAction(forceFinishCommand);
+
+        DataCorruptedDoubleDispatch dataCorruptedDoubleDispatch = new DataCorruptedDoubleDispatch();
+        dataCorruptedDoubleDispatch.setAction(forceFinishCommand);
+
         dispatchers.add(quitDispatcher);
         dispatchers.add(notQuitDispatcher);
+        dispatchers.add(exceptionDoubleDispatch);
+        dispatchers.add(dataCorruptedDoubleDispatch);
 
         return dispatchers;
     }
@@ -82,10 +100,26 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
 
     protected Iterator<BaseFragmentOption> getFragments()
     {
-        return FactoryGroupConfigurationFragments.getCreatorFragments();
+        try
+        {
+            return FactoryGroupConfigurationFragments.getCreatorFragments();
+        }
+        catch (Exception e)
+        {
+            //TODO HANDLE EXCEPTION
+            return null;
+        }
     }
     protected BaseFragmentOption getFragmentByKey(String key) {
-        return FactoryGroupConfigurationFragments.getFragmentByKey(key);
+        try
+        {
+            return FactoryGroupConfigurationFragments.getFragmentByKey(key);
+        }
+        catch (Exception e)
+        {
+            //TODO HANDLE EXCEPTION
+            return null;
+        }
     }
 
 
@@ -122,10 +156,15 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         progressBar.showProgress(false);
         if(taskResult.isSuccesful())
         {
-            for(DoubleDispatch dispatch: doubleDispatchers)
-            {
-                dispatch.dispatch(taskResult.getIdentifier());
-            }
+            letDispatchersDecideAction(taskResult.getIdentifier());
+        }
+    }
+
+    protected void letDispatchersDecideAction(Object objectToAnalyze)
+    {
+        for(DoubleDispatch dispatch: doubleDispatchers)
+        {
+            dispatch.dispatch(objectToAnalyze);
         }
     }
 
@@ -136,7 +175,7 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
 
     @Override
     public void handle(Exception e) {
-
+        letDispatchersDecideAction(e);
     }
 
     public void finishActivityWith(Intent intent)
@@ -163,6 +202,7 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         public void dispatch(Object objectToAnalyze) {
             try
             {
+                if(objectToAnalyze==null){return;}
                 String maybeString = (String)  objectToAnalyze;
                 String quitKey = MyApplication.getContext().getString(R.string.quit_group_action_key);
                 if(!maybeString.equals(quitKey))
@@ -183,6 +223,7 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         {
             try
             {
+                if(objectToAnalyze==null){return;}
                 String maybeString = (String)  objectToAnalyze;
                 if(maybeString.equals(MyApplication.getContext().getString(R.string.quit_group_action_key)))
                 {
@@ -190,6 +231,32 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
                 }
             }
             catch (ClassCastException e){}
+        }
+    }
+
+    public class ExceptionDoubleDispatch extends DoubleDispatch
+    {
+
+        @Override
+        public void dispatch(Object objectToAnalyze) {
+            if(objectToAnalyze==null){return;}
+            if(objectToAnalyze.getClass().equals(UnableToLoadGroupException.class) || objectToAnalyze.getClass().equals(UnableToLoadTokenException.class))
+            {
+                action.execute();
+            }
+        }
+    }
+
+    public class DataCorruptedDoubleDispatch extends DoubleDispatch
+    {
+
+        @Override
+        public void dispatch(Object objetToAnalyze) {
+            ServiceDataCorrupted service = BuilderServiceDataCorrupted.build();
+            if(service.isDataCorrupted())
+            {
+                action.execute();
+            }
         }
     }
 }

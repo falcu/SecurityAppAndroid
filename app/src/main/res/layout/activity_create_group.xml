@@ -37,7 +37,7 @@
             <fragment
                 android:id="@+id/options_fragment"
                 android:name="com.example.guido.securityapp.fragments.OptionsFragment"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:layout="@layout/layout_group_options">
 

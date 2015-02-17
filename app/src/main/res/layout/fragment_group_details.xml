@@ -11,8 +11,7 @@
 
         <TextView
             android:text="Group's name:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/LabelFont"/>
 
         <TextView
             android:id="@+id/group_name_text_view"
@@ -28,12 +27,12 @@
 
         <TextView
             android:text="Number of members:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/LabelFont"/>
 
         <TextView
             android:id="@+id/members_number_text_view"
             android:text="xx"
+
             style="@style/DetailFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -47,15 +46,12 @@
 
         <TextView
             android:text="Creator:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/LabelFont"/>
 
         <TextView
             android:id="@+id/creator_text_view"
             android:text="Creator's name"
-            style="@style/DetailFont"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/DetailFont" />
 
     </LinearLayout>
 

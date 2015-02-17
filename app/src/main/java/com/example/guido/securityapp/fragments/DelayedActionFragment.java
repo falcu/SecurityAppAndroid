@@ -78,7 +78,7 @@ public class DelayedActionFragment extends Fragment implements View.OnTouchListe
     @Override
     public void setImage(int resourceId) {
         Drawable drawable = MyApplication.getContext().getResources().getDrawable(resourceId);
-        button.setImageDrawable(drawable);
+        button.setBackground(drawable);
     }
 
     @Override

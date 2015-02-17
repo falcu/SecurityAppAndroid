@@ -8,21 +8,16 @@
     tools:context="com.example.guido.securityapp.activities.SecurityActivity">
 
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        >
-
     <fragment
         android:id="@+id/alarm_fragment"
         android:name="com.example.guido.securityapp.fragments.DelayedActionFragmentWithProgressBar"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         tools:layout="@layout/fragment_delayed_action_fragment_with_progress_bar">
         </fragment>
 
-    </FrameLayout>
+
 
     <fragment
         android:id="@+id/alarm_progress_bar"
@@ -49,9 +44,9 @@
         </fragment>
 
         <TextView
+            android:layout_marginTop="10dp"
             android:text="Members"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/LabelFont"/>
 
         <fragment
             android:layout_width="wrap_content"

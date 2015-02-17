@@ -6,11 +6,10 @@
 
     <ImageButton
         android:id="@+id/alarm_action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dip"
+        android:layout_height="120dip"
         android:layout_gravity="center"
-        android:background="@null"
-        android:src="@drawable/panic_icon"
+        android:background="@drawable/panic_icon"
         android:text="Text to set"/>
 
 </LinearLayout>

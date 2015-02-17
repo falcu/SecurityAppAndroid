@@ -11,12 +11,12 @@ import com.example.guido.securityapp.interfaces.ICommand;
 /**
 * Created by guido on 2/16/15.
 */
-public class QuitCommand implements ICommand
+public class ForceFinishCommand implements ICommand
 {
 
     private GroupConfigurationCreatorActivity activity;
 
-    public QuitCommand(GroupConfigurationCreatorActivity activity)
+    public ForceFinishCommand(GroupConfigurationCreatorActivity activity)
     {
         this.activity = activity;
     }
