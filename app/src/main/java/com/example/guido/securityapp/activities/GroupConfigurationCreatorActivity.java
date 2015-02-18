@@ -9,15 +9,12 @@ import android.os.Bundle;
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.builders.services.BuilderServiceDataCorrupted;
-import com.example.guido.securityapp.commands.FinishCommand;
-import com.example.guido.securityapp.commands.ForceFinishCommand;
-import com.example.guido.securityapp.commands.NullCommand;
 import com.example.guido.securityapp.exceptions.UnableToLoadGroupException;
 import com.example.guido.securityapp.exceptions.UnableToLoadTokenException;
 import com.example.guido.securityapp.factories.FactoryGroupConfigurationFragments;
 import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.Option;
-import com.example.guido.securityapp.interfaces.ICommand;
+import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.interfaces.IFragmentExceptionHandler;
 import com.example.guido.securityapp.interfaces.IFragmentOptions;
 import com.example.guido.securityapp.interfaces.IFragmentResultHandler;
@@ -25,14 +22,11 @@ import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.services.ServiceDataCorrupted;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class GroupConfigurationCreatorActivity extends Activity implements IFragmentResultHandler,ITaskHandler,IFragmentExceptionHandler {
 
     private IProgressBar progressBar;
-    protected List<DoubleDispatch> doubleDispatchers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,40 +34,18 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         setContentView(R.layout.activity_group_configuration);
         progressBar = (IProgressBar) getFragmentManager().findFragmentById(R.id.progress_bar_fragment);
         progressBar.setControllableView(findViewById(R.id.group_configuration_form));
-        doubleDispatchers = makeDoubleDispatchers();
         initialize();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        letDispatchersDecideAction(null);
-    }
-
-    protected List<DoubleDispatch> makeDoubleDispatchers()
-    {
-        ArrayList<DoubleDispatch> dispatchers = new ArrayList<>();
-
-        ForceFinishCommand forceFinishCommand = new ForceFinishCommand(this);
-        QuitResultDoubleDispatch quitDispatcher = new QuitResultDoubleDispatch();
-        quitDispatcher.setAction(forceFinishCommand);
-
-        FinishCommand finishCommand = new FinishCommand(this);
-        NotQuitResultDoubleDispatch notQuitDispatcher = new NotQuitResultDoubleDispatch();
-        notQuitDispatcher.setAction(finishCommand);
-
-        ExceptionDoubleDispatch exceptionDoubleDispatch = new ExceptionDoubleDispatch();
-        exceptionDoubleDispatch.setAction(forceFinishCommand);
-
-        DataCorruptedDoubleDispatch dataCorruptedDoubleDispatch = new DataCorruptedDoubleDispatch();
-        dataCorruptedDoubleDispatch.setAction(forceFinishCommand);
-
-        dispatchers.add(quitDispatcher);
-        dispatchers.add(notQuitDispatcher);
-        dispatchers.add(exceptionDoubleDispatch);
-        dispatchers.add(dataCorruptedDoubleDispatch);
-
-        return dispatchers;
+        ServiceDataCorrupted service = BuilderServiceDataCorrupted.build();
+        if(service.isDataCorrupted())
+        {
+            Intent i = makeForceFinishActivityIntent();
+            finishActivityWith(i);
+        }
     }
 
     private void initialize()
@@ -156,15 +128,19 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         progressBar.showProgress(false);
         if(taskResult.isSuccesful())
         {
-            letDispatchersDecideAction(taskResult.getIdentifier());
-        }
-    }
+            String taskIdentifier = taskResult.getIdentifier();
+            if(taskIdentifier.equals(MyApplication.getContext().getResources().getString(R.string.quit_group_action_key)))
+            {
+                Intent i = makeForceFinishActivityIntent();
+                new ToastHelper().showLongDurationMessage(this,"You've quit the group!");
+                finishActivityWith(i);
+            }
+            else
 
-    protected void letDispatchersDecideAction(Object objectToAnalyze)
-    {
-        for(DoubleDispatch dispatch: doubleDispatchers)
-        {
-            dispatch.dispatch(objectToAnalyze);
+            {
+                Intent i = new Intent();
+                finishActivityWith(i);
+            }
         }
     }
 
@@ -175,7 +151,11 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
 
     @Override
     public void handle(Exception e) {
-        letDispatchersDecideAction(e);
+        if(e.getClass().equals(UnableToLoadGroupException.class) || e.getClass().equals(UnableToLoadTokenException.class))
+        {
+            Intent i = makeForceFinishActivityIntent();
+            finishActivityWith(i);
+        }
     }
 
     public void finishActivityWith(Intent intent)
@@ -184,79 +164,17 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         finish();
     }
 
-    public abstract class DoubleDispatch
+    protected Intent makeForceFinishActivityIntent()
     {
-        protected ICommand action = new NullCommand();
-
-        public abstract void dispatch(Object objetToAnalyze);
-
-        public void setAction(ICommand action) {
-            this.action = action;
-        }
-    }
-
-    public class NotQuitResultDoubleDispatch extends DoubleDispatch
-    {
-
-        @Override
-        public void dispatch(Object objectToAnalyze) {
-            try
-            {
-                if(objectToAnalyze==null){return;}
-                String maybeString = (String)  objectToAnalyze;
-                String quitKey = MyApplication.getContext().getString(R.string.quit_group_action_key);
-                if(!maybeString.equals(quitKey))
-                {
-                    action.execute();
-                }
-            }
-            catch (ClassCastException e){}
-
-        }
+        Intent i = new Intent();
+        i.putExtra(MyApplication.getContext().getResources().getString(R.string.FORCE_FINISH_ACTIVITY),true);
+        return i;
     }
 
 
-    public class QuitResultDoubleDispatch extends DoubleDispatch
-    {
 
-        public void dispatch(Object objectToAnalyze)
-        {
-            try
-            {
-                if(objectToAnalyze==null){return;}
-                String maybeString = (String)  objectToAnalyze;
-                if(maybeString.equals(MyApplication.getContext().getString(R.string.quit_group_action_key)))
-                {
-                    action.execute();
-                }
-            }
-            catch (ClassCastException e){}
-        }
-    }
 
-    public class ExceptionDoubleDispatch extends DoubleDispatch
-    {
 
-        @Override
-        public void dispatch(Object objectToAnalyze) {
-            if(objectToAnalyze==null){return;}
-            if(objectToAnalyze.getClass().equals(UnableToLoadGroupException.class) || objectToAnalyze.getClass().equals(UnableToLoadTokenException.class))
-            {
-                action.execute();
-            }
-        }
-    }
 
-    public class DataCorruptedDoubleDispatch extends DoubleDispatch
-    {
 
-        @Override
-        public void dispatch(Object objetToAnalyze) {
-            ServiceDataCorrupted service = BuilderServiceDataCorrupted.build();
-            if(service.isDataCorrupted())
-            {
-                action.execute();
-            }
-        }
-    }
 }

@@ -76,7 +76,7 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
 
         if (taskResult.isSuccesful()) {
             Intent i = new Intent();
-            i.putExtra(MyApplication.getContext().getString(R.string.IS_ACTIVITY_FINISH),true);
+            i.putExtra(MyApplication.getContext().getString(R.string.FORCE_FINISH_ACTIVITY),true);
             setResult(Activity.RESULT_OK, i);
             finish();
         } else {

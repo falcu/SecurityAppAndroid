@@ -1,8 +1,13 @@
 package com.example.guido.securityapp.services;
 
+import com.example.guido.securityapp.R;
+import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.interfaces.IDataStore;
+import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.interfaces.IServiceMessage;
+import com.example.guido.securityapp.models.Group;
 import com.example.guido.securityapp.models.RenameGroupTO;
 import com.example.guido.securityapp.restful.services.HttpRequestService;
 
@@ -22,8 +27,9 @@ public class ServiceRenameGroup extends ServiceBase implements IServiceMessage{
         String data = httpService.request(renameGroupTO);
         errorAnalyzer.analyze(data);
         messageAnalyzer.analyze(data);
-        if(!errorAnalyzer.didLastDataHaveMessage())
+        if(!errorAnalyzer.didLastDataHaveMessage()) {
             store.save(data);
+        }
     }
 
     @Override

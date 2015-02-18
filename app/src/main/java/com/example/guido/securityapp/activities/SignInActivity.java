@@ -2,23 +2,14 @@ package com.example.guido.securityapp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.AsynTaskWithHandlers;
-import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.asyncTasks.UserSignInTask;
-import com.example.guido.securityapp.asyncTasks.UserSignUpTask;
 import com.example.guido.securityapp.helpers.ToastHelper;
-import com.example.guido.securityapp.interfaces.IProgressBar;
-import com.example.guido.securityapp.interfaces.IValidate;
 import com.example.guido.securityapp.models.UserTO;
 
 public class SignInActivity extends SignActivity {
@@ -44,7 +35,7 @@ public class SignInActivity extends SignActivity {
         {
             if(resultCode == Activity.RESULT_OK)
             {
-                if(data.getBooleanExtra(MyApplication.getContext().getString(R.string.IS_ACTIVITY_FINISH),false)) {
+                if(data.getBooleanExtra(MyApplication.getContext().getString(R.string.FORCE_FINISH_ACTIVITY),false)) {
                     beforeFinish();
                     finish();
                 }

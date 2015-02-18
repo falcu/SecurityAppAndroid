@@ -6,7 +6,9 @@ import com.example.guido.securityapp.builders.http_requests.BuilderAddMemberRequ
 import com.example.guido.securityapp.builders.http_requests.BuilderRemoveMemberRequest;
 import com.example.guido.securityapp.converters.json.HttpOperationMemberResponseToJson;
 import com.example.guido.securityapp.converters.json.JsonToObject;
+import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.interfaces.IDataStore;
+import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.models.Group;
 import com.example.guido.securityapp.restful.PutHttpManager;

@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
         {
             if(resultCode == Activity.RESULT_OK)
             {
-                if(data.getBooleanExtra(MyApplication.getContext().getString(R.string.IS_ACTIVITY_FINISH),false))
+                if(data.getBooleanExtra(MyApplication.getContext().getString(R.string.FORCE_FINISH_ACTIVITY),false))
                 {
                     try {
                         activityCoordinator.runCorrespondingActivityFromWithRequestCode(this,MyApplication.getContext().getResources().getInteger(R.integer.ACTIVITY_FINISH));

@@ -12,7 +12,7 @@
 
     <integer name="ACTIVITY_FINISH">1</integer>
 
-    <string name="IS_ACTIVITY_FINISH">activity_finish</string>
+    <string name="FORCE_FINISH_ACTIVITY">activity_finish</string>
     <string name="UPDATE_GROUP">update_group</string>
     <string name="title_activity_group_configuration">GroupConfigurationActivity</string>
     <string name="action_settings">Settings</string>
@@ -25,5 +25,7 @@
     <string name="add_member_action_key">add_member</string>
     <string name="remove_member_action_key">remove_member</string>
     <string name="rename_group_action_key">rename_group</string>
+
+    <string name ="group_updated_event">group_updated</string>
 
 </resources>

@@ -1,9 +1,14 @@
 package com.example.guido.securityapp.asyncTasks;
 
+import com.example.guido.securityapp.R;
+import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
 import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
 import com.example.guido.securityapp.exceptions.UnableToLoadGroupException;
 import com.example.guido.securityapp.exceptions.UnableToLoadTokenException;
+import com.example.guido.securityapp.factories.FactoryEventAggregator;
+import com.example.guido.securityapp.interfaces.IEventAggregator;
+import com.example.guido.securityapp.models.Group;
 import com.example.guido.securityapp.models.RenameGroupTO;
 import com.example.guido.securityapp.services.ServiceRenameGroup;
 
@@ -12,9 +17,11 @@ import com.example.guido.securityapp.services.ServiceRenameGroup;
  */
 public class RenameGroupTask extends AsynTaskWithHandlers{
     protected RenameGroupTO renameGroupTO;
+    protected IEventAggregator eventAggregator;
 
     public RenameGroupTask(RenameGroupTO renameGroupTO) throws Exception{
         super(renameGroupTO);
+        eventAggregator = FactoryEventAggregator.getInstance();
     }
 
     @Override
@@ -39,6 +46,25 @@ public class RenameGroupTask extends AsynTaskWithHandlers{
             result.setResult(e.getMessage());
         }
         return result;
+    }
+
+    @Override
+    protected void onPostExecute(TaskResult taskResult) {
+        if(taskResult.isSuccesful())
+        {
+            try
+            {
+                Group group = BuilderServiceGroup.buildGroupInformationService().getGroup();
+                eventAggregator.Publish(MyApplication.getContext().getResources().getString(R.string.group_updated_event),group);
+
+            }
+            catch (Exception e)
+            {
+                //TODO HANDLE EXCEPTION
+            }
+        }
+
+        super.onPostExecute(taskResult);
     }
 
     @Override

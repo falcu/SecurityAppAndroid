@@ -41,7 +41,8 @@ public class CustomListFragment extends ListFragment implements IListFragment {
         }
         catch (Exception e)
         {
-            //TODO NOTIFY ACTIVITY
+            IFragmentExceptionHandler handler = (IFragmentExceptionHandler) getActivity();
+            handler.handle(e);
         }
     }
 

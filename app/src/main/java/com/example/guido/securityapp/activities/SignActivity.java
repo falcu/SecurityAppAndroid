@@ -1,18 +1,14 @@
 package com.example.guido.securityapp.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.AsynTaskWithHandlers;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
-import com.example.guido.securityapp.asyncTasks.UserSignUpTask;
 import com.example.guido.securityapp.builders.BuilderValidator;
 import com.example.guido.securityapp.interfaces.IFragmentGetData;
 import com.example.guido.securityapp.interfaces.IProgressBar;
@@ -122,7 +118,7 @@ public abstract class SignActivity extends Activity implements ITaskHandler {
 
     protected void beforeFinish() {
         Intent i = new Intent();
-        i.putExtra(MyApplication.getContext().getResources().getString(R.string.IS_ACTIVITY_FINISH),true);
+        i.putExtra(MyApplication.getContext().getResources().getString(R.string.FORCE_FINISH_ACTIVITY),true);
         setResult(Activity.RESULT_OK,i);
     }
 

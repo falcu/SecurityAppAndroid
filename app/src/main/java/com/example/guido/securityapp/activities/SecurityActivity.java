@@ -23,7 +23,6 @@ import com.example.guido.securityapp.interfaces.IFragmentDelayedButton;
 import com.example.guido.securityapp.interfaces.IListFragment;
 import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
-import com.example.guido.securityapp.interfaces.IUpdate;
 import com.example.guido.securityapp.interfaces.OnYesClickListener;
 import com.example.guido.securityapp.models.MyLocation;
 import com.example.guido.securityapp.models.PanicTO;
@@ -63,15 +62,8 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
         {
             if(resultCode == Activity.RESULT_OK)
             {
-                if(data.getBooleanExtra(MyApplication.getContext().getString(R.string.IS_ACTIVITY_FINISH),false)) {
+                if(data.getBooleanExtra(MyApplication.getContext().getString(R.string.FORCE_FINISH_ACTIVITY),false)) {
                     finishActivity();
-                }
-                else if(data.getBooleanExtra(MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP),false))
-                {
-                    IUpdate listFragment = (IUpdate) getFragmentManager().findFragmentById(R.id.members_list_fragment);
-                    IUpdate groupDetails = (IUpdate) getFragmentManager().findFragmentById(R.id.group_details_fragment);
-                    listFragment.update();
-                    groupDetails.update();
                 }
             }
         }
@@ -80,7 +72,7 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
     protected void finishActivity()
     {
         Intent i = new Intent();
-        i.putExtra(MyApplication.getContext().getResources().getString(R.string.IS_ACTIVITY_FINISH),true);
+        i.putExtra(MyApplication.getContext().getResources().getString(R.string.FORCE_FINISH_ACTIVITY),true);
         setResult(Activity.RESULT_OK,i);
         finish();
     }

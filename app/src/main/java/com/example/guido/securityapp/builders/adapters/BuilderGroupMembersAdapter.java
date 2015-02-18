@@ -8,6 +8,8 @@ import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.adapters.GroupMembersAdapter;
 import com.example.guido.securityapp.adapters.MemberListItem;
 import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
+import com.example.guido.securityapp.converters.GroupToMemberListConverter;
+import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.interfaces.IBuildAdapter;
 import com.example.guido.securityapp.models.Group;
 import com.example.guido.securityapp.models.Member;
@@ -30,24 +32,8 @@ public class BuilderGroupMembersAdapter implements IBuildAdapter{
     @Override
     public BaseAdapter build() throws Exception{
         Group group = BuilderServiceGroup.buildGroupInformationService().getGroup();
-        List<MemberListItem> data = new ArrayList<>();
 
-        Member creator = group.getCreator();
-        List<Member> members = group.getMembers();
-        if(creator!=null && members!=null)
-        {
-            MemberListItem creatorItem = new MemberListItem(creator.getName(),creator.getEmail(),MyApplication.getContext().getResources().getDrawable(R.drawable.creator_icon));
-
-            data.add(creatorItem);
-
-            for(Member member : members)
-            {
-                MemberListItem newItem = new MemberListItem(member.getName(),member.getEmail(), MyApplication.getContext().getResources().getDrawable(R.drawable.member_icon));
-                data.add(newItem);
-            }
-        }
-
-        return new GroupMembersAdapter(data,activity);
+        return new GroupMembersAdapter(group,new GroupToMemberListConverter(),activity, FactoryEventAggregator.getInstance());
 
     }
 }
