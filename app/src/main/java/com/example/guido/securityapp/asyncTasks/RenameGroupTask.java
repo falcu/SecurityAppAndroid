@@ -60,7 +60,7 @@ public class RenameGroupTask extends AsynTaskWithHandlers{
             }
             catch (Exception e)
             {
-                //TODO HANDLE EXCEPTION
+              e.getMessage();
             }
         }
 

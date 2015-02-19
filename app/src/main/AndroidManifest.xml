@@ -8,12 +8,13 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <!--
-     To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
-     option is required to comply with the Google+ Sign-In developer policies
-    -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission android:name="com.example.guido.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.example.guido.securityapp.permission.C2D_MESSAGE" />
 
     <application
         android:name=".activities.MyApplication"
@@ -55,6 +56,20 @@
             android:name=".activities.GroupConfigurationCreatorActivity"
             android:label="@string/title_activity_group_configuration" >
         </activity>
+
+        <receiver
+            android:name="com.example.guido.securityapp.gcm.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.example.guido" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.example.guido.securityapp.gcm.GcmIntentService" />
+
+
     </application>
 
 </manifest>

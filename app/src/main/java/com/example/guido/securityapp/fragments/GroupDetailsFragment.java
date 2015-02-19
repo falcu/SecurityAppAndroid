@@ -1,6 +1,7 @@
 package com.example.guido.securityapp.fragments;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -66,14 +67,20 @@ public class GroupDetailsFragment extends Fragment implements ISubscriber {
     }
 
     protected void updateGroupData(final Group group){
-        this.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                groupName.setText(group.getName());
-                groupMembersNumber.setText(Integer.toString(group.getMembers().size()+1));
-                creatorName.setText(group.getCreator().getName());
-            }
-        });
+        Activity currentActivity  = this.getActivity();
+        //If the fragment is still in memory but it doesn't belong to an activity don't update
+        if(currentActivity!=null)
+        {
+            this.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    groupName.setText(group.getName());
+                    groupMembersNumber.setText(Integer.toString(group.getMembers().size()+1));
+                    creatorName.setText(group.getCreator().getName());
+                }
+            });
+        }
+
 
     }
 
