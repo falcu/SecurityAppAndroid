@@ -1,6 +1,9 @@
 package com.example.guido.securityapp.factories;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
@@ -23,12 +26,25 @@ import java.util.List;
  */
 public class FactoryGroupConfigurationFragments
 {
-    private static HashMap<String,BaseFragmentOption> creatorFragmentsByKey;
-    private static HashMap<String,BaseFragmentOption> regularMemberFragmentByKey;
+    private Activity activity;
+    private HashMap<String,BaseFragmentOption> creatorFragmentsByKey;
+    private HashMap<String,BaseFragmentOption> regularMemberFragmentByKey;
 
-    public static Iterator<BaseFragmentOption> getCreatorFragments() throws Exception
+    public FactoryGroupConfigurationFragments(Activity activity)
     {
-        checkIfInitialize();
+        this.activity = activity;
+        creatorFragmentsByKey = new HashMap<>();
+        regularMemberFragmentByKey = new HashMap<>();
+    }
+
+    public void addFragmentsToManager() throws Exception
+    {
+        initializeIfNecessary();
+    }
+
+    public Iterator<BaseFragmentOption> getFragments() throws Exception
+    {
+        initializeIfNecessary();
         if(isCreator())
         {
             return creatorFragmentsByKey.values().iterator();
@@ -39,9 +55,27 @@ public class FactoryGroupConfigurationFragments
         }
     }
 
-    public static BaseFragmentOption getFragmentByKey(String key) throws Exception
+    private void initializeIfNecessary() throws Exception
     {
-        checkIfInitialize();
+        if(creatorFragmentsByKey.isEmpty() && regularMemberFragmentByKey.isEmpty())
+        {
+            if(isCreator())
+            {
+                addMemberFragment(creatorFragmentsByKey);
+                removeMemberFragment(creatorFragmentsByKey);
+                renameGroupFragment(creatorFragmentsByKey);
+                quitGroupFragment(creatorFragmentsByKey);
+            }
+            else
+            {
+                quitGroupFragment(regularMemberFragmentByKey);
+            }
+        }
+    }
+
+    public BaseFragmentOption getFragmentByKey(String key) throws Exception
+    {
+        initializeIfNecessary();
         if(isCreator())
         {
             return creatorFragmentsByKey.get(key);
@@ -52,82 +86,118 @@ public class FactoryGroupConfigurationFragments
         }
     }
 
-    private static boolean isCreator() throws Exception
-    {
+    private boolean isCreator() throws Exception {
         return BuilderServiceGroupMember.build().IsCurrentUserCreator();
     }
 
-    private static void checkIfInitialize()
+    private void addMemberFragment(HashMap<String,BaseFragmentOption> fragments)
     {
-        if(creatorFragmentsByKey == null || regularMemberFragmentByKey == null)
-        {
-            clean();
-            initialize();
+        String key = MyApplication.getContext().getResources().getString(R.string.add_member_action_key);
 
+        BaseFragmentOption maybeFragment = tryToGetFragmentFromManager(key);
+
+        if(maybeFragment == null)
+        {
+            Integer id = 1;
+            AddMemberFragment addMemberFragment = new AddMemberFragment();
+            addMemberFragment.setIdentifier(id);
+            addMemberFragment.setKey(key);
+            addMemberFragment.setDescription("Add member");
+            fragments.put(key,addMemberFragment);
+            addFragmentToManager(addMemberFragment);
+        }
+        else
+        {
+            fragments.put(key,maybeFragment);
         }
     }
 
 
-    public static void clean()
-    {
-        creatorFragmentsByKey = null;
-        regularMemberFragmentByKey = null;
-    }
 
-    private static void initialize()
-    {
-        creatorFragmentsByKey = new HashMap<>();
-        regularMemberFragmentByKey = new HashMap<>();
-        addMemberFragment();
-        removeMemberFragment();
-        renameGroupFragment();
-        quitGroupFragment();
-
-    }
-
-    private static void addMemberFragment()
-    {
-        String key = MyApplication.getContext().getResources().getString(R.string.add_member_action_key);
-        Integer id = 1;
-        AddMemberFragment addMemberFragment = new AddMemberFragment();
-        addMemberFragment.setIdentifier(id);
-        addMemberFragment.setKey(key);
-        addMemberFragment.setDescription("Add member");
-        creatorFragmentsByKey.put(key,addMemberFragment);
-    }
-
-    private static void removeMemberFragment()
+    private void removeMemberFragment(HashMap<String,BaseFragmentOption> fragments)
     {
         String key = MyApplication.getContext().getResources().getString(R.string.remove_member_action_key);
-        Integer id = 2;
-        RemoveMemberFragment removeMemberFragment = new RemoveMemberFragment();
-        removeMemberFragment.setIdentifier(id);
-        removeMemberFragment.setKey(key);
-        removeMemberFragment.setDescription("Remove member");
-        creatorFragmentsByKey.put(key,removeMemberFragment);
+        BaseFragmentOption maybeFragment = tryToGetFragmentFromManager(key);
+
+        if(maybeFragment==null)
+        {
+            Integer id = 2;
+            RemoveMemberFragment removeMemberFragment = new RemoveMemberFragment();
+            removeMemberFragment.setIdentifier(id);
+            removeMemberFragment.setKey(key);
+            removeMemberFragment.setDescription("Remove member");
+            fragments.put(key,removeMemberFragment);
+            addFragmentToManager(removeMemberFragment);
+        }
+        else
+        {
+            fragments.put(key,maybeFragment);
+        }
     }
 
-    private static void renameGroupFragment()
+    private void renameGroupFragment(HashMap<String,BaseFragmentOption> fragments)
     {
         String key = MyApplication.getContext().getResources().getString(R.string.rename_group_action_key);
-        Integer id = 3;
-        RenameGroupFragment renameGroupFragment = new RenameGroupFragment();
-        renameGroupFragment.setIdentifier(id);
-        renameGroupFragment.setKey(key);
-        renameGroupFragment.setDescription("Rename group");
-        creatorFragmentsByKey.put(key,renameGroupFragment);
+        BaseFragmentOption maybeFragment = tryToGetFragmentFromManager(key);
+
+        if(maybeFragment==null) {
+
+            Integer id = 3;
+            RenameGroupFragment renameGroupFragment = new RenameGroupFragment();
+            renameGroupFragment.setIdentifier(id);
+            renameGroupFragment.setKey(key);
+            renameGroupFragment.setDescription("Rename group");
+            fragments.put(key,renameGroupFragment);
+            addFragmentToManager(renameGroupFragment);
+        }
+        else
+        {
+            fragments.put(key,maybeFragment);
+        }
+
     }
 
-    private static void quitGroupFragment()
+    private void quitGroupFragment(HashMap<String,BaseFragmentOption> fragments)
     {
-        String key = MyApplication.getContext().getResources().getString(R.string.quit_group_action_key);;
-        Integer id = 4;
-        QuitGroupFragment quitGroupFragment = new QuitGroupFragment();
-        quitGroupFragment.setIdentifier(id);
-        quitGroupFragment.setKey(key);
-        quitGroupFragment.setDescription("Quit group");
-        creatorFragmentsByKey.put(key,quitGroupFragment);
-        regularMemberFragmentByKey.put(key,quitGroupFragment);
+        String key = MyApplication.getContext().getResources().getString(R.string.quit_group_action_key);
+        BaseFragmentOption maybeFragment = tryToGetFragmentFromManager(key);
+
+        if(maybeFragment==null)
+        {
+            Integer id = 4;
+            QuitGroupFragment quitGroupFragment = new QuitGroupFragment();
+            quitGroupFragment.setIdentifier(id);
+            quitGroupFragment.setKey(key);
+            quitGroupFragment.setDescription("Quit group");
+            fragments.put(key,quitGroupFragment);
+            addFragmentToManager(quitGroupFragment);
+        }
+        else
+        {
+            fragments.put(key,maybeFragment);
+        }
+
+    }
+
+    private BaseFragmentOption tryToGetFragmentFromManager(String tag)
+    {
+        FragmentManager fragmentManager = activity.getFragmentManager();
+        Fragment maybeFragment = fragmentManager.findFragmentByTag(tag);
+        if(maybeFragment==null){
+            return null;
+        }
+        else
+        {
+            return(BaseFragmentOption)maybeFragment;
+        }
+    }
+
+    private void addFragmentToManager(BaseFragmentOption fragment)
+    {
+        FragmentManager fragmentManager = activity.getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.group_configuration_options,fragment,fragment.getKey());
+        fragmentTransaction.commit();
     }
 
 

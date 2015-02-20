@@ -37,27 +37,45 @@ public class SimpleEventAggregator implements IEventAggregator{
             if(subscribers.containsKey(key))
             {
                 List<WeakReference<ISubscriber>> subscriberToNotify = subscribers.get(key);
+                List<WeakReference<ISubscriber>> subscribersToDelete = new ArrayList<>();
                 for(WeakReference<ISubscriber> s : subscriberToNotify)
                 {
-                    (s.get()).onEvent(dataToPublish);
+                    if(s.get()==null)
+                    {
+                        subscribersToDelete.add(s);
+                    }
+                    else
+                    {
+                        (s.get()).onEvent(dataToPublish);
+                    }
+                }
+
+                //Delete weak references that hold null
+                for(WeakReference<ISubscriber> toDelete : subscribersToDelete)
+                {
+                    subscriberToNotify.remove(toDelete);
                 }
             }
         }
 
     }
 
-    private synchronized void addSubscriber(ISubscriber subscriber, String key)
+    private void addSubscriber(ISubscriber subscriber, String key)
     {
-        if(subscribers.containsKey(key))
+        synchronized (lock)
         {
-            List<WeakReference<ISubscriber>> subscribersForKey = subscribers.get(key);
-            subscribersForKey.add(new WeakReference(subscriber));
+            if(subscribers.containsKey(key))
+            {
+                List<WeakReference<ISubscriber>> subscribersForKey = subscribers.get(key);
+                subscribersForKey.add(new WeakReference(subscriber));
+            }
+            else
+            {
+                List<WeakReference<ISubscriber>> subscribersForKey = new ArrayList<>();
+                subscribersForKey.add(new WeakReference(subscriber));
+                subscribers.put(key,subscribersForKey);
+            }
         }
-        else
-        {
-            List<WeakReference<ISubscriber>> subscribersForKey = new ArrayList<>();
-            subscribersForKey.add(new WeakReference(subscriber));
-            subscribers.put(key,subscribersForKey);
-        }
+
     }
 }

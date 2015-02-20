@@ -27,6 +27,7 @@ import java.util.Iterator;
 public class GroupConfigurationCreatorActivity extends Activity implements IFragmentResultHandler,ITaskHandler,IFragmentExceptionHandler {
 
     private IProgressBar progressBar;
+    private FactoryGroupConfigurationFragments factoryFragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         setContentView(R.layout.activity_group_configuration);
         progressBar = (IProgressBar) getFragmentManager().findFragmentById(R.id.progress_bar_fragment);
         progressBar.setControllableView(findViewById(R.id.group_configuration_form));
+        factoryFragments = new FactoryGroupConfigurationFragments(this);
         initialize();
     }
 
@@ -48,21 +50,22 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     private void initialize()
     {
         try
         {
             IFragmentOptions fragmentOptions = (IFragmentOptions) getFragmentManager().findFragmentById(R.id.options_fragment);
                 Iterator<BaseFragmentOption> fragments = getFragments();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 while(fragments.hasNext())
                 {
                     BaseFragmentOption fragment = fragments.next();
-                    fragmentTransaction.add(R.id.group_configuration_options,fragment);
                     fragmentOptions.addOption(new Option(fragment.getDescription(),fragment.getKey()));
                 }
-                fragmentTransaction.commit();
         }
         catch (Exception e)
         {
@@ -74,7 +77,7 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
     {
         try
         {
-            return FactoryGroupConfigurationFragments.getCreatorFragments();
+            return factoryFragments.getFragments();
         }
         catch (Exception e)
         {
@@ -85,7 +88,7 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
     protected BaseFragmentOption getFragmentByKey(String key) {
         try
         {
-            return FactoryGroupConfigurationFragments.getFragmentByKey(key);
+            return factoryFragments.getFragmentByKey(key);
         }
         catch (Exception e)
         {

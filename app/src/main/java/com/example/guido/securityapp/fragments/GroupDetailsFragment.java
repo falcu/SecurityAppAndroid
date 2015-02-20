@@ -35,6 +35,11 @@ public class GroupDetailsFragment extends Fragment implements ISubscriber {
         eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.group_updated_event));
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +61,16 @@ public class GroupDetailsFragment extends Fragment implements ISubscriber {
         }
 
         return theView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
     @Override
