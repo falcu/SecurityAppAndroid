@@ -51,13 +51,6 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        //As back button was pressed, end first activity
-        finish();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
     }
@@ -95,6 +88,10 @@ public class MainActivity extends Activity {
                     {
                         return;
                     }
+                }
+                else if(data.getBooleanExtra(MyApplication.getContext().getResources().getString(R.string.BACK_BUTTON_PRESSED),false))
+                {
+                    finish();
                 }
 
             }

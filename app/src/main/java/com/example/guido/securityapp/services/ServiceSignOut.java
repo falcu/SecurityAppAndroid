@@ -34,21 +34,21 @@ public class ServiceSignOut implements IServiceError {
     public void signOut()
     {
         hadError = false;
-        try
-        {
+
            int i = 0;
            while(i<removers.size())
            {
-               removers.get(i).delete();
+               try
+               {
+                   removers.get(i).delete();
+               }
+               catch (Exception e)
+               {
+                   hadError = true;
+                   messageError = e.getMessage();
+               }
                i++;
            }
-
-        }
-        catch (Exception e)
-        {
-            hadError = true;
-            messageError = e.getMessage();
-        }
     }
 
     @Override

@@ -50,12 +50,16 @@ public class GcmParser {
         {
             return ResponseType.GROUP;
         }
+        else if(getType().equals(MyApplication.getContext().getResources().getString(R.string.alarm_type)))
+        {
+            return ResponseType.ALARM;
+        }
         return null;
     }
 
     public enum ResponseType
     {
-        GROUP
+        GROUP,ALARM
     }
 
 }

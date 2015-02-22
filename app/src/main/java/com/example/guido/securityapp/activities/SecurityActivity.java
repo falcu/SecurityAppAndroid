@@ -58,6 +58,14 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
     }
 
     @Override
+    public void onBackPressed() {
+        Intent i = new Intent();
+        i.putExtra(MyApplication.getContext().getResources().getString(R.string.BACK_BUTTON_PRESSED),true);
+        setResult(Activity.RESULT_OK,i);
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if(requestCode==MyApplication.getContext().getResources().getInteger(R.integer.ACTIVITY_FINISH))
@@ -113,6 +121,11 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
         {
             signOutConfigmDialog.showYesNoDialog(this,"SIGN OUT","Are you sure you want to sign out?");
         }
+        else if(id == R.id.action_alarms_history)
+        {
+            Intent i = new Intent(this,AlarmsHistoryActivity.class);
+            startActivity(i);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -140,6 +153,7 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
     public void onCancelled() {
         progressBar.showProgress(false);
     }
+
 
     private class DummyCommand extends Command
     {

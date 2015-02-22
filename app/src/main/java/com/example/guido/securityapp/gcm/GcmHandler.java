@@ -1,43 +1,47 @@
-package com.example.guido.securityapp.helpers;
+package com.example.guido.securityapp.gcm;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MainActivity;
-import com.example.guido.securityapp.activities.MyApplication;
-import com.example.guido.securityapp.gcm.GcmParser;
-import com.example.guido.securityapp.models.Group;
-
-import java.util.Arrays;
-import java.util.List;
+import com.example.guido.securityapp.commands.Command;
 
 /**
- * Created by guido on 2/21/15.
+ * Created by guido on 2/22/15.
  */
-public class NotificationBuilderHelper {
+public abstract class GcmHandler {
 
     protected GcmParser parser;
+    protected Intent intent;
     protected IntentService service;
+    protected Command command;
 
-    public NotificationBuilderHelper(GcmParser parser,IntentService service) {
+    public GcmHandler(GcmParser parser, Intent intent, IntentService service, Command command) {
         this.parser = parser;
+        this.intent = intent;
         this.service = service;
+        this.command = command;
+    }
+
+    public abstract boolean canHandle();
+
+    public void handle()
+    {
+        command.execute();
     }
 
     public NotificationCompat.Builder build()
     {
 
-        PendingIntent contentIntent = PendingIntent.getActivity(service, 0,
-                new Intent(service, MainActivity.class), 0);
+        PendingIntent contentIntent = getIntent();
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(service)
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setSmallIcon(getIcon())
                         .setContentTitle(getTitle())
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(parser.getMessage()))
@@ -50,14 +54,11 @@ public class NotificationBuilderHelper {
         return mBuilder;
     }
 
-    private String getTitle()
-    {
-        switch (parser.getResponseTypeObject())
-        {
-            case GROUP:
-                return "Group notification";
+    protected abstract PendingIntent getIntent();
 
-        }
-        return "";
-    }
+
+    protected abstract String getTitle();
+
+    protected abstract int getIcon();
+
 }

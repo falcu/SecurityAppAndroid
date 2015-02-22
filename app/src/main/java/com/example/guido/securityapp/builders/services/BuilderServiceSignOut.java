@@ -18,9 +18,11 @@ public class BuilderServiceSignOut {
         {
             ServiceDeleteData deleteUserService = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.signed_user_store_key));
             ServiceDeleteData deleteGroup = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.group_store_key));
+            ServiceDeleteData deleteAlarms = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.alarms_store_key));
             serviceSignOut = new ServiceSignOut();
             serviceSignOut.addRemover(deleteUserService);
             serviceSignOut.addRemover(deleteGroup);
+            serviceSignOut.addRemover(deleteAlarms);
         }
 
         return serviceSignOut;

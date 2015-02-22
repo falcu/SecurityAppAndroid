@@ -32,16 +32,7 @@ public class GroupChangedGcmCommand extends Command {
 
     @Override
     public boolean canExecute() {
-        boolean can = false;
-        if(intent.getStringExtra("type")!=null)
-        {
-            String[] types = MyApplication.getContext().getResources().getStringArray(R.array.group_gcm_types);
-            if(Arrays.asList(types).contains(intent.getStringExtra("type")))
-            {
-               can = true;
-            }
-        }
-        return can;
+        return true;
     }
 
     @Override

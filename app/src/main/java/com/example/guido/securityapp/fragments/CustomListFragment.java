@@ -5,7 +5,10 @@ import android.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
 
@@ -17,7 +20,8 @@ import com.example.guido.securityapp.interfaces.IListFragment;
 public class CustomListFragment extends ListFragment implements IListFragment {
 
 
-    IBuildAdapter adapterBuilder = new NullBuilderAdapter();
+    private IBuildAdapter adapterBuilder = new NullBuilderAdapter();
+    private BaseAdapter adapter = null;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -32,12 +36,33 @@ public class CustomListFragment extends ListFragment implements IListFragment {
     }
 
     @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        if(adapter!=null)
+        {
+            try
+            {
+                ((AdapterView.OnItemClickListener)adapter).onItemClick(l,v,position,id);
+
+            }
+            catch (ClassCastException e)
+            {
+                //Do nothing as adapter can't handle click
+            }
+        }
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setAdapterOnList();
+    }
 
+    private void setAdapterOnList()
+    {
         try {
 
-            setListAdapter(adapterBuilder.build());
+            adapter = adapterBuilder.buildAdapter();
+            setListAdapter(adapter);
         }
         catch (Exception e)
         {
@@ -53,23 +78,16 @@ public class CustomListFragment extends ListFragment implements IListFragment {
     }
 
     @Override
-    public void update() {
-        try {
-
-            setListAdapter(adapterBuilder.build());
-        }
-        catch (Exception e)
-        {
-            IFragmentExceptionHandler handler = (IFragmentExceptionHandler) getActivity();
-            handler.handle(e);
-        }
+    public void setEmptyListText(String text) {
+        TextView empty = (TextView) getView().findViewById(android.R.id.empty);
+        empty.setText(text);
     }
 
     public class NullBuilderAdapter implements IBuildAdapter
     {
 
         @Override
-        public BaseAdapter build() {
+        public BaseAdapter buildAdapter() {
             return new BaseAdapter() {
                 @Override
                 public int getCount() {

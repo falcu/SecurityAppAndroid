@@ -4,6 +4,8 @@ import android.content.Intent;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.builders.services.BuilderServiceAlarm;
+import com.example.guido.securityapp.commands.AlarmReceivedCommand;
 import com.example.guido.securityapp.commands.Command;
 import com.example.guido.securityapp.commands.GroupChangedGcmCommand;
 import com.example.guido.securityapp.converters.json.GcmGroupToJson;
@@ -12,6 +14,7 @@ import com.example.guido.securityapp.converters.json.JsonToObject;
 import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.interfaces.IDataStore;
 import com.example.guido.securityapp.models.Group;
+import com.example.guido.securityapp.services.ServiceAlarm;
 import com.example.guido.securityapp.services.ServiceStore;
 
 import java.util.ArrayList;
@@ -43,6 +46,10 @@ public class BuilderGcmCommands {
             IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new GcmGroupToJson());
             GroupChangedGcmCommand groupChangedGcmCommand = new GroupChangedGcmCommand(intent, FactoryEventAggregator.getInstance(),store);
             commands.add(groupChangedGcmCommand);
+
+            ServiceAlarm serviceAlarm = BuilderServiceAlarm.build();
+            AlarmReceivedCommand alarmReceivedCommand = new AlarmReceivedCommand(intent,serviceAlarm);
+            commands.add(alarmReceivedCommand);
         }
     }
 }

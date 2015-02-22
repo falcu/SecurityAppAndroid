@@ -6,6 +6,7 @@
     <string name="signed_user_store_key">signed_user</string>
     <string name="group_store_key">group</string>
     <string name="register_id_store_key">register_id</string>
+    <string name="alarms_store_key">alarms</string>
     <string name="global_preferences_key">global</string>
     <string name="sever_url">http://192.168.1.145:3000</string>
     <string name="title_activity_create_group">CreateGroupActivity</string>
@@ -13,20 +14,20 @@
     <integer name="ACTIVITY_FINISH">1</integer>
 
     <string name="FORCE_FINISH_ACTIVITY">activity_finish</string>
+    <string name="BACK_BUTTON_PRESSED">back_pressed</string>
     <string name="UPDATE_GROUP">update_group</string>
+    <string name="UPDATE_ALARM">update_alarm</string>
     <string name="title_activity_group_configuration">GroupConfigurationActivity</string>
     <string name="action_settings">Settings</string>
     <string name="operation_member_action_text">Operation Member</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
-
     <string name="quit_group_action_key">quit_group</string>
     <string name="add_member_action_key">add_member</string>
     <string name="remove_member_action_key">remove_member</string>
     <string name="rename_group_action_key">rename_group</string>
-
-    <string name ="group_updated_event">group_updated</string>
+    <string name="group_updated_event">group_updated</string>
 
     <string-array name="group_gcm_types">
         <item>name_changed</item>
@@ -35,5 +36,8 @@
         <item>member_deleted</item>
         <item>deleted</item>
     </string-array>
+
+    <string name="alarm_type">notification_alarm</string>
+    <string name="title_activity_alarms_history">AlarmsHistoryActivity</string>
 
 </resources>

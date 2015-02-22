@@ -4,7 +4,7 @@ package com.example.guido.securityapp.models;
  * Created by guido on 2/21/15.
  */
 public class Alarm {
-    private String url;
+    private String location;
     private Member sender;
     private String message;
 
@@ -15,11 +15,11 @@ public class Alarm {
     }
 
     public String getUrl() {
-        return url;
+        return location;
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        this.location = url;
     }
 
     public Member getSender() {

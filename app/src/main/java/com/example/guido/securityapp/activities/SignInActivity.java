@@ -29,6 +29,14 @@ public class SignInActivity extends SignActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Intent i = new Intent();
+        i.putExtra(MyApplication.getContext().getResources().getString(R.string.BACK_BUTTON_PRESSED),true);
+        setResult(Activity.RESULT_OK,i);
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if(requestCode==MyApplication.getContext().getResources().getInteger(R.integer.ACTIVITY_FINISH))

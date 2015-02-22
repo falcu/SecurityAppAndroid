@@ -2,7 +2,6 @@ package com.example.guido.securityapp.gcm;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,17 +9,7 @@ import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.example.guido.securityapp.R;
-import com.example.guido.securityapp.activities.MainActivity;
-import com.example.guido.securityapp.builders.commands.BuilderGcmCommands;
-import com.example.guido.securityapp.commands.Command;
-import com.example.guido.securityapp.converters.Converter;
-import com.example.guido.securityapp.helpers.NotificationBuilderHelper;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by guido on 2/18/15.
@@ -28,9 +17,7 @@ import java.util.List;
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
     private NotificationManager notificationManager;
-    NotificationCompat.Builder builder;
-    private BuilderGcmCommands commandBuilder;
-    private GcmParser parser;
+    private GcmHelper helper;
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -41,7 +28,7 @@ public class GcmIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
-        commandBuilder = new BuilderGcmCommands();
+        helper = new GcmHelper(this,intent);
        // parser = new GcmParser(intent);
         // The getMessageType() intent parameter must be the intent you received
         // in your BroadcastReceiver.
@@ -61,11 +48,7 @@ public class GcmIntentService extends IntentService {
                 // This loop represents the service doing some work.
                  //TODO PROCESS MESSAGE
 
-                Iterator<Command> commands = commandBuilder.getCommands(intent);
-                while(commands.hasNext())
-                {
-                    commands.next().execute();
-                }
+                helper.handleGcmMessage();
 
                 Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
@@ -82,13 +65,11 @@ public class GcmIntentService extends IntentService {
     // a GCM message.
     private void sendNotification(Intent intent) {
 
-        GcmParser parser = new GcmParser(intent);
-        NotificationBuilderHelper builderHelper = new NotificationBuilderHelper(parser,this);
 
         notificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder builder = builderHelper.build();
+        NotificationCompat.Builder builder = helper.getNotificationBuilder();
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 }

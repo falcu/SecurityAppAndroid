@@ -30,7 +30,7 @@ public class BuilderGroupMembersAdapter implements IBuildAdapter{
     }
 
     @Override
-    public BaseAdapter build() throws Exception{
+    public BaseAdapter buildAdapter() throws Exception{
         Group group = BuilderServiceGroup.buildGroupInformationService().getGroup();
 
         return new GroupMembersAdapter(group,new GroupToMemberListConverter(),activity, FactoryEventAggregator.getInstance());

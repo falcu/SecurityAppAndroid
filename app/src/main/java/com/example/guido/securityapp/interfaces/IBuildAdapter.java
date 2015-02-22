@@ -7,5 +7,5 @@ import android.widget.BaseAdapter;
  * Created by guido on 2/16/15.
  */
 public interface IBuildAdapter {
-    BaseAdapter build() throws Exception;
+    BaseAdapter buildAdapter() throws Exception;
 }
