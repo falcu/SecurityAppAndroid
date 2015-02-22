@@ -17,10 +17,10 @@
     <string name="BACK_BUTTON_PRESSED">back_pressed</string>
     <string name="UPDATE_GROUP">update_group</string>
     <string name="UPDATE_ALARM">update_alarm</string>
+    <string name="UPDATE_LAST_ALARM">update_last_alarm</string>
     <string name="title_activity_group_configuration">GroupConfigurationActivity</string>
     <string name="action_settings">Settings</string>
     <string name="operation_member_action_text">Operation Member</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="quit_group_action_key">quit_group</string>

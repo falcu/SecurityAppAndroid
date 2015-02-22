@@ -31,7 +31,7 @@ public class AlarmsHistoryAdapter extends BaseAdapter implements ISubscriber, Ad
         this.alarmsHistory = alarmsHistory;
         this.eventAggregator = eventAggregator;
         this.activity = activity;
-        this.eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.alarms_store_key));
+        this.eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_ALARM));
     }
 
     @Override

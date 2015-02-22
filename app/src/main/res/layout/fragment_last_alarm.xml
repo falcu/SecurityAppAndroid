@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.guido.securityapp.fragments.LastAlarmFragment">
+
+    <TextView android:text="Last alarm received:" style="@style/LabelFont"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/last_alarm_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <include android:id="@+id/last_alarm_row"
+        android:layout_gravity="left" android:layout_width="wrap_content" android:layout_height="wrap_content" layout="@layout/alarm_row_details_layout"></include>
+
+        <ImageButton
+            android:id="@+id/view_location_action"
+            android:background="@drawable/google_maps_icon"
+            android:layout_gravity="center"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/no_last_alarm_view"
+        android:text="You didn't receive an alarm yet"
+        android:textStyle="italic"
+        android:textColor="@color/Black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

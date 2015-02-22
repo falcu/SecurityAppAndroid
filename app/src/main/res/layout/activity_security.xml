@@ -7,16 +7,29 @@
     android:orientation="vertical"
     tools:context="com.example.guido.securityapp.activities.SecurityActivity">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
     <fragment
         android:id="@+id/alarm_fragment"
         android:name="com.example.guido.securityapp.fragments.DelayedActionFragmentWithProgressBar"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
         tools:layout="@layout/fragment_delayed_action_fragment_with_progress_bar">
         </fragment>
 
+    <fragment
+        android:id="@+id/last_alarm_fragment"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:name="com.example.guido.securityapp.fragments.LastAlarmFragment"
+        tools:layout="@layout/fragment_last_alarm">
+        </fragment>
+
+    </LinearLayout>
 
 
     <fragment
