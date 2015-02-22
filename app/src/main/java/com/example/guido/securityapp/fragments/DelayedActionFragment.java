@@ -1,19 +1,18 @@
 package com.example.guido.securityapp.fragments;
 
 
+import android.app.Fragment;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
-import com.example.guido.securityapp.interfaces.ICommand;
+import com.example.guido.securityapp.commands.Command;
 import com.example.guido.securityapp.interfaces.IFragmentDelayedButton;
 
 /**
@@ -23,7 +22,7 @@ public class DelayedActionFragment extends Fragment implements View.OnTouchListe
 
     protected ImageButton button;
     protected long pressedDuration = 3000; //in milliseconds
-    protected ICommand action;
+    protected Command action;
     private Thread longClickSensor = null;
 
     public DelayedActionFragment() {
@@ -71,7 +70,7 @@ public class DelayedActionFragment extends Fragment implements View.OnTouchListe
 
 
     @Override
-    public void setDelayedAction(ICommand action) {
+    public void setDelayedAction(Command action) {
         this.action = action;
     }
 
@@ -89,8 +88,8 @@ public class DelayedActionFragment extends Fragment implements View.OnTouchListe
     public class DelayedAction implements Runnable
     {
        private long timeToDelayAction; //in milliseconds
-       private ICommand command;
-        public DelayedAction(long timeToDelayAction, ICommand command)
+       private Command command;
+        public DelayedAction(long timeToDelayAction, Command command)
         {
             this.timeToDelayAction = timeToDelayAction;
             this.command = command;

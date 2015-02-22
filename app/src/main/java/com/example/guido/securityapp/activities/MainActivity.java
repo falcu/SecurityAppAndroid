@@ -3,6 +3,7 @@ package com.example.guido.securityapp.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.builders.services.BuilderServiceRegisterId;
@@ -10,6 +11,13 @@ import com.example.guido.securityapp.builders.services.BuilderServiceLocationSin
 import com.example.guido.securityapp.interfaces.ISignService;
 import com.example.guido.securityapp.services.ServiceLocation;
 import com.example.guido.securityapp.services.ServiceRegisterId;
+
+/**
+ * The only purpose of this activity is to control the workflow of the other activities, it does not have
+ * a related UI. When the app is run for the first time, the sign_in/sign_out view will be shown to the user,
+ * once the user has created an account that view won't appear again unless the user deletes the data, or updates/deletes
+ * the app
+ */
 
 
 public class MainActivity extends Activity {
@@ -22,11 +30,13 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_main);
-        //TODO REMOVE DUMMY CODE
 
         try
         {
+            //TODO REMOVE DUMMY CODE
+           // startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
+            //END TODO
+
             serviceLocation = BuilderServiceLocationSingleton.getServiceLocation();
             serviceLocation.startService();
             serviceRegisterId = makeRegisterService();
@@ -41,9 +51,22 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        //As back button was pressed, end first activity
+        finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        serviceLocation.stopService();
+        if(serviceLocation!=null)
+            serviceLocation.stopService();
     }
 
     protected ActivityCoordinator makeActivityCoordinator()

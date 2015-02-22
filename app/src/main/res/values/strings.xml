@@ -28,4 +28,12 @@
 
     <string name ="group_updated_event">group_updated</string>
 
+    <string-array name="group_gcm_types">
+        <item>name_changed</item>
+        <item>member_added</item>
+        <item>added</item>
+        <item>member_deleted</item>
+        <item>deleted</item>
+    </string-array>
+
 </resources>

@@ -12,11 +12,11 @@ import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.builders.adapters.BuilderGroupMembersAdapter;
 import com.example.guido.securityapp.builders.services.BuilderServiceLocationSingleton;
 import com.example.guido.securityapp.builders.services.BuilderServiceSignOut;
+import com.example.guido.securityapp.commands.Command;
 import com.example.guido.securityapp.commands.PanicNotificationCommand;
 import com.example.guido.securityapp.exceptions.NoAvailableLocation;
 import com.example.guido.securityapp.helpers.ConfirmDialogHelper;
 import com.example.guido.securityapp.helpers.ToastHelper;
-import com.example.guido.securityapp.interfaces.ICommand;
 import com.example.guido.securityapp.interfaces.IFragmentDelayedButton;
 import com.example.guido.securityapp.interfaces.IListFragment;
 import com.example.guido.securityapp.interfaces.IProgressBar;
@@ -141,18 +141,23 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
         progressBar.showProgress(false);
     }
 
-    private class DummyCommand implements ICommand
+    private class DummyCommand extends Command
     {
 
         @Override
-        public void execute() {
+        public boolean canExecute() {
+            return true;
+        }
+
+        @Override
+        protected void executeImplementation() {
             ServiceLocation serviceLocation = BuilderServiceLocationSingleton.getServiceLocation();
             try
             {
                 MyLocation myLocation = serviceLocation.getLocation();
                 String message = "Latitude: " +myLocation.getLatitude()+"\n"+"Longitude: "+myLocation.getLongitude()+"\n"+"Old: "+myLocation.getTimeOld();
             }
-            catch (NoAvailableLocation e)
+            catch (Exception e)
             {
             }
         }

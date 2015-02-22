@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import com.example.guido.securityapp.R;
-import com.example.guido.securityapp.interfaces.ICommand;
 import com.example.guido.securityapp.interfaces.OnYesClickListener;
 
 /**

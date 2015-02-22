@@ -9,6 +9,7 @@ import android.os.SystemClock;
 
 import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.exceptions.NoAvailableLocation;
+import com.example.guido.securityapp.exceptions.ServiceLocationNotStarted;
 import com.example.guido.securityapp.interfaces.IGetLocation;
 import com.example.guido.securityapp.models.MyLocation;
 
@@ -31,7 +32,7 @@ public class ServiceLocation implements IGetLocation {
 
     public void startService()
     {
-        LocationManager locationManager = (LocationManager) MyApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) MyApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
         networkListener = new ServiceLocationListener();
         gpsListener = new ServiceLocationListener();
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, networkListener);
@@ -51,9 +52,17 @@ public class ServiceLocation implements IGetLocation {
         locationManager = null;
     }
 
+    public boolean isLocationServiceEnabled() throws Exception
+    {
+        checkIfServiceWasStarted();
+        return(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER));
+    }
+
 
     @Override
     public MyLocation getLocation() throws NoAvailableLocation{
+
+
         Location gpsLocation = gpsListener.getLastLocation();
         Location networkLocation = networkListener.getLastLocation();
         if(gpsLocation==null)
@@ -74,6 +83,14 @@ public class ServiceLocation implements IGetLocation {
         else
         {
             return findBestLocation(gpsLocation,networkLocation);
+        }
+    }
+
+    private void checkIfServiceWasStarted() throws Exception
+    {
+        if(locationManager==null)
+        {
+            throw new ServiceLocationNotStarted("You need to start the service first");
         }
     }
 

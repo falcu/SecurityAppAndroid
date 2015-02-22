@@ -1,30 +1,23 @@
 package com.example.guido.securityapp.fragments;
 
 
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import com.example.guido.securityapp.R;
-import com.example.guido.securityapp.activities.MyApplication;
-import com.example.guido.securityapp.interfaces.ICommand;
-import com.example.guido.securityapp.interfaces.IFragmentDelayedButton;
+import com.example.guido.securityapp.commands.Command;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DelayedActionFragmentWithProgressBar extends DelayedActionFragment{
 
-   // protected ImageButton button;
-  //  protected long pressedDuration = 3000; //in milliseconds
-  //  protected ICommand action;
     protected ProgressBar progressBarTimer;
     protected ProgressTimer timer = null;
 
@@ -63,12 +56,12 @@ public class DelayedActionFragmentWithProgressBar extends DelayedActionFragment{
     {
         private ProgressBar progressBar;
         private long timeInMilliseconds;
-        private ICommand actionToPerform;
+        private Command actionToPerform;
         CountDownTimer timer;
         private final int totalTicks = 21; //the last tick is not ejecuted by design
         private int i;
 
-        public ProgressTimer(ProgressBar progressBar, long milliseconds, ICommand action)
+        public ProgressTimer(ProgressBar progressBar, long milliseconds, Command action)
         {
             this.progressBar = progressBar;
             this.timeInMilliseconds = milliseconds;
@@ -93,7 +86,7 @@ public class DelayedActionFragmentWithProgressBar extends DelayedActionFragment{
                 public void onFinish() {
                     i++;
                     progressBar.setProgress(i);
-                    action.execute();
+                    actionToPerform.execute();
                 }
             }.start();
         }
