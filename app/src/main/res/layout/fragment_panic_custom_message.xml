@@ -1,0 +1,40 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.guido.securityapp.fragments.PanicCustomMessageFragment">
+
+    <TableRow android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TextView android:textColor="@color/Black" style="@style/LabelFont" android:text="This message will be sent to the group when you click the panic button"/>
+    </TableRow>
+
+    <TableRow android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+        <LinearLayout android:orientation="horizontal">
+
+        <TextView
+            style="@style/LabelFont"
+            android:layout_gravity="center"
+            android:text="Message: "/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:id="@+id/custom_message"
+            android:text="@string/default_panic_message"
+            style="@style/DetailFont"
+            android:layout_marginLeft="0dp"
+            />
+
+        </LinearLayout>
+
+    </TableRow>
+
+    <TableRow android:layout_height="wrap_content" android:layout_width="wrap_content">
+        <Button android:id="@+id/save_custom_message" style="?android:textAppearanceSmall"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" android:text="@string/save_changes"
+            android:textStyle="bold" />
+    </TableRow>
+
+
+
+</TableLayout>

@@ -7,6 +7,7 @@
     <string name="group_store_key">group</string>
     <string name="register_id_store_key">register_id</string>
     <string name="alarms_store_key">alarms</string>
+    <string name="panic_message_store_key">panic_message</string>
     <string name="global_preferences_key">global</string>
     <string name="sever_url">http://192.168.1.145:3000</string>
     <string name="title_activity_create_group">CreateGroupActivity</string>
@@ -39,5 +40,8 @@
 
     <string name="alarm_type">notification_alarm</string>
     <string name="title_activity_alarms_history">AlarmsHistoryActivity</string>
+    <string name="default_panic_message">I need help</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="title_activity_panic_message_configuration">PanicMessageConfigurationActivity</string>
 
 </resources>

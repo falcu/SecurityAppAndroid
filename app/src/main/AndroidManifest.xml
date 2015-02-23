@@ -77,6 +77,10 @@
             android:name=".activities.AlarmsHistoryActivity"
             android:label="@string/title_activity_alarms_history" >
         </activity>
+        <activity
+            android:name=".activities.PanicMessageConfigurationActivity"
+            android:label="@string/title_activity_panic_message_configuration" >
+        </activity>
     </application>
 
 </manifest>

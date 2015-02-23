@@ -5,4 +5,5 @@
     <string name="action_sign_out">Sign Out</string>
     <string name="quit_action_key">quit</string>
     <string name="action_alarms_history">View Alarm History</string>
+    <string name="action_panic_message">Panic Message Configuration</string>
 </resources>
