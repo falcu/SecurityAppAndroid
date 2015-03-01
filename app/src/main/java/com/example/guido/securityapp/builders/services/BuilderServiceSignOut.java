@@ -20,11 +20,13 @@ public class BuilderServiceSignOut {
             ServiceDeleteData deleteGroup = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.group_store_key));
             ServiceDeleteData deleteAlarms = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.alarms_store_key));
             ServiceDeleteData deletePanicMessage = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.panic_message_store_key));
+            ServiceDeleteData deleteLocalities = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.localities_store_key));
             serviceSignOut = new ServiceSignOut();
             serviceSignOut.addRemover(deleteUserService);
             serviceSignOut.addRemover(deleteGroup);
             serviceSignOut.addRemover(deleteAlarms);
             serviceSignOut.addRemover(deletePanicMessage);
+            serviceSignOut.addRemover(deleteLocalities);
         }
 
         return serviceSignOut;

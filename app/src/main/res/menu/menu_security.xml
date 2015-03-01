@@ -12,5 +12,9 @@
         android:orderInCategory="2" app:showAsAction="never" />
 
     <item android:id="@+id/action_panic_message" android:title="@string/action_panic_message"
-        android:orderInCategory="2" app:showAsAction="never" />
+        android:orderInCategory="3" app:showAsAction="never" />
+
+    <item android:id="@+id/action_localities_customization" android:title="@string/action_customize_localities"
+        android:orderInCategory="4" app:showAsAction="never" />
+
 </menu>

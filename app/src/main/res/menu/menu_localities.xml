@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu  xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+    <item android:id="@+id/action_let_us_decide" android:title="Let us decide"
+        android:orderInCategory="1" app:showAsAction="never" />
+
+        <item android:id="@+id/action_secure" android:title="Secure"
+            android:orderInCategory="2" app:showAsAction="never" />
+
+        <item android:id="@+id/action_insecure" android:title="Insecure"
+            android:orderInCategory="3" app:showAsAction="never" />
+    </group>
+</menu>

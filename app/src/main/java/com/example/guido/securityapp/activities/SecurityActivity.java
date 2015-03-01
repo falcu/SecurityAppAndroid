@@ -131,6 +131,11 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
             Intent i = new Intent(this,PanicMessageConfigurationActivity.class);
             startActivity(i);
         }
+        else if(id == R.id.action_localities_customization)
+        {
+            Intent i = new Intent(this,LocalitiesCustomizationActivity.class);
+            startActivity(i);
+        }
 
         return super.onOptionsItemSelected(item);
     }
