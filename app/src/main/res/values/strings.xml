@@ -19,6 +19,7 @@
     <integer name="ACTIVITY_FINISH">1</integer>
 
     <string name="FORCE_FINISH_ACTIVITY">activity_finish</string>
+    <string name="QUIT_GROUP">quit_group</string>
     <string name="BACK_BUTTON_PRESSED">back_pressed</string>
     <string name="UPDATE_GROUP">update_group</string>
     <string name="UPDATE_ALARM">update_alarm</string>
@@ -44,6 +45,7 @@
         <item>added</item>
         <item>member_deleted</item>
         <item>deleted</item>
+        <item>member_quitted</item>
     </string-array>
 
     <string name="alarm_type">notification_alarm</string>

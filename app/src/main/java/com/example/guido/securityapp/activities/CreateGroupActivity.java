@@ -7,25 +7,40 @@ import android.os.Bundle;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
+import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.fragments.DescriptionFragment;
 import com.example.guido.securityapp.fragments.Option;
+import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.interfaces.IFragmentExceptionHandler;
 import com.example.guido.securityapp.interfaces.IFragmentOptions;
 import com.example.guido.securityapp.interfaces.IFragmentResultHandler;
 import com.example.guido.securityapp.interfaces.IFragmentVisibility;
 import com.example.guido.securityapp.interfaces.IProgressBar;
+import com.example.guido.securityapp.interfaces.ISubscriber;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
+import com.example.guido.securityapp.models.Group;
 
-public class CreateGroupActivity extends Activity implements IFragmentResultHandler,IFragmentExceptionHandler, ITaskHandler {
+public class CreateGroupActivity extends Activity implements IFragmentResultHandler,IFragmentExceptionHandler, ITaskHandler, ISubscriber {
 
     private IProgressBar progressBar;
+    private IEventAggregator eventAggregator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
         progressBar = (IProgressBar) getFragmentManager().findFragmentById(R.id.progress_bar_fragment);
         progressBar.setControllableView(findViewById(R.id.group_form));
+        eventAggregator = FactoryEventAggregator.getInstance();
+        eventAggregator.Subscribe(this,MyApplication.getContext().getResources().getString(R.string.group_updated_event));
         initialize();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent();
+        i.putExtra(MyApplication.getContext().getResources().getString(R.string.BACK_BUTTON_PRESSED),true);
+        setResult(Activity.RESULT_OK,i);
+        super.onBackPressed();
     }
 
     private void initialize()
@@ -75,10 +90,7 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
         progressBar.showProgress(false);
 
         if (taskResult.isSuccesful()) {
-            Intent i = new Intent();
-            i.putExtra(MyApplication.getContext().getString(R.string.FORCE_FINISH_ACTIVITY),true);
-            setResult(Activity.RESULT_OK, i);
-            finish();
+            finishActivityAndNotifyMainActivity();
         } else {
             showError(taskResult.getError());
         }
@@ -97,5 +109,21 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
     @Override
     public void handle(Exception e) {
         //TODO HANDLE EXCEPTION
+    }
+
+    @Override
+    public void onEvent(Object data) {
+        if(data instanceof Group)
+        {
+            finishActivityAndNotifyMainActivity();
+        }
+    }
+
+    private void finishActivityAndNotifyMainActivity()
+    {
+        Intent i = new Intent();
+        i.putExtra(MyApplication.getContext().getString(R.string.FORCE_FINISH_ACTIVITY),true);
+        setResult(Activity.RESULT_OK, i);
+        finish();
     }
 }

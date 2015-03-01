@@ -10,11 +10,10 @@ import android.view.MenuItem;
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.builders.adapters.BuilderGroupMembersAdapter;
+import com.example.guido.securityapp.builders.services.BuilderServiceDeleteAll;
 import com.example.guido.securityapp.builders.services.BuilderServiceLocationSingleton;
-import com.example.guido.securityapp.builders.services.BuilderServiceSignOut;
 import com.example.guido.securityapp.commands.Command;
 import com.example.guido.securityapp.commands.PanicNotificationCommand;
-import com.example.guido.securityapp.exceptions.NoAvailableLocation;
 import com.example.guido.securityapp.helpers.ConfirmDialogHelper;
 import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.interfaces.IFragmentDelayedButton;
@@ -24,7 +23,7 @@ import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.interfaces.OnYesClickListener;
 import com.example.guido.securityapp.models.MyLocation;
 import com.example.guido.securityapp.services.ServiceLocation;
-import com.example.guido.securityapp.services.ServiceSignOut;
+import com.example.guido.securityapp.services.ServiceDeleteAll;
 
 public class SecurityActivity extends ActionBarActivity implements ITaskHandler {
 
@@ -40,8 +39,8 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
         signOutConfigmDialog.setOnYesClickListener(new OnYesClickListener() {
             @Override
             public void onYesClicked() {
-                ServiceSignOut serviceSignOut = BuilderServiceSignOut.build();
-                serviceSignOut.signOut();
+                ServiceDeleteAll serviceSignOut = BuilderServiceDeleteAll.buildSignOut();
+                serviceSignOut.deleteAll();
                 if(!serviceSignOut.wasRequestWithError())
                 {
                     ToastHelper toastHelper= new ToastHelper();
@@ -74,6 +73,11 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
             {
                 if(data.getBooleanExtra(MyApplication.getContext().getString(R.string.FORCE_FINISH_ACTIVITY),false)) {
                     finishActivity();
+                }
+                else if(data.getBooleanExtra(MyApplication.getContext().getResources().getString(R.string.QUIT_GROUP),false))
+                {
+                    finishActivity();
+                    BuilderServiceDeleteAll.buildQuitGroup().deleteAll();
                 }
             }
         }

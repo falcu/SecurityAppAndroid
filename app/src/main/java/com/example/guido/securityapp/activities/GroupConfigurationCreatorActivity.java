@@ -45,7 +45,7 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         ServiceDataCorrupted service = BuilderServiceDataCorrupted.build();
         if(service.isDataCorrupted())
         {
-            Intent i = makeForceFinishActivityIntent();
+            Intent i = makeIntentWithKeyAndValue(MyApplication.getContext().getResources().getString(R.string.FORCE_FINISH_ACTIVITY),true);
             finishActivityWith(i);
         }
     }
@@ -134,7 +134,7 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
             String taskIdentifier = taskResult.getIdentifier();
             if(taskIdentifier.equals(MyApplication.getContext().getResources().getString(R.string.quit_group_action_key)))
             {
-                Intent i = makeForceFinishActivityIntent();
+                Intent i = makeIntentWithKeyAndValue(MyApplication.getContext().getResources().getString(R.string.QUIT_GROUP),true);
                 new ToastHelper().showLongDurationMessage(this,"You've quit the group!");
                 finishActivityWith(i);
             }
@@ -156,7 +156,7 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
     public void handle(Exception e) {
         if(e.getClass().equals(UnableToLoadGroupException.class) || e.getClass().equals(UnableToLoadTokenException.class))
         {
-            Intent i = makeForceFinishActivityIntent();
+            Intent i = makeIntentWithKeyAndValue(MyApplication.getContext().getResources().getString(R.string.FORCE_FINISH_ACTIVITY),true);
             finishActivityWith(i);
         }
     }
@@ -167,10 +167,10 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
         finish();
     }
 
-    protected Intent makeForceFinishActivityIntent()
+    protected Intent makeIntentWithKeyAndValue(String key, boolean value)
     {
         Intent i = new Intent();
-        i.putExtra(MyApplication.getContext().getResources().getString(R.string.FORCE_FINISH_ACTIVITY),true);
+        i.putExtra(key,value);
         return i;
     }
 

@@ -3,25 +3,26 @@ package com.example.guido.securityapp.builders.services;
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.services.ServiceDeleteData;
-import com.example.guido.securityapp.services.ServiceSignOut;
+import com.example.guido.securityapp.services.ServiceDeleteAll;
 
 /**
  * Created by guido on 2/17/15.
  */
-public class BuilderServiceSignOut {
+public class BuilderServiceDeleteAll {
 
-    private static ServiceSignOut serviceSignOut = null;
+    private static ServiceDeleteAll serviceSignOut = null;
+    private static ServiceDeleteAll serviceQuitGroup = null;
 
-    public static ServiceSignOut build()
+    public static ServiceDeleteAll buildSignOut()
     {
-        if(serviceSignOut==null)
+        if(serviceSignOut ==null)
         {
             ServiceDeleteData deleteUserService = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.signed_user_store_key));
             ServiceDeleteData deleteGroup = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.group_store_key));
             ServiceDeleteData deleteAlarms = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.alarms_store_key));
             ServiceDeleteData deletePanicMessage = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.panic_message_store_key));
             ServiceDeleteData deleteLocalities = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.localities_store_key));
-            serviceSignOut = new ServiceSignOut();
+            serviceSignOut = new ServiceDeleteAll();
             serviceSignOut.addRemover(deleteUserService);
             serviceSignOut.addRemover(deleteGroup);
             serviceSignOut.addRemover(deleteAlarms);
@@ -32,14 +33,31 @@ public class BuilderServiceSignOut {
         return serviceSignOut;
     }
 
-    public static void setService(ServiceSignOut service)
+    public static ServiceDeleteAll buildQuitGroup()
+    {
+        if(serviceQuitGroup==null)
+        {
+            ServiceDeleteData deleteAlarms = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.alarms_store_key));
+            serviceQuitGroup = new ServiceDeleteAll();
+            serviceQuitGroup.addRemover(deleteAlarms);
+        }
+        return serviceQuitGroup;
+    }
+
+    public static void setServiceSignOut(ServiceDeleteAll service)
     {
        serviceSignOut = service;
+    }
+
+    public static void setServiceQuitGroup(ServiceDeleteAll service)
+    {
+        serviceQuitGroup = service;
     }
 
     public static void clean()
     {
         serviceSignOut = null;
+        serviceQuitGroup = null;
     }
 
 }

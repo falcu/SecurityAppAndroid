@@ -10,18 +10,18 @@ import java.util.List;
 /**
  * Created by guido on 2/17/15.
  */
-public class ServiceSignOut implements IServiceError {
+public class ServiceDeleteAll implements IServiceError {
 
     protected List<IDataRemover> removers;
     protected boolean hadError = false;
     protected String messageError = "";
 
-    public ServiceSignOut(List<IDataRemover>  remover)
+    public ServiceDeleteAll(List<IDataRemover> remover)
     {
         this.removers = remover;
     }
 
-    public ServiceSignOut()
+    public ServiceDeleteAll()
     {
         this.removers = new ArrayList<>();
     }
@@ -31,7 +31,7 @@ public class ServiceSignOut implements IServiceError {
         this.removers.add(remover);
     }
 
-    public void signOut()
+    public void deleteAll()
     {
         hadError = false;
 
