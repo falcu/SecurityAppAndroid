@@ -18,6 +18,9 @@ import com.example.guido.securityapp.asyncTasks.UpdateLocalitiesTask;
 import com.example.guido.securityapp.builders.adapters.BuilderLocalitiesAdapter;
 import com.example.guido.securityapp.builders.services.BuilderServiceLocalities;
 import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
+import com.example.guido.securityapp.converters.Converter;
+import com.example.guido.securityapp.converters.LocalitiesClassificationToMenuITemData;
+import com.example.guido.securityapp.helpers.MenuItemData;
 import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.interfaces.IListFragment;
 import com.example.guido.securityapp.interfaces.IListMenuHandler;
@@ -35,11 +38,11 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
 
     protected ServiceLocalities serviceLocalities;
     protected IListFragment listFragment;
-    protected IProgressBar progressBar;
-    protected HashMap<Locality.LocalityClassification,Integer> classificationToMenuPosition;
-    protected HashMap<Integer,Locality.LocalityClassification> itemOrderToClassification;
+    protected IProgressBar progressBar;;
     protected final String getLocalitiesTaskIdentifier = "get_localities";
     protected final String setLocalityClassificationTaskIdentifier = "set_locality";
+
+    protected List<MenuItemData> itemsData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,22 +73,18 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
 
     protected void initializeConverter()
     {
-        classificationToMenuPosition = new HashMap<>();
-        classificationToMenuPosition.put(Locality.LocalityClassification.UNCLASSIFIED,0);
-        classificationToMenuPosition.put(Locality.LocalityClassification.SECURE,1);
-        classificationToMenuPosition.put(Locality.LocalityClassification.INSECURE,2);
-
-        itemOrderToClassification = new HashMap<>();
-        itemOrderToClassification.put(1, Locality.LocalityClassification.UNCLASSIFIED);
-        itemOrderToClassification.put(2, Locality.LocalityClassification.SECURE);
-        itemOrderToClassification.put(3, Locality.LocalityClassification.INSECURE);
+        Converter classificationToMenuItemData = new LocalitiesClassificationToMenuITemData();
+        try {
+            itemsData = (List<MenuItemData>) classificationToMenuItemData.convert(Locality.LocalityClassification.values());
+        } catch (Exception e) {
+            //TODO HANDLE
+        }
     }
 
     protected void updateLocalities()
     {
         try {
-            String token = null;
-            token = BuilderServiceUserToken.build().getToken();
+            String token = BuilderServiceUserToken.build().getToken();
             AsynTaskWithHandlers asynTaskWithHandlers = new UpdateLocalitiesTask(new TokenTO(token));
             asynTaskWithHandlers.setResultIdentifier(getLocalitiesTaskIdentifier);
             asynTaskWithHandlers.addHandler(this);
@@ -136,16 +135,28 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
     public void onListContextMenuCreated(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         try {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-
-            MenuInflater inflater = this.getMenuInflater();
-            inflater.inflate(R.menu.menu_localities, menu);
             long id = info.id;
             Locality.LocalityClassification classification =  ((LocalitiesAdapter) listFragment.getAdapter()).getLocality(id).getClassification();
-            menu.getItem(classificationToMenuPosition.get(classification)).setChecked(true);
+            MenuItemData itemToSelect = null;
+
+            for(MenuItemData itemData : itemsData)
+            {
+              MenuItem item =  menu.add(itemData.getGroupId(),itemData.getOrder(),itemData.getId(),itemData.getTitle());
+              item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+              if(itemData.getClassification().equals(classification))
+              {
+                  itemToSelect = itemData;
+              }
+
+            }
+
+            menu.setGroupCheckable(itemsData.get(0).getGroupId(),true,true);
+            menu.getItem(itemToSelect.getOrder()).setChecked(true);
         } catch (ClassCastException e) {
             return;
         }
     }
+
 
     @Override
     public void onItemOptionSelected(MenuItem item) {
@@ -154,7 +165,7 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
             int localityId =  (int)info.id;
             String token = BuilderServiceUserToken.build().getToken();
-            Locality.LocalityClassification classification = itemOrderToClassification.get(item.getOrder());
+            Locality.LocalityClassification classification = findClassificationByOrder(item.getOrder());
             AsynTaskWithHandlers setLocalityClassificationTask = new SetLocalityClassificationTask(new LocalityClassificationTO(localityId,classification,token));
             setLocalityClassificationTask.addHandler(this);
             setLocalityClassificationTask.setResultIdentifier(setLocalityClassificationTaskIdentifier);
@@ -166,4 +177,18 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
         }
 
     }
+
+    private Locality.LocalityClassification findClassificationByOrder(int order)
+    {
+        Locality.LocalityClassification c = null;
+        for(MenuItemData i : itemsData)
+        {
+            if(i.getOrder()==order)
+            {
+                c = i.getClassification();
+            }
+        }
+        return c;
+    }
+
 }

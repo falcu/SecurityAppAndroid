@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.converters.Converter;
 import com.example.guido.securityapp.helpers.ProgressBarHelper;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.interfaces.IGetFilterLabel;
@@ -39,10 +40,12 @@ public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFi
     private Activity activity;
     private Filter filter;
     private IEventAggregator eventAggregator;
+    private Converter classificationToTitle;
 
-    public LocalitiesAdapter(Activity activity,List<LocalityModel> model,IEventAggregator eventAggregator) {
+    public LocalitiesAdapter(Activity activity,List<LocalityModel> model,IEventAggregator eventAggregator,Converter classificationToTitle) {
         this.activity = activity;
         this.eventAggregator = eventAggregator;
+        this.classificationToTitle = classificationToTitle;
         allData.addAll(model);
         filteredData.addAll(allData);
         this.eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_SINGLE_LOCALITY));
@@ -72,6 +75,13 @@ public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFi
         LocalityModel currentLocality = filteredData.get(position);
         TextView name = (TextView) convertView.findViewById(R.id.locality_name);
         name.setText(currentLocality.getLocality().getName());
+        TextView selectedClassification = (TextView) convertView.findViewById(R.id.locality_selected_classification);
+        try {
+            selectedClassification.setText((String)classificationToTitle.convert(currentLocality.getLocality().getClassification()));
+        } catch (Exception e) {
+            //TODO HANDLE
+        }
+
         View progressView = convertView.findViewById(R.id.login_progress);
         if(currentLocality.isUpdating())
         {
@@ -141,7 +151,12 @@ public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFi
         Locality updatedLocality = (Locality) data;
         LocalityModel l = getLocalityWithId(updatedLocality.getId());
         l.setLocality(updatedLocality);
-        notifyDataSetChanged();
+        this.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                notifyDataSetChanged();
+            }
+        });
     }
 
     private class ModelFilter extends Filter {
