@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.widget.BaseAdapter;
 
 import com.example.guido.securityapp.adapters.LocalitiesAdapter;
+import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.interfaces.IBuildAdapter;
 import com.example.guido.securityapp.models.Locality;
 import com.example.guido.securityapp.models.LocalityModel;
@@ -26,7 +27,7 @@ public class BuilderLocalitiesAdapter implements IBuildAdapter{
 
     @Override
     public BaseAdapter buildAdapter() throws Exception {
-        return new LocalitiesAdapter(activity,convertToModel(localities));
+        return new LocalitiesAdapter(activity,convertToModel(localities), FactoryEventAggregator.getInstance());
     }
 
     private List<LocalityModel> convertToModel(List<Locality> localities)

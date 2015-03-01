@@ -123,7 +123,7 @@ public class CreateGroupFragment extends Fragment implements IFragmentVisibility
     }
 
     @Override
-    public void onPreExecute() {
+    public void onPreExecute(String identifier) {
 
     }
 
@@ -142,7 +142,7 @@ public class CreateGroupFragment extends Fragment implements IFragmentVisibility
     }
 
     @Override
-    public void onCancelled() {
+    public void onCancelled(String identifier) {
 
     }
 }

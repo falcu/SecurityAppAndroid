@@ -80,7 +80,7 @@ public class QuitGroupFragment extends BaseFragmentOption implements View.OnClic
     }
 
     @Override
-    public void onPreExecute() {
+    public void onPreExecute(String identifier) {
 
     }
 
@@ -90,7 +90,7 @@ public class QuitGroupFragment extends BaseFragmentOption implements View.OnClic
     }
 
     @Override
-    public void onCancelled() {
+    public void onCancelled(String identifier) {
 
     }
 }

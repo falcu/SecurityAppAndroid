@@ -12,19 +12,23 @@ import android.widget.AdapterView;
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.adapters.LocalitiesAdapter;
 import com.example.guido.securityapp.asyncTasks.AsynTaskWithHandlers;
+import com.example.guido.securityapp.asyncTasks.SetLocalityClassificationTask;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.asyncTasks.UpdateLocalitiesTask;
 import com.example.guido.securityapp.builders.adapters.BuilderLocalitiesAdapter;
 import com.example.guido.securityapp.builders.services.BuilderServiceLocalities;
 import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
+import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.interfaces.IListFragment;
 import com.example.guido.securityapp.interfaces.IListMenuHandler;
 import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.models.Locality;
+import com.example.guido.securityapp.models.LocalityClassificationTO;
 import com.example.guido.securityapp.models.TokenTO;
 import com.example.guido.securityapp.services.ServiceLocalities;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class LocalitiesCustomizationActivity extends Activity implements ITaskHandler, IListMenuHandler {
@@ -32,6 +36,10 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
     protected ServiceLocalities serviceLocalities;
     protected IListFragment listFragment;
     protected IProgressBar progressBar;
+    protected HashMap<Locality.LocalityClassification,Integer> classificationToMenuPosition;
+    protected HashMap<Integer,Locality.LocalityClassification> itemOrderToClassification;
+    protected final String getLocalitiesTaskIdentifier = "get_localities";
+    protected final String setLocalityClassificationTaskIdentifier = "set_locality";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +64,21 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
             listFragment.setBuilderAdapter(new BuilderLocalitiesAdapter(this,localities));
         }
 
+        initializeConverter();
+
+    }
+
+    protected void initializeConverter()
+    {
+        classificationToMenuPosition = new HashMap<>();
+        classificationToMenuPosition.put(Locality.LocalityClassification.UNCLASSIFIED,0);
+        classificationToMenuPosition.put(Locality.LocalityClassification.SECURE,1);
+        classificationToMenuPosition.put(Locality.LocalityClassification.INSECURE,2);
+
+        itemOrderToClassification = new HashMap<>();
+        itemOrderToClassification.put(1, Locality.LocalityClassification.UNCLASSIFIED);
+        itemOrderToClassification.put(2, Locality.LocalityClassification.SECURE);
+        itemOrderToClassification.put(3, Locality.LocalityClassification.INSECURE);
     }
 
     protected void updateLocalities()
@@ -64,6 +87,7 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
             String token = null;
             token = BuilderServiceUserToken.build().getToken();
             AsynTaskWithHandlers asynTaskWithHandlers = new UpdateLocalitiesTask(new TokenTO(token));
+            asynTaskWithHandlers.setResultIdentifier(getLocalitiesTaskIdentifier);
             asynTaskWithHandlers.addHandler(this);
             asynTaskWithHandlers.execute((Void)null);
         } catch (Exception e) {
@@ -73,22 +97,38 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
     }
 
     @Override
-    public void onPreExecute() {
-        progressBar.showProgress(true);
+    public void onPreExecute(String identifier) {
+        if(identifier.equals(getLocalitiesTaskIdentifier))
+        {
+            progressBar.showProgress(true);
+        }
     }
 
     @Override
     public void onPostExecute(TaskResult taskResult) {
-        if(taskResult.isSuccesful())
+
+        if(taskResult.getIdentifier().equals(getLocalitiesTaskIdentifier))
         {
-            List<Locality> localities = serviceLocalities.getLocalities();
-            listFragment.setBuilderAdapter(new BuilderLocalitiesAdapter(this,localities));
+            if(taskResult.isSuccesful())
+            {
+                List<Locality> localities = serviceLocalities.getLocalities();
+                listFragment.setBuilderAdapter(new BuilderLocalitiesAdapter(this,localities));
+            }
+            progressBar.showProgress(false);
         }
-        progressBar.showProgress(false);
+        else if(taskResult.getIdentifier().equals(setLocalityClassificationTaskIdentifier))
+        {
+            Locality updatedLocality = (Locality) taskResult.getResult();
+            ((LocalitiesAdapter) listFragment.getAdapter()).showProgressOnItemWithId(updatedLocality.getId(), false);
+            ToastHelper toastHelper = new ToastHelper();
+            String message = updatedLocality.getName() + " was updated!";
+            toastHelper.showLongDurationMessage(this,message);
+        }
+
     }
 
     @Override
-    public void onCancelled() {
+    public void onCancelled(String identifier) {
         progressBar.showProgress(false);
     }
 
@@ -99,7 +139,9 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
 
             MenuInflater inflater = this.getMenuInflater();
             inflater.inflate(R.menu.menu_localities, menu);
-            menu.getItem(0).setChecked(true);
+            long id = info.id;
+            Locality.LocalityClassification classification =  ((LocalitiesAdapter) listFragment.getAdapter()).getLocality(id).getClassification();
+            menu.getItem(classificationToMenuPosition.get(classification)).setChecked(true);
         } catch (ClassCastException e) {
             return;
         }
@@ -107,7 +149,21 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
 
     @Override
     public void onItemOptionSelected(MenuItem item) {
-        long localityId = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).id;
-        ((LocalitiesAdapter) listFragment.getAdapter()).showProgressOnItemWithId(localityId, true);
+
+        try {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+            int localityId =  (int)info.id;
+            String token = BuilderServiceUserToken.build().getToken();
+            Locality.LocalityClassification classification = itemOrderToClassification.get(item.getOrder());
+            AsynTaskWithHandlers setLocalityClassificationTask = new SetLocalityClassificationTask(new LocalityClassificationTO(localityId,classification,token));
+            setLocalityClassificationTask.addHandler(this);
+            setLocalityClassificationTask.setResultIdentifier(setLocalityClassificationTaskIdentifier);
+            ((LocalitiesAdapter) listFragment.getAdapter()).showProgressOnItemWithId(localityId, true);
+
+            setLocalityClassificationTask.execute((Void)null);
+        } catch (Exception e) {
+            //TODO HANDLE
+        }
+
     }
 }

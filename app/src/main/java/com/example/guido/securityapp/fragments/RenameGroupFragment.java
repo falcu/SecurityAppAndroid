@@ -80,7 +80,7 @@ public class RenameGroupFragment extends BaseFragmentOption implements View.OnCl
     }
 
     @Override
-    public void onPreExecute() {
+    public void onPreExecute(String identifier) {
 
     }
 
@@ -90,7 +90,7 @@ public class RenameGroupFragment extends BaseFragmentOption implements View.OnCl
     }
 
     @Override
-    public void onCancelled() {
+    public void onCancelled(String identifier) {
 
     }
 }

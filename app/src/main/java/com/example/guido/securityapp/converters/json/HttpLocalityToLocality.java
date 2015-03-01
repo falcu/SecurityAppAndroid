@@ -15,11 +15,12 @@ import java.util.List;
  */
 public class HttpLocalityToLocality extends Converter {
 
-    private JsonToObject helperConverter;
+   private JsonToObject helperConverter;
    private HashMap<String,Locality.LocalityClassification> httpToClassificationLocality;
 
     public HttpLocalityToLocality() {
         helperConverter = new JsonToObject(Locality.class);
+        initialize();
     }
 
     private void initialize()

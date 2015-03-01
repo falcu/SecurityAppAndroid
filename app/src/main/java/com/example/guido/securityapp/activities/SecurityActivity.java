@@ -141,7 +141,7 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
     }
 
     @Override
-    public void onPreExecute() {
+    public void onPreExecute(String identifier) {
         progressBar.showProgress(true);
     }
 
@@ -160,7 +160,7 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
     }
 
     @Override
-    public void onCancelled() {
+    public void onCancelled(String identifier) {
         progressBar.showProgress(false);
     }
 

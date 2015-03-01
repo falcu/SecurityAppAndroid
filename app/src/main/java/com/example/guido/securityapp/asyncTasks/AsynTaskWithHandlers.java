@@ -34,7 +34,7 @@ public abstract class AsynTaskWithHandlers extends AsyncTask<Void, Void, TaskRes
     protected void onPreExecute() {
         super.onPreExecute();
          for(ITaskHandler handler : handlers){
-             handler.onPreExecute();
+             handler.onPreExecute(resultIdentifier);
          }
     }
 
@@ -51,7 +51,7 @@ public abstract class AsynTaskWithHandlers extends AsyncTask<Void, Void, TaskRes
     protected void onCancelled() {
         super.onCancelled();
         for(ITaskHandler handler : handlers){
-            handler.onCancelled();
+            handler.onCancelled(resultIdentifier);
         }
     }
 

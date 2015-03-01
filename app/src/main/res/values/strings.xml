@@ -23,6 +23,7 @@
     <string name="UPDATE_GROUP">update_group</string>
     <string name="UPDATE_ALARM">update_alarm</string>
     <string name="UPDATE_LAST_ALARM">update_last_alarm</string>
+    <string name="UPDATE_SINGLE_LOCALITY">update_single_locality</string>
     <string name="title_activity_group_configuration">GroupConfigurationActivity</string>
     <string name="action_settings">Settings</string>
     <string name="operation_member_action_text">Operation Member</string>

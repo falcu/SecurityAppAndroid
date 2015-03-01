@@ -122,7 +122,7 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
 
 
     @Override
-    public void onPreExecute() {
+    public void onPreExecute(String identifier) {
         progressBar.showProgress(true);
     }
 
@@ -148,7 +148,7 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
     }
 
     @Override
-    public void onCancelled() {
+    public void onCancelled(String identifier) {
         progressBar.showProgress(false);
     }
 

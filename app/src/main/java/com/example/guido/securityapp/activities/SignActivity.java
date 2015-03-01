@@ -111,7 +111,7 @@ public abstract class SignActivity extends Activity implements ITaskHandler {
     }
 
     @Override
-    public void onPreExecute()
+    public void onPreExecute(String identifier)
     {
         progressBar.showProgress(true);
     }
@@ -135,7 +135,7 @@ public abstract class SignActivity extends Activity implements ITaskHandler {
         }
     }
     @Override
-    public void onCancelled() {
+    public void onCancelled(String identifier) {
         authTask = null;
         progressBar.showProgress(false);
     }

@@ -97,7 +97,7 @@ public abstract class OperationMemberFragment extends BaseFragmentOption impleme
     protected abstract OperationMemberTask makeTask(NewMemberTO newMemberTO) throws Exception;
 
     @Override
-    public void onPreExecute() {
+    public void onPreExecute(String identifier) {
 
     }
 
@@ -115,7 +115,7 @@ public abstract class OperationMemberFragment extends BaseFragmentOption impleme
     }
 
     @Override
-    public void onCancelled() {
+    public void onCancelled(String identifier) {
 
     }
 

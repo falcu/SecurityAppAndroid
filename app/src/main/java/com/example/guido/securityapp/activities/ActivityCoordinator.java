@@ -74,7 +74,7 @@ public class ActivityCoordinator implements ITaskHandler{
     }
 
     @Override
-    public void onPreExecute() {
+    public void onPreExecute(String identifier) {
 
     }
 
@@ -96,7 +96,7 @@ public class ActivityCoordinator implements ITaskHandler{
     }
 
     @Override
-    public void onCancelled() {
+    public void onCancelled(String identifier) {
 
     }
 }

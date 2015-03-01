@@ -66,7 +66,7 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
     }
 
     @Override
-    public void onPreExecute() {
+    public void onPreExecute(String identifier) {
         progressBar.showProgress(true);
     }
 
@@ -90,7 +90,7 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
     }
 
     @Override
-    public void onCancelled() {
+    public void onCancelled(String identifier) {
         progressBar.showProgress(false);
     }
 

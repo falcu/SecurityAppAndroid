@@ -16,9 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
+import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.helpers.ProgressBarHelper;
+import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.interfaces.IGetFilterLabel;
 import com.example.guido.securityapp.interfaces.IProgressBar;
+import com.example.guido.securityapp.interfaces.ISubscriber;
 import com.example.guido.securityapp.models.Locality;
 import com.example.guido.securityapp.models.LocalityModel;
 
@@ -29,17 +32,20 @@ import java.util.List;
 /**
  * Created by guido on 2/23/15.
  */
-public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFilterLabel{
+public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFilterLabel, ISubscriber{
     private List<LocalityModel> allData = new ArrayList<>();
     private List<LocalityModel> filteredData = new ArrayList<>();
 
     private Activity activity;
     private Filter filter;
+    private IEventAggregator eventAggregator;
 
-    public LocalitiesAdapter(Activity activity,List<LocalityModel> model) {
+    public LocalitiesAdapter(Activity activity,List<LocalityModel> model,IEventAggregator eventAggregator) {
         this.activity = activity;
+        this.eventAggregator = eventAggregator;
         allData.addAll(model);
         filteredData.addAll(allData);
+        this.eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_SINGLE_LOCALITY));
     }
 
     @Override
@@ -82,19 +88,34 @@ public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFi
 
     public void showProgressOnItemWithId(long id, boolean show)
     {
+        LocalityModel localityModel = getLocalityWithId(id);
+        localityModel.setUpdating(show);
+        notifyDataSetChanged();
+    }
+
+    public Locality getLocality(long id)
+    {
+        LocalityModel localityModel = getLocalityWithId(id);
+        return localityModel.getLocality();
+    }
+
+    private LocalityModel getLocalityWithId(long id)
+    {
         int i = 0;
         boolean localityWasFound = false;
-        while(i<filteredData.size() && !localityWasFound)
+        while(i<allData.size() && !localityWasFound)
         {
-            LocalityModel l = filteredData.get(i);
+            LocalityModel l = allData.get(i);
             if(l.getLocality().getId() == id)
             {
-                l.setUpdating(show);
                 localityWasFound = true;
             }
-            i++;
+            else
+            {
+                i++;
+            }
         }
-        notifyDataSetChanged();
+        return allData.get(i);
     }
 
     private void showProgress(final View progressView,final boolean show) {
@@ -113,6 +134,14 @@ public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFi
     @Override
     public String getFilterLabel() {
         return "Localities";
+    }
+
+    @Override
+    public void onEvent(Object data) {
+        Locality updatedLocality = (Locality) data;
+        LocalityModel l = getLocalityWithId(updatedLocality.getId());
+        l.setLocality(updatedLocality);
+        notifyDataSetChanged();
     }
 
     private class ModelFilter extends Filter {
