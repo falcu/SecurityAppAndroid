@@ -8,4 +8,5 @@ import android.view.View;
 public interface IProgressBar {
     public void setControllableView(View view);
     public void showProgress(final boolean show);
+    public void collapseWhenNotShown(boolean collapseWhenNotShown);
 }

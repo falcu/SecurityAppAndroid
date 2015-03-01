@@ -164,14 +164,22 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
         try {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
             int localityId =  (int)info.id;
-            String token = BuilderServiceUserToken.build().getToken();
-            Locality.LocalityClassification classification = findClassificationByOrder(item.getOrder());
-            AsynTaskWithHandlers setLocalityClassificationTask = new SetLocalityClassificationTask(new LocalityClassificationTO(localityId,classification,token));
-            setLocalityClassificationTask.addHandler(this);
-            setLocalityClassificationTask.setResultIdentifier(setLocalityClassificationTaskIdentifier);
-            ((LocalitiesAdapter) listFragment.getAdapter()).showProgressOnItemWithId(localityId, true);
+            LocalitiesAdapter adapter = (LocalitiesAdapter) listFragment.getAdapter();
+            Locality currentLocality = adapter.getLocality(localityId);
+            Locality.LocalityClassification selectedClassification = findClassificationByOrder(item.getOrder());
 
-            setLocalityClassificationTask.execute((Void)null);
+            //update only if the classification has changed
+            if(!currentLocality.getClassification().equals(selectedClassification))
+            {
+                String token = BuilderServiceUserToken.build().getToken();
+                AsynTaskWithHandlers setLocalityClassificationTask = new SetLocalityClassificationTask(new LocalityClassificationTO(localityId,selectedClassification,token));
+                setLocalityClassificationTask.addHandler(this);
+                setLocalityClassificationTask.setResultIdentifier(setLocalityClassificationTaskIdentifier);
+                adapter.showProgressOnItemWithId(localityId, true);
+                setLocalityClassificationTask.execute((Void)null);
+
+            }
+
         } catch (Exception e) {
             //TODO HANDLE
         }

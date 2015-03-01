@@ -16,6 +16,7 @@ public class ProgressBarHelper implements IProgressBar {
     private View controllableView = null;
     private View progressView;
     private int animationTime=200; //default;
+    private int invisibleSetting = View.GONE;
 
     public ProgressBarHelper(View progressView) {
         this.progressView = progressView;
@@ -48,21 +49,30 @@ public class ProgressBarHelper implements IProgressBar {
 
             }
 
-            getProgressView().setVisibility(show ? View.VISIBLE : View.GONE);
+            getProgressView().setVisibility(show ? View.VISIBLE : invisibleSetting);
             getProgressView().animate().setDuration(getAnimationTime()).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    getProgressView().setVisibility(show ? View.VISIBLE : View.GONE);
+                    getProgressView().setVisibility(show ? View.VISIBLE : invisibleSetting);
                 }
             });
         } else {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
-            getProgressView().setVisibility(show ? View.VISIBLE : View.GONE);
+            getProgressView().setVisibility(show ? View.VISIBLE : invisibleSetting);
             if(getControllableView() !=null)
                 getControllableView().setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+
+    @Override
+    public void collapseWhenNotShown(boolean collapseWhenNotShown) {
+        if(collapseWhenNotShown)
+            invisibleSetting = View.GONE;
+        else
+            invisibleSetting = View.INVISIBLE;
+
     }
 
     public View getControllableView() {

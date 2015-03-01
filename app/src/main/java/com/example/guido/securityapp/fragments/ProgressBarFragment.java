@@ -48,4 +48,9 @@ public class ProgressBarFragment extends Fragment implements IProgressBar{
         helperProgressBar.showProgress(show);
     }
 
+    @Override
+    public void collapseWhenNotShown(boolean collapseWhenNotShown) {
+        helperProgressBar.collapseWhenNotShown(collapseWhenNotShown);
+    }
+
 }

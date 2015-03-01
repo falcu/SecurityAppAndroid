@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.comparators.LocalitiesComparator;
 import com.example.guido.securityapp.converters.Converter;
 import com.example.guido.securityapp.helpers.ProgressBarHelper;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
@@ -27,6 +28,7 @@ import com.example.guido.securityapp.models.Locality;
 import com.example.guido.securityapp.models.LocalityModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,6 +48,7 @@ public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFi
         this.activity = activity;
         this.eventAggregator = eventAggregator;
         this.classificationToTitle = classificationToTitle;
+        Collections.sort(model,new LocalitiesComparator());
         allData.addAll(model);
         filteredData.addAll(allData);
         this.eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_SINGLE_LOCALITY));
@@ -130,6 +133,7 @@ public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFi
 
     private void showProgress(final View progressView,final boolean show) {
         ProgressBarHelper helperProgressBar = new ProgressBarHelper(progressView);
+        helperProgressBar.collapseWhenNotShown(false);
         helperProgressBar.showProgress(show);
     }
 
