@@ -1,28 +1,28 @@
 package com.example.guido.securityapp.asyncTasks;
 
 import com.example.guido.securityapp.builders.services.BuilderServiceNotification;
-import com.example.guido.securityapp.models.PanicTO;
+import com.example.guido.securityapp.models.NotificationTO;
 import com.example.guido.securityapp.services.ServiceNotification;
 
 /**
  * Created by guido on 2/14/15.
  */
-public class PanicNotificationTask extends AsynTaskWithHandlers{
-    protected PanicTO panicTO;
+public class AlarmTask extends AsynTaskWithHandlers{
+    protected NotificationTO notificationTO;
 
-    public PanicNotificationTask(PanicTO panicTO) throws Exception
+    public AlarmTask(NotificationTO notificationTO) throws Exception
     {
-        super(panicTO);
+        super(notificationTO);
     }
 
     @Override
     protected TaskResult doInBackground(Void... params) {
         TaskResult result = new TaskResult();
 
-        ServiceNotification service = BuilderServiceNotification.build();
+        ServiceNotification service = makeService();
         try
         {
-            service.sendNotification(panicTO);
+            service.sendNotification(notificationTO);
             if(service.wasRequestWithError())
             {
                 result.setError(service.getLastErrorMessage());
@@ -34,18 +34,23 @@ public class PanicNotificationTask extends AsynTaskWithHandlers{
         }
         catch (Exception e)
         {
-            result.setError("Unable to send alarm");
+            result.setError("Unable to send notification");
         }
         return result;
     }
 
+    protected ServiceNotification makeService()
+    {
+        return BuilderServiceNotification.build(BuilderServiceNotification.NotificationType.ALARM);
+    }
+
     @Override
     protected Class getTransferObjectType() {
-        return PanicTO.class;
+        return NotificationTO.class;
     }
 
     @Override
     protected void setSpecificObject(Object transferObject) {
-        this.panicTO = (PanicTO) transferObject;
+        this.notificationTO = (NotificationTO) transferObject;
     }
 }

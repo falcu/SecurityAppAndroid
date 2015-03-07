@@ -6,9 +6,9 @@ import com.example.guido.securityapp.models.NotificationTO;
 import org.json.JSONObject;
 
 /**
- * Created by guido on 2/14/15.
+ * Created by guido on 3/2/15.
  */
-public class PanicToParams extends Converter {
+public class NotificationToParams extends Converter {
     @Override
     public Object convert(Object objectToConvert) throws Exception {
         try
@@ -18,7 +18,8 @@ public class PanicToParams extends Converter {
             paramsJson.put("group_id", maybeNotificationTO.getGroupId());
             paramsJson.put("latitude",Double.toString(maybeNotificationTO.getLocation().getLatitude()));
             paramsJson.put("longitude",Double.toString(maybeNotificationTO.getLocation().getLongitude()));
-            paramsJson.put("alarm", maybeNotificationTO.getMessage());
+            if(maybeNotificationTO.getMessage()!=null && !maybeNotificationTO.getMessage().isEmpty())
+                paramsJson.put("message", maybeNotificationTO.getMessage());
 
             return paramsJson.toString();
 

@@ -12,7 +12,7 @@
     <string name="localities_store_key">localities</string>
     <string name="global_preferences_key">global</string>
 
-    <string name="sever_url">http://192.168.0.104:3000</string>
+    <string name="sever_url">http://192.168.1.110:3000</string>
 
     <string name="title_activity_create_group">CreateGroupActivity</string>
 

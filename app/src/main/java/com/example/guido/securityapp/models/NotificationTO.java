@@ -6,13 +6,13 @@ import com.example.guido.securityapp.interfaces.IGetToken;
 /**
  * Created by guido on 2/14/15.
  */
-public class PanicTO implements IGetToken {
+public class NotificationTO implements IGetToken {
     private MyLocation location;
     private String token;
     private String groupId;
     private String message;
 
-    public PanicTO() {
+    public NotificationTO() {
     }
 
 

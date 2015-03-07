@@ -13,7 +13,7 @@ import com.example.guido.securityapp.models.MyLocation;
 /**
  * Created by guido on 2/14/15.
  */
-public class ServiceLocationListener implements LocationListener{
+public class MyLocationListener implements android.location.LocationListener {
 
     private Location lastLocation;
 

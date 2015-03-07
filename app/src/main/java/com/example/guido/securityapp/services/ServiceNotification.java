@@ -3,7 +3,7 @@ package com.example.guido.securityapp.services;
 import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
 import com.example.guido.securityapp.interfaces.IServiceError;
 import com.example.guido.securityapp.interfaces.IServiceMessage;
-import com.example.guido.securityapp.models.PanicTO;
+import com.example.guido.securityapp.models.NotificationTO;
 import com.example.guido.securityapp.restful.services.HttpRequestService;
 
 /**
@@ -21,8 +21,8 @@ public class ServiceNotification implements IServiceError, IServiceMessage {
         this.messageAnalyzer = messageAnalyzer;
     }
 
-    public void sendNotification(PanicTO panicTO)throws Exception{
-        String data = httpService.request(panicTO);
+    public void sendNotification(NotificationTO notificationTO)throws Exception{
+        String data = httpService.request(notificationTO);
         errorAnalyzer.analyze(data);
         messageAnalyzer.analyze(data);
     }

@@ -18,8 +18,8 @@ import com.example.guido.securityapp.models.MyLocation;
  */
 public class ServiceLocation implements IGetLocation {
     private LocationManager locationManager;
-    ServiceLocationListener networkListener;
-    ServiceLocationListener gpsListener;
+    MyLocationListener networkListener;
+    MyLocationListener gpsListener;
     private long tolerateOldTime = 20000;
     private float tolerateAccuracy = 150;
 
@@ -33,8 +33,8 @@ public class ServiceLocation implements IGetLocation {
     public void startService()
     {
         locationManager = (LocationManager) MyApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
-        networkListener = new ServiceLocationListener();
-        gpsListener = new ServiceLocationListener();
+        networkListener = new MyLocationListener();
+        gpsListener = new MyLocationListener();
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, networkListener);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
     }

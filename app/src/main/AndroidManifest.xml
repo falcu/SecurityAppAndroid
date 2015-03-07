@@ -72,6 +72,7 @@
         </receiver>
 
         <service android:name=".gcm.GcmIntentService" />
+        <service android:name=".services.ServiceLocationNotifierListener"/>
 
         <activity
             android:name=".activities.AlarmsHistoryActivity"

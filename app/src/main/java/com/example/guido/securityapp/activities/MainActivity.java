@@ -3,13 +3,13 @@ package com.example.guido.securityapp.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.builders.services.BuilderServiceRegisterId;
 import com.example.guido.securityapp.builders.services.BuilderServiceLocationSingleton;
 import com.example.guido.securityapp.interfaces.ISignService;
 import com.example.guido.securityapp.services.ServiceLocation;
+import com.example.guido.securityapp.services.ServiceLocationNotifierListener;
 import com.example.guido.securityapp.services.ServiceRegisterId;
 
 /**
@@ -23,7 +23,6 @@ import com.example.guido.securityapp.services.ServiceRegisterId;
 public class MainActivity extends Activity {
 
     private ServiceRegisterId serviceRegisterId;
-    private ISignService signService;
     private ActivityCoordinator activityCoordinator;
     private ServiceLocation serviceLocation;
 
@@ -33,10 +32,8 @@ public class MainActivity extends Activity {
 
         try
         {
-            //TODO REMOVE DUMMY CODE
-           // startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
-            //END TODO
-
+            Intent intentService = new Intent(this, ServiceLocationNotifierListener.class);
+            startService(intentService);
             serviceLocation = BuilderServiceLocationSingleton.getServiceLocation();
             serviceLocation.startService();
             serviceRegisterId = makeRegisterService();

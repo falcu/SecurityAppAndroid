@@ -2,8 +2,7 @@ package com.example.guido.securityapp.commands;
 
 import android.app.Activity;
 
-import com.example.guido.securityapp.asyncTasks.PanicNotificationTask;
-import com.example.guido.securityapp.builders.http_requests.BuilderPanicRequest;
+import com.example.guido.securityapp.asyncTasks.AlarmTask;
 import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
 import com.example.guido.securityapp.builders.services.BuilderServiceLocationSingleton;
 import com.example.guido.securityapp.builders.services.BuilderServicePanicMessage;
@@ -14,7 +13,7 @@ import com.example.guido.securityapp.helpers.SettigsHelper;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.interfaces.OnYesClickListener;
 import com.example.guido.securityapp.models.MyLocation;
-import com.example.guido.securityapp.models.PanicTO;
+import com.example.guido.securityapp.models.NotificationTO;
 import com.example.guido.securityapp.services.ServiceLocation;
 
 /**
@@ -34,8 +33,8 @@ public class PanicNotificationCommand extends Command
         {
             if(isLocationAvailable())
             {
-                PanicTO panicTO = makePanicTO();
-                PanicNotificationTask task = new PanicNotificationTask(panicTO);
+                NotificationTO panicTO = makePanicTO();
+                AlarmTask task = new AlarmTask(panicTO);
                 task.addHandler((ITaskHandler)activity);
                 task.execute((Void)null);
             }
@@ -84,8 +83,8 @@ public class PanicNotificationCommand extends Command
         return true;
     }
 
-    private PanicTO makePanicTO() throws Exception{
-        PanicTO panicTO = new PanicTO();
+    private NotificationTO makePanicTO() throws Exception{
+        NotificationTO panicTO = new NotificationTO();
         String token = BuilderServiceUserToken.build().getToken();
         String groupId = BuilderServiceGroup.buildGroupInformationService().getGroup().getId();
         String message = BuilderServicePanicMessage.build().loadMessage();
