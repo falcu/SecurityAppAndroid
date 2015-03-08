@@ -7,23 +7,27 @@ import android.os.Bundle;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
+import com.example.guido.securityapp.factories.FactoryCreateGroupFragments;
 import com.example.guido.securityapp.factories.FactoryEventAggregator;
-import com.example.guido.securityapp.fragments.DescriptionFragment;
+import com.example.guido.securityapp.factories.FactoryFragmentsOptions;
+import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.Option;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.interfaces.IFragmentExceptionHandler;
 import com.example.guido.securityapp.interfaces.IFragmentOptions;
 import com.example.guido.securityapp.interfaces.IFragmentResultHandler;
-import com.example.guido.securityapp.interfaces.IFragmentVisibility;
 import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.ISubscriber;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.models.Group;
 
+import java.util.Iterator;
+
 public class CreateGroupActivity extends Activity implements IFragmentResultHandler,IFragmentExceptionHandler, ITaskHandler, ISubscriber {
 
     private IProgressBar progressBar;
     private IEventAggregator eventAggregator;
+    private FactoryFragmentsOptions factoryFragments;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,7 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
         progressBar.setControllableView(findViewById(R.id.group_form));
         eventAggregator = FactoryEventAggregator.getInstance();
         eventAggregator.Subscribe(this,MyApplication.getContext().getResources().getString(R.string.group_updated_event));
+        factoryFragments = new FactoryCreateGroupFragments(this);
         initialize();
     }
 
@@ -45,39 +50,54 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
 
     private void initialize()
     {
-        hideFragment(R.id.create_group_fragment);
-        hideFragment(R.id.description_fragment);
-        ((DescriptionFragment)getFragmentManager().findFragmentById(R.id.description_fragment)).setDescription("In order to join a group, the creator must add you to the group. The creator just needs your email");
+        Iterator<BaseFragmentOption> fragments = getFragments();
         IFragmentOptions fragmentOptions = (IFragmentOptions) getFragmentManager().findFragmentById(R.id.options_fragment);
-        fragmentOptions.addOption(new Option(MyApplication.getContext().getString(R.string.create_group_text),MyApplication.getContext().getString(R.string.create_group_key)));
-        fragmentOptions.addOption(new Option(MyApplication.getContext().getString(R.string.join_group_text),MyApplication.getContext().getString(R.string.join_group_key)));
+        while(fragments.hasNext())
+        {
+            BaseFragmentOption currentFragment = fragments.next();
+            fragmentOptions.addOption(new Option(currentFragment.getDescription(),currentFragment.getKey()));
+        }
+    }
+
+    protected Iterator<BaseFragmentOption> getFragments()
+    {
+        try {
+            return factoryFragments.getFragments();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    protected BaseFragmentOption getFragmentByKey(String key)
+    {
+        try {
+            return factoryFragments.getFragmentByKey(key);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 
     @Override
     public void handle(Object data) {
         String key = (String)data;
-        if(key.equals(getString(R.string.create_group_key)))
-        {
-            showFragment(R.id.create_group_fragment);
-            hideFragment(R.id.description_fragment);
-        }
-        else if(key.equals(getString(R.string.join_group_key)))
-        {
-            hideFragment(R.id.create_group_fragment);
-            showFragment(R.id.description_fragment);
-        }
+        setFragmentsVisibility(key);
 
     }
 
-    private void showFragment(int id)
+    private void setFragmentsVisibility(String key)
     {
-        ((IFragmentVisibility) getFragmentManager().findFragmentById(id)).show();
-    }
-
-    private void hideFragment(int id)
-    {
-        ((IFragmentVisibility) getFragmentManager().findFragmentById(id)).hide();
+        BaseFragmentOption selectedFragment = getFragmentByKey(key);
+        selectedFragment.show();
+        Iterator<BaseFragmentOption> fragments = getFragments();
+        while(fragments.hasNext())
+        {
+            BaseFragmentOption fragmentOption = fragments.next();
+            if(fragmentOption.getIdentifier()!=selectedFragment.getIdentifier())
+            {
+                fragmentOption.hide();
+            }
+        }
     }
 
     @Override

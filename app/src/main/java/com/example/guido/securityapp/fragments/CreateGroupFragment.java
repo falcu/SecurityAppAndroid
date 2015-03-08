@@ -28,7 +28,7 @@ import com.example.guido.securityapp.services.ServiceUserToken;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreateGroupFragment extends Fragment implements IFragmentVisibility, View.OnClickListener, ITaskHandler {
+public class CreateGroupFragment extends BaseFragmentOption implements  View.OnClickListener, ITaskHandler {
 
     protected EditText groupNameView;
     protected IValidate groupNameValidator;
@@ -48,21 +48,10 @@ public class CreateGroupFragment extends Fragment implements IFragmentVisibility
         BuilderValidator builderValidator = new BuilderValidator();
         groupNameValidator = builderValidator.buildValidator(BuilderValidator.ValidatorType.GROUP_NAME);
         serviceUserToken = BuilderServiceUserToken.build();
-
+        theView.setVisibility(View.GONE);
         Button button = (Button) theView.findViewById(R.id.create_group_action);
         button.setOnClickListener(this);
         return theView;
-    }
-
-
-    @Override
-    public void show() {
-        getView().setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hide() {
-        getView().setVisibility(View.GONE);
     }
 
     @Override

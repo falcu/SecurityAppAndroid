@@ -34,6 +34,10 @@
     <string name="add_member_action_key">add_member</string>
     <string name="remove_member_action_key">remove_member</string>
     <string name="rename_group_action_key">rename_group</string>
+    <string name="quit_group_action_description">Quit Group</string>
+    <string name="add_member_action_description">Add Member</string>
+    <string name="remove_member_action_description">Remove Member</string>
+    <string name="rename_group_action_description">Rename Group</string>
 
 
     <string name="group_updated_event">group_updated</string>

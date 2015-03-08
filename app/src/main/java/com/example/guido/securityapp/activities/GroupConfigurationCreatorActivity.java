@@ -13,6 +13,7 @@ import com.example.guido.securityapp.exceptions.ExceptionHandler;
 import com.example.guido.securityapp.exceptions.ExceptionHandlerWithDialog;
 import com.example.guido.securityapp.exceptions.UnableToLoadGroupException;
 import com.example.guido.securityapp.exceptions.UnableToLoadTokenException;
+import com.example.guido.securityapp.factories.FactoryFragmentsOptions;
 import com.example.guido.securityapp.factories.FactoryGroupConfigurationFragments;
 import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.Option;
@@ -29,7 +30,7 @@ import java.util.Iterator;
 public class GroupConfigurationCreatorActivity extends Activity implements IFragmentResultHandler,ITaskHandler,IFragmentExceptionHandler {
 
     private IProgressBar progressBar;
-    private FactoryGroupConfigurationFragments factoryFragments;
+    private FactoryFragmentsOptions factoryFragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

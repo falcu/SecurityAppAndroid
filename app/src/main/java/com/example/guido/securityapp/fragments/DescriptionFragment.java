@@ -16,7 +16,7 @@ import com.example.guido.securityapp.interfaces.IFragmentVisibility;
  */
 public class DescriptionFragment extends Fragment implements IFragmentVisibility {
 
-    private TextView descriptionTextView;
+    protected TextView descriptionTextView;
 
     public DescriptionFragment() {
         // Required empty public constructor
