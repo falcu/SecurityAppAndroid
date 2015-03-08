@@ -49,7 +49,7 @@ public abstract class OperationMemberTask extends AsynTaskWithHandlers{
         }
         catch (Exception e)
         {
-            result.setError(new TaskError(getOwnErrorMessage()));
+            result.setError(new TaskError(getOwnErrorMessage(),e));
         }
         return result;
     }

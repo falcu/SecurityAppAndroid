@@ -141,7 +141,6 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
                 finishActivityWith(i);
             }
             else
-
             {
                 Intent i = new Intent();
                 finishActivityWith(i);

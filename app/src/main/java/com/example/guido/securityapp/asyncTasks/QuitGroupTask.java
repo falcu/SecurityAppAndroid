@@ -33,7 +33,7 @@ public class QuitGroupTask extends AsynTaskWithHandlers {
         }
         catch (Exception e)
         {
-            taskResult.setError(new TaskError(e.getMessage()));
+            taskResult.setError(new TaskError(e.getMessage(),e));
         }
 
         return taskResult;

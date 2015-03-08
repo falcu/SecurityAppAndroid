@@ -11,10 +11,13 @@ import android.widget.EditText;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.OperationMemberTask;
+import com.example.guido.securityapp.asyncTasks.TaskError;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
 import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
 import com.example.guido.securityapp.builders.BuilderValidator;
+import com.example.guido.securityapp.exceptions.ExceptionHandler;
+import com.example.guido.securityapp.exceptions.ExceptionHandlerWithDialog;
 import com.example.guido.securityapp.exceptions.UnableToLoadGroupException;
 import com.example.guido.securityapp.exceptions.UnableToLoadTokenException;
 import com.example.guido.securityapp.interfaces.IFragmentExceptionHandler;
@@ -103,14 +106,14 @@ public abstract class OperationMemberFragment extends BaseFragmentOption impleme
 
     @Override
     public void onPostExecute(TaskResult taskResult) {
-        if(!taskResult.isSuccesful())
+        if(taskResult.isSuccesful())
+        {
+            postSuccessMessage();
+        }
+        else if(taskResult.getError().getException()==null)
         {
             userEmailEditText.setError(taskResult.getError().getErrorMessage());
             userEmailEditText.requestFocus();
-        }
-        else
-        {
-            postSuccessMessage();
         }
     }
 
