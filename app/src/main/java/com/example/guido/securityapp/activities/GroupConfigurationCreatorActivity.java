@@ -9,6 +9,8 @@ import android.os.Bundle;
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.builders.services.BuilderServiceDataCorrupted;
+import com.example.guido.securityapp.exceptions.ExceptionHandler;
+import com.example.guido.securityapp.exceptions.ExceptionHandlerWithDialog;
 import com.example.guido.securityapp.exceptions.UnableToLoadGroupException;
 import com.example.guido.securityapp.exceptions.UnableToLoadTokenException;
 import com.example.guido.securityapp.factories.FactoryGroupConfigurationFragments;
@@ -144,6 +146,11 @@ public class GroupConfigurationCreatorActivity extends Activity implements IFrag
                 Intent i = new Intent();
                 finishActivityWith(i);
             }
+        }
+        else if(taskResult.getError().getException()!=null)
+        {
+            ExceptionHandler exceptionHandler = new ExceptionHandlerWithDialog(this);
+            exceptionHandler.handleException(taskResult.getError().getException());
         }
     }
 

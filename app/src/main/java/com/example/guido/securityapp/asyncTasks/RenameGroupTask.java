@@ -33,7 +33,7 @@ public class RenameGroupTask extends AsynTaskWithHandlers{
             service.renameGroup(renameGroupTO);
             if(service.wasRequestWithError())
             {
-                result.setResult(service.getLastErrorMessage());
+                result.setError(new TaskError(service.getLastErrorMessage()));
             }
             else if(service.wasRequestWithMessage())
             {
@@ -43,7 +43,7 @@ public class RenameGroupTask extends AsynTaskWithHandlers{
         }
         catch (Exception e)
         {
-            result.setResult(e.getMessage());
+            result.setError(new TaskError(e));
         }
         return result;
     }

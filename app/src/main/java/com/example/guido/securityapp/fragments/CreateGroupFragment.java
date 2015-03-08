@@ -134,9 +134,9 @@ public class CreateGroupFragment extends Fragment implements IFragmentVisibility
             ToastHelper toastHelper = new ToastHelper();
             toastHelper.showLongDurationMessage(MyApplication.getContext(),(String)taskResult.getResult());
         }
-        else
+        else if(!taskResult.getError().getErrorMessage().isEmpty())
         {
-            groupNameView.setError(taskResult.getError());
+            groupNameView.setError(taskResult.getError().getErrorMessage());
             groupNameView.requestFocus();
         }
     }

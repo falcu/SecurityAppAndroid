@@ -23,7 +23,7 @@ public class UpdateLocalitiesTask extends AsynTaskWithHandlers{
             ServiceLocalities serviceLocalities = BuilderServiceLocalities.buildServiceLocalities();
             serviceLocalities.updateLocalities(tokenTO);
         } catch (Exception e) {
-            taskResult.setError(e.getMessage());
+            taskResult.setError(new TaskError(e.getMessage()));
         }
 
         return taskResult;

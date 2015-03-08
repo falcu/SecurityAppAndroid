@@ -6,8 +6,7 @@ package com.example.guido.securityapp.asyncTasks;
 public class TaskResult {
     private boolean isSuccesful = true;
     private Object result = null;
-    private String error = null;
-    private Exception exception;
+    private TaskError error = null;
     private String identifier = "";
 
 
@@ -19,7 +18,7 @@ public class TaskResult {
         return result;
     }
 
-    public String getError() {
+    public TaskError getError() {
         return error;
     }
 
@@ -32,33 +31,16 @@ public class TaskResult {
         }
     }
 
-    public void setError(String error) {
-        if(error!=null && !error.isEmpty())
+    public void setError(TaskError error) {
+        if(error!=null)
         {
             isSuccesful = false;
             this.error = error;
         }
         else
         {
-            if(exception==null) {isSuccesful = true;}
-            this.error = null;
-        }
-    }
-
-    public Exception getException() {
-        return exception;
-    }
-
-    public void setException(Exception exception) {
-        if(exception!=null)
-        {
-            isSuccesful = false;
-        }
-        else if(error == null)
-        {
             isSuccesful = true;
         }
-        this.exception = exception;
     }
 
     public String getIdentifier() {

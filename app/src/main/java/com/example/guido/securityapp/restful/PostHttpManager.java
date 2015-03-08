@@ -1,8 +1,10 @@
 package com.example.guido.securityapp.restful;
 
 import com.example.guido.securityapp.exceptions.HttpRequestException;
+import com.example.guido.securityapp.exceptions.HttpTimeOutException;
 
 import java.io.OutputStreamWriter;
+import java.net.SocketTimeoutException;
 
 /**
  * Created by guido on 1/17/15.
@@ -15,6 +17,11 @@ public class PostHttpManager extends HttpManager {
             setParams(requestPackage);
             String data = readData();
             return data;
+        }
+
+        catch (SocketTimeoutException e)
+        {
+            throw new HttpTimeOutException(e.getMessage());
         }
         catch (Exception e){
             throw new HttpRequestException(e.getMessage());

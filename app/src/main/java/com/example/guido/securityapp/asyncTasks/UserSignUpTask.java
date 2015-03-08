@@ -37,12 +37,12 @@ public class UserSignUpTask extends AsynTaskWithHandlers{
                 serviceSign.sign(this.userTO);
                 if(serviceSign.wasRequestWithError())
                 {
-                    result.setError(serviceSign.getLastErrorMessage());
+                    result.setError(new TaskError(serviceSign.getLastErrorMessage()));
                 }
 
             }
         } catch (Exception e) {
-            result.setError(e.getMessage());
+            result.setError(new TaskError(e));
         }
 
         return result;

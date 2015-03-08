@@ -8,6 +8,8 @@ import com.example.guido.securityapp.asyncTasks.GetGroupInfoTask;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
 import com.example.guido.securityapp.builders.services.BuilderServiceSign;
+import com.example.guido.securityapp.exceptions.ExceptionHandler;
+import com.example.guido.securityapp.exceptions.ExceptionHandlerWithDialog;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.services.ServiceGroupInformation;
 import com.example.guido.securityapp.services.ServiceSign;
@@ -20,7 +22,7 @@ public class ActivityCoordinator implements ITaskHandler{
     private ServiceGroupInformation serviceGroup;
     private AsynTaskWithHandlers groupInfoTask;
 
-    private Activity mainActivity;
+    private MainActivity mainActivity;
     private int requestCode;
 
     public ActivityCoordinator()
@@ -29,10 +31,12 @@ public class ActivityCoordinator implements ITaskHandler{
         serviceGroup = BuilderServiceGroup.buildGroupInformationService();
     }
 
-    public void runCorrespondingActivityFromWithRequestCode(Activity mainActivity,int requestCode) throws Exception
+    public void runCorrespondingActivityFromWithRequestCode(MainActivity mainActivity,int requestCode) throws Exception
     {
         if(mainActivity==null)
             throw new IllegalArgumentException("Main activity cannot be null");
+
+        this.mainActivity = mainActivity;
 
         if(groupInfoTask!=null)
         {
@@ -48,7 +52,6 @@ public class ActivityCoordinator implements ITaskHandler{
 
         else if(!serviceGroup.belongsToGroup())
         {
-           this.mainActivity = mainActivity;
            this.requestCode = requestCode;
            groupInfoTask = new GetGroupInfoTask();
            groupInfoTask.addHandler(this);
@@ -75,13 +78,13 @@ public class ActivityCoordinator implements ITaskHandler{
 
     @Override
     public void onPreExecute(String identifier) {
-
+        mainActivity.showProgress(true);
     }
 
     @Override
     public void onPostExecute(TaskResult taskResult) {
         Intent intent;
-
+        mainActivity.showProgress(false);
         try {
             if (taskResult.isSuccesful()) {
                 intent = makeIntent(mainActivity, SecurityActivity.class);
@@ -97,6 +100,6 @@ public class ActivityCoordinator implements ITaskHandler{
 
     @Override
     public void onCancelled(String identifier) {
-
+        mainActivity.showProgress(false);
     }
 }

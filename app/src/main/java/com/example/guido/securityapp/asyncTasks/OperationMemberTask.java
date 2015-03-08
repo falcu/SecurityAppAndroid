@@ -44,12 +44,12 @@ public abstract class OperationMemberTask extends AsynTaskWithHandlers{
             service.doOperation(newMemberTO);
             if(service.wasRequestWithError())
             {
-                result.setError(service.getLastErrorMessage());
+                result.setError(new TaskError(service.getLastErrorMessage()));
             }
         }
         catch (Exception e)
         {
-            result.setError(getOwnErrorMessage());
+            result.setError(new TaskError(getOwnErrorMessage()));
         }
         return result;
     }

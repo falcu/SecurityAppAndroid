@@ -29,13 +29,13 @@ public class GetGroupInfoTask extends AsynTaskWithHandlers {
             ServiceGroupInformation service = BuilderServiceGroup.buildGroupInformationService();
             service.updateGroupInformation(new TokenTO(token));
             if(service.wasRequestWithError()){
-                result.setError(service.getLastErrorMessage());
+                result.setError(new TaskError(service.getLastErrorMessage()));
             }
 
         }
         catch (Exception e)
         {
-            result.setError(e.getMessage());
+            result.setError(new TaskError(e.getMessage(),e));
         }
         return result;
 

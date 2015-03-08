@@ -25,7 +25,8 @@ public class AlarmTask extends AsynTaskWithHandlers{
             service.sendNotification(notificationTO);
             if(service.wasRequestWithError())
             {
-                result.setError(service.getLastErrorMessage());
+                TaskError error = new TaskError(service.getLastErrorMessage());
+                result.setError(error);
             }
             else if(service.wasRequestWithMessage())
             {
@@ -34,7 +35,7 @@ public class AlarmTask extends AsynTaskWithHandlers{
         }
         catch (Exception e)
         {
-            result.setError("Unable to send notification");
+            result.setError(new TaskError("Unable to send notification"));
         }
         return result;
     }

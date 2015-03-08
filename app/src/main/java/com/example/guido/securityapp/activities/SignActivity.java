@@ -10,6 +10,8 @@ import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.AsynTaskWithHandlers;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.builders.BuilderValidator;
+import com.example.guido.securityapp.exceptions.ExceptionHandler;
+import com.example.guido.securityapp.exceptions.ExceptionHandlerWithDialog;
 import com.example.guido.securityapp.interfaces.IFragmentGetData;
 import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.ISetFragmentError;
@@ -131,7 +133,15 @@ public abstract class SignActivity extends Activity implements ITaskHandler {
             beforeFinish();
             finish();
         } else {
-            getFragmentErrorSetter().setError(getString(R.string.password_error_key),taskResult.getError());
+            if(taskResult.getError().getException()!=null)
+            {
+                ExceptionHandler exceptionHandler = new ExceptionHandlerWithDialog(this);
+                exceptionHandler.handleException(taskResult.getError().getException());
+            }
+            else{
+
+                getFragmentErrorSetter().setError(getString(R.string.password_error_key),taskResult.getError().getErrorMessage());
+            }
         }
     }
     @Override

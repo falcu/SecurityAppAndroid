@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.builders.services.BuilderServiceRegisterId;
 import com.example.guido.securityapp.builders.services.BuilderServiceLocationSingleton;
+import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.ISignService;
 import com.example.guido.securityapp.services.ServiceLocation;
 import com.example.guido.securityapp.services.ServiceLocationNotifierListener;
@@ -25,13 +26,15 @@ public class MainActivity extends Activity {
     private ServiceRegisterId serviceRegisterId;
     private ActivityCoordinator activityCoordinator;
     private ServiceLocation serviceLocation;
+    private IProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_main);
         try
         {
+            progressBar = (IProgressBar) getFragmentManager().findFragmentById(R.id.progress_bar_fragment);
             Intent intentService = new Intent(this, ServiceLocationNotifierListener.class);
             startService(intentService);
             serviceLocation = BuilderServiceLocationSingleton.getServiceLocation();
@@ -93,5 +96,10 @@ public class MainActivity extends Activity {
 
             }
         }
+    }
+
+    public void showProgress(boolean show)
+    {
+        progressBar.showProgress(show);
     }
 }

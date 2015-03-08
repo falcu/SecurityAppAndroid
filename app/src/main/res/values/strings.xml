@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">SecurityApp</string>
-    <string name="main_activity_text">Welcome!</string>
 
     <string name="signed_user_store_key">signed_user</string>
     <string name="group_store_key">group</string>

@@ -2,9 +2,7 @@ package com.example.guido.securityapp.restful;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
@@ -15,6 +13,7 @@ import java.util.Iterator;
 public abstract class HttpManager {
 
     protected HttpURLConnection connection;
+    protected int timeOut = 10000; //10 seconds
 
     public abstract String getData(RequestPackage requestPackage) throws Exception;
 
@@ -24,6 +23,7 @@ public abstract class HttpManager {
 
         URL url = new URL(uri);
         connection = (HttpURLConnection) url.openConnection();
+        connection.setConnectTimeout(timeOut);
         connection.setRequestMethod(this.getMethod());
         Iterator<String> headerKeys = requestPackage.getHeaderKeys();
         while (headerKeys.hasNext()) {

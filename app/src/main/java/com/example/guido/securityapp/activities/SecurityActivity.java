@@ -159,7 +159,7 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
         }
         else
         {
-            toast.showLongDurationMessage(this,taskResult.getError());
+            toast.showLongDurationMessage(this,taskResult.getError().getErrorMessage());
         }
     }
 
@@ -167,29 +167,5 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
     public void onCancelled(String identifier) {
         progressBar.showProgress(false);
     }
-
-
-    private class DummyCommand extends Command
-    {
-
-        @Override
-        public boolean canExecute() {
-            return true;
-        }
-
-        @Override
-        protected void executeImplementation() {
-            ServiceLocation serviceLocation = BuilderServiceLocationSingleton.getServiceLocation();
-            try
-            {
-                MyLocation myLocation = serviceLocation.getLocation();
-                String message = "Latitude: " +myLocation.getLatitude()+"\n"+"Longitude: "+myLocation.getLongitude()+"\n"+"Old: "+myLocation.getTimeOld();
-            }
-            catch (Exception e)
-            {
-            }
-        }
-    }
-
 
 }

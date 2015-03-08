@@ -92,7 +92,7 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
         if (taskResult.isSuccesful()) {
             finishActivityAndNotifyMainActivity();
         } else {
-            showError(taskResult.getError());
+            showError(taskResult.getError().getErrorMessage());
         }
     }
 

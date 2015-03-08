@@ -24,7 +24,7 @@ public class QuitGroupTask extends AsynTaskWithHandlers {
             serviceQuitGroup.quitGroup(quitGroupTO);
             if(serviceQuitGroup.wasRequestWithError())
             {
-                taskResult.setError(serviceQuitGroup.getLastErrorMessage());
+                taskResult.setError(new TaskError(serviceQuitGroup.getLastErrorMessage()));
             }
             else if(serviceQuitGroup.wasRequestWithMessage())
             {
@@ -33,7 +33,7 @@ public class QuitGroupTask extends AsynTaskWithHandlers {
         }
         catch (Exception e)
         {
-            taskResult.setError(e.getMessage());
+            taskResult.setError(new TaskError(e.getMessage()));
         }
 
         return taskResult;

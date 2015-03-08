@@ -117,11 +117,23 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
         }
         else if(taskResult.getIdentifier().equals(setLocalityClassificationTaskIdentifier))
         {
-            Locality updatedLocality = (Locality) taskResult.getResult();
-            ((LocalitiesAdapter) listFragment.getAdapter()).showProgressOnItemWithId(updatedLocality.getId(), false);
-            ToastHelper toastHelper = new ToastHelper();
-            String message = updatedLocality.getName() + " was updated!";
-            toastHelper.showLongDurationMessage(this,message);
+            if(taskResult.isSuccesful())
+            {
+                Locality updatedLocality = (Locality) taskResult.getResult();
+                ((LocalitiesAdapter) listFragment.getAdapter()).showProgressOnItemWithId(updatedLocality.getId(), false);
+                ToastHelper toastHelper = new ToastHelper();
+                String message = updatedLocality.getName() + " was updated!";
+                toastHelper.showLongDurationMessage(this,message);
+            }
+            else
+            {
+                Locality notUpdatedLocality = (Locality) taskResult.getError().getErrorParam();
+                ToastHelper toastHelper = new ToastHelper();
+                String message = "Unable to perform operation on "+notUpdatedLocality.getName()+", try again later";
+                toastHelper.showLongDurationMessage(this,message);
+                LocalitiesAdapter adapter = (LocalitiesAdapter) listFragment.getAdapter();
+                adapter.showProgressOnItemWithId(notUpdatedLocality.getId(), false);
+            }
         }
 
     }
@@ -172,7 +184,7 @@ public class LocalitiesCustomizationActivity extends Activity implements ITaskHa
             if(!currentLocality.getClassification().equals(selectedClassification))
             {
                 String token = BuilderServiceUserToken.build().getToken();
-                AsynTaskWithHandlers setLocalityClassificationTask = new SetLocalityClassificationTask(new LocalityClassificationTO(localityId,selectedClassification,token));
+                AsynTaskWithHandlers setLocalityClassificationTask = new SetLocalityClassificationTask(new LocalityClassificationTO(localityId,selectedClassification,token),currentLocality);
                 setLocalityClassificationTask.addHandler(this);
                 setLocalityClassificationTask.setResultIdentifier(setLocalityClassificationTaskIdentifier);
                 adapter.showProgressOnItemWithId(localityId, true);

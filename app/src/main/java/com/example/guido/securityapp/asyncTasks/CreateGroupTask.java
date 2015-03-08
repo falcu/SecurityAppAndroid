@@ -24,7 +24,7 @@ public class CreateGroupTask extends AsynTaskWithHandlers{
             service.createGroup(createGroupTO);
             if(service.wasRequestWithError())
             {
-                result.setError(service.getLastErrorMessage());
+                result.setError(new TaskError(service.getLastErrorMessage()));
             }
             else if(service.wasRequestWithMessage())
             {
@@ -33,7 +33,7 @@ public class CreateGroupTask extends AsynTaskWithHandlers{
         }
         catch (Exception e)
         {
-            result.setError("Unable to create group, try again");
+            result.setError(new TaskError("Unable to create group, try again"));
         }
         return result;
     }

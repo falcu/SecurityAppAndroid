@@ -11,10 +11,12 @@ import com.example.guido.securityapp.services.ServiceSetLocalityClassification;
  */
 public class SetLocalityClassificationTask extends AsynTaskWithHandlers {
     private LocalityClassificationTO localityClassificationTO;
+    private Locality currentLocality;
 
-    public SetLocalityClassificationTask(LocalityClassificationTO localityClassification)throws Exception
+    public SetLocalityClassificationTask(LocalityClassificationTO localityClassification,Locality currentLocality)throws Exception
     {
         super(localityClassification);
+        this.currentLocality = currentLocality;
     }
 
     @Override
@@ -26,14 +28,18 @@ public class SetLocalityClassificationTask extends AsynTaskWithHandlers {
             Locality l = service.updateLocalityClassification(localityClassificationTO);
             if(service.wasRequestWithError())
             {
-                taskResult.setError(service.getLastErrorMessage());
+                TaskError error = new TaskError(service.getLastErrorMessage());
+                error.setErrorParam(currentLocality);
+                taskResult.setError(error);
             }
             else
             {
                 taskResult.setResult(l);
             }
         } catch (Exception e) {
-            taskResult.setException(e);
+            TaskError error = new TaskError(e);
+            error.setErrorParam(currentLocality);
+            taskResult.setError(error);
         }
 
         return taskResult;

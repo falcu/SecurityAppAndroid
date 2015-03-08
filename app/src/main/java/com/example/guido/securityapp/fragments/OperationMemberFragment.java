@@ -105,7 +105,7 @@ public abstract class OperationMemberFragment extends BaseFragmentOption impleme
     public void onPostExecute(TaskResult taskResult) {
         if(!taskResult.isSuccesful())
         {
-            userEmailEditText.setError(taskResult.getError());
+            userEmailEditText.setError(taskResult.getError().getErrorMessage());
             userEmailEditText.requestFocus();
         }
         else
