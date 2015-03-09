@@ -7,11 +7,14 @@ import android.os.Bundle;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
+import com.example.guido.securityapp.exceptions.ExceptionHandler;
+import com.example.guido.securityapp.exceptions.ExceptionHandlerWithDialog;
 import com.example.guido.securityapp.factories.FactoryCreateGroupFragments;
 import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.factories.FactoryFragmentsOptions;
 import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.Option;
+import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.interfaces.IFragmentExceptionHandler;
 import com.example.guido.securityapp.interfaces.IFragmentOptions;
@@ -111,14 +114,13 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
 
         if (taskResult.isSuccesful()) {
             finishActivityAndNotifyMainActivity();
-        } else {
-            showError(taskResult.getError().getErrorMessage());
+        } else if (taskResult.getError().getException() != null) {
+            ExceptionHandler exceptionHandler = new ExceptionHandlerWithDialog(this);
+            exceptionHandler.handleException(taskResult.getError().getException());
+        } else if (taskResult.getError().getErrorMessage() != null) {
+            ToastHelper toastHelper = new ToastHelper();
+            toastHelper.showLongDurationMessage(this, taskResult.getError().getErrorMessage());
         }
-    }
-
-    protected void showError(String error)
-    {
-        new AlertDialog.Builder(this).setTitle("Error").setMessage(error).show();
     }
 
     @Override

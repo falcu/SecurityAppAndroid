@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">SecurityApp</string>
-
     <string name="signed_user_store_key">signed_user</string>
     <string name="group_store_key">group</string>
     <string name="register_id_store_key">register_id</string>
@@ -10,9 +9,7 @@
     <string name="panic_message_store_key">panic_message</string>
     <string name="localities_store_key">localities</string>
     <string name="global_preferences_key">global</string>
-
     <string name="sever_url">http://192.168.1.110:3000</string>
-
     <string name="title_activity_create_group">CreateGroupActivity</string>
 
     <integer name="ACTIVITY_FINISH">1</integer>
@@ -29,17 +26,16 @@
     <string name="operation_member_action_text">Operation Member</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
-
     <string name="quit_group_action_key">quit_group</string>
     <string name="add_member_action_key">add_member</string>
     <string name="remove_member_action_key">remove_member</string>
     <string name="rename_group_action_key">rename_group</string>
+    <string name="refresh_group_action_key">refresh_group</string>
     <string name="quit_group_action_description">Quit Group</string>
     <string name="add_member_action_description">Add Member</string>
     <string name="remove_member_action_description">Remove Member</string>
     <string name="rename_group_action_description">Rename Group</string>
-
-
+    <string name="refresh_group_action_description">Refresh Group</string>
     <string name="group_updated_event">group_updated</string>
 
     <string-array name="group_gcm_types">
@@ -57,6 +53,5 @@
     <string name="save_changes">Save Changes</string>
     <string name="title_activity_panic_message_configuration">PanicMessageConfigurationActivity</string>
     <string name="title_activity_localities_customization">LocalitiesCustomizationActivity</string>
-    <string name="hello_world">Hello world!</string>
 
 </resources>

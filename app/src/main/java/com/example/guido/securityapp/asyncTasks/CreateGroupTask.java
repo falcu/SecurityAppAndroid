@@ -33,7 +33,7 @@ public class CreateGroupTask extends AsynTaskWithHandlers{
         }
         catch (Exception e)
         {
-            result.setError(new TaskError("Unable to create group, try again"));
+            result.setError(new TaskError("Unable to create group, try again later",e));
         }
         return result;
     }

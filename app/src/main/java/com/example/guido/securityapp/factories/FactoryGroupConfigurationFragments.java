@@ -14,6 +14,7 @@ import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.QuitGroupFragment;
 import com.example.guido.securityapp.fragments.RemoveMemberFragment;
 import com.example.guido.securityapp.fragments.RenameGroupFragment;
+import com.example.guido.securityapp.fragments.SynchronizeExistentGroupFragment;
 import com.example.guido.securityapp.services.ServiceGroupMember;
 
 import java.util.ArrayList;
@@ -48,8 +49,10 @@ public class FactoryGroupConfigurationFragments extends FactoryFragmentsOptions
         creatorKeys.add(MyApplication.getContext().getResources().getString(R.string.remove_member_action_key));
         creatorKeys.add(MyApplication.getContext().getResources().getString(R.string.rename_group_action_key));
         creatorKeys.add(MyApplication.getContext().getResources().getString(R.string.quit_group_action_key));
+        creatorKeys.add(MyApplication.getContext().getResources().getString(R.string.refresh_group_action_key));
 
         regularMemberKeys.add(MyApplication.getContext().getResources().getString(R.string.quit_group_action_key));
+        regularMemberKeys.add(MyApplication.getContext().getResources().getString(R.string.refresh_group_action_key));
     }
 
     public Iterator<BaseFragmentOption> getFragments() throws Exception
@@ -123,6 +126,11 @@ public class FactoryGroupConfigurationFragments extends FactoryFragmentsOptions
         {
             fragment = new QuitGroupFragment();
             description = MyApplication.getContext().getResources().getString(R.string.quit_group_action_description);
+        }
+        else if(key.equals(MyApplication.getContext().getResources().getString(R.string.refresh_group_action_key)))
+        {
+            fragment = new SynchronizeExistentGroupFragment();
+            description = MyApplication.getContext().getResources().getString(R.string.refresh_group_action_description);
         }
 
         fragment.setIdentifier(id);

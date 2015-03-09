@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by guido on 2/9/15.
@@ -20,7 +21,8 @@ public class NewMemberToParams extends Converter {
         {
             NewMemberTO maybeNewMember = (NewMemberTO) objectToConvert;
             JSONObject group_details = new JSONObject();
-            String[] emails = new String[]{maybeNewMember.getEmail()};
+            List<String> emails = new ArrayList<>();
+            emails.add(maybeNewMember.getEmail());
             JSONArray emailsJson = new JSONArray(emails);
             group_details.put("members_email",(Object)emailsJson);
             group_details.put("id",maybeNewMember.getGroupId());

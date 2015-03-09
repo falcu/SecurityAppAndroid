@@ -123,7 +123,7 @@ public class CreateGroupFragment extends BaseFragmentOption implements  View.OnC
             ToastHelper toastHelper = new ToastHelper();
             toastHelper.showLongDurationMessage(MyApplication.getContext(),(String)taskResult.getResult());
         }
-        else if(!taskResult.getError().getErrorMessage().isEmpty())
+        else if(!taskResult.getError().getErrorMessage().isEmpty() && taskResult.getError().getException()==null)
         {
             groupNameView.setError(taskResult.getError().getErrorMessage());
             groupNameView.requestFocus();

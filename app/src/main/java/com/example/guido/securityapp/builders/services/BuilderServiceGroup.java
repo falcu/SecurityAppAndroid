@@ -10,6 +10,7 @@ import com.example.guido.securityapp.converters.json.HttpCreateGroupResponseToJs
 import com.example.guido.securityapp.converters.json.HttpGroupInfoResponseToJson;
 import com.example.guido.securityapp.converters.json.HttpOperationMemberResponseToJson;
 import com.example.guido.securityapp.converters.json.JsonToObject;
+import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.interfaces.IDataRemover;
 import com.example.guido.securityapp.interfaces.IDataStore;
 import com.example.guido.securityapp.interfaces.IMessageAnalyzer;
@@ -22,6 +23,8 @@ import com.example.guido.securityapp.services.ServiceCreateGroup;
 import com.example.guido.securityapp.services.ServiceDeleteData;
 import com.example.guido.securityapp.services.ServiceQuitGroup;
 import com.example.guido.securityapp.services.ServiceRenameGroup;
+import com.example.guido.securityapp.services.http_analyzers.ComposedAnalyzer;
+import com.example.guido.securityapp.services.http_analyzers.EmptyGroupInfoAnalyzer;
 import com.example.guido.securityapp.services.http_analyzers.ServiceBadHttpRequestAnalyzer;
 import com.example.guido.securityapp.services.ServiceGroupInformation;
 import com.example.guido.securityapp.services.ServiceStore;
@@ -76,8 +79,9 @@ public class BuilderServiceGroup {
         {
             IDataStore store = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new HttpGroupInfoResponseToJson());
             HttpRequestService service = new HttpRequestService(new GetHttpManager(), new BuilderGetGroupInfoRequest());
-            IMessageAnalyzer errorAnalyzer = new ServiceBadHttpRequestAnalyzer();
-            services.put(GroupServices.GROUP_INFORMATION,new ServiceGroupInformation(store,service,errorAnalyzer));
+            ComposedAnalyzer composedErrorAnalyzer = new ComposedAnalyzer(new EmptyGroupInfoAnalyzer());
+            composedErrorAnalyzer.setComposedAnalyzer(new ComposedAnalyzer(new ServiceBadHttpRequestAnalyzer()));
+            services.put(GroupServices.GROUP_INFORMATION,new ServiceGroupInformation(store,service,composedErrorAnalyzer, FactoryEventAggregator.getInstance()));
         }
     }
 

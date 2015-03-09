@@ -11,6 +11,7 @@ import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.CreateGroupFragment;
 import com.example.guido.securityapp.fragments.DescriptionFragment;
 import com.example.guido.securityapp.fragments.JoinGroupFragment;
+import com.example.guido.securityapp.fragments.SynchronizeExistentGroupFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ public class FactoryCreateGroupFragments extends FactoryFragmentsOptions{
     {
         fragmentsKeys.add(MyApplication.getContext().getResources().getString(R.string.create_group_key));
         fragmentsKeys.add(MyApplication.getContext().getResources().getString(R.string.join_group_key));
+        fragmentsKeys.add(MyApplication.getContext().getResources().getString(R.string.synchronize_group_key));
     }
 
     @Override
@@ -81,6 +83,11 @@ public class FactoryCreateGroupFragments extends FactoryFragmentsOptions{
             description = MyApplication.getContext().getResources().getString(R.string.join_group_text);
             fragment = new JoinGroupFragment();
             ((JoinGroupFragment)fragment).setMessageToUser(MyApplication.getContext().getResources().getString(R.string.join_group_description));
+        }
+        else if(key.equals(MyApplication.getContext().getResources().getString(R.string.synchronize_group_key)))
+        {
+            description = MyApplication.getContext().getResources().getString(R.string.synchronize_group_text);
+            fragment = new SynchronizeExistentGroupFragment();
         }
         fragment.setIdentifier(id);
         fragment.setKey(key);

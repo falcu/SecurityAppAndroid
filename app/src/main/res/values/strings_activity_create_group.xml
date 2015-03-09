@@ -5,4 +5,6 @@
     <string name="join_group_key">join_group</string>
     <string name="create_group_key">create_group</string>
     <string name="join_group_description">"In order to join a group, the creator must add you to the group. The creator just needs your email"</string>
+    <string name="synchronize_group_key">synchronize_group</string>
+    <string name="synchronize_group_text">I already belong to a group</string>
 </resources>
