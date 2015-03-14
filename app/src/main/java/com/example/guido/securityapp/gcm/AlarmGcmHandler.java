@@ -6,12 +6,11 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.example.guido.securityapp.R;
-import com.example.guido.securityapp.activities.MainActivity;
 import com.example.guido.securityapp.activities.MyApplication;
-import com.example.guido.securityapp.builders.services.BuilderServiceAlarm;
+import com.example.guido.securityapp.builders.services.BuilderServiceAlarmStore;
 import com.example.guido.securityapp.commands.Command;
-import com.example.guido.securityapp.models.Alarm;
-import com.example.guido.securityapp.models.AlarmsHistory;
+import com.example.guido.securityapp.models.Notification;
+import com.example.guido.securityapp.models.NotificationsHistory;
 
 /**
  * Created by guido on 2/22/15.
@@ -29,8 +28,8 @@ public class AlarmGcmHandler extends GcmHandler{
 
     @Override
     protected PendingIntent getIntent() {
-         AlarmsHistory alarmsHistory = BuilderServiceAlarm.build().getAlarmsHistory();
-        Alarm recentAlarm = alarmsHistory.getAlarms().get(0);
+         NotificationsHistory alarmsHistory = getNotificationsHistory();
+        Notification recentAlarm = alarmsHistory.getAlarms().get(0);
         String url = recentAlarm.getUrl();
 
         Intent i = new Intent(Intent.ACTION_VIEW);
@@ -38,6 +37,11 @@ public class AlarmGcmHandler extends GcmHandler{
 
         return PendingIntent.getActivity(service, 0,
                 i, 0);
+    }
+
+    protected NotificationsHistory getNotificationsHistory()
+    {
+        return BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.ALARM).getNotificationsHistory();
     }
 
     @Override

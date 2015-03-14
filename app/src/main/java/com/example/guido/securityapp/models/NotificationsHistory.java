@@ -1,27 +1,26 @@
 package com.example.guido.securityapp.models;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
 /**
  * Created by guido on 2/21/15.
  */
-public class AlarmsHistory {
+public class NotificationsHistory {
 
-    private Stack<Alarm> alarms;
+    private Stack<Notification> alarms;
 
-    public AlarmsHistory()
+    public NotificationsHistory()
     {
         alarms = new Stack<>();
     }
 
-    public void addAlarm(Alarm a)
+    public void addAlarm(Notification a)
     {
         alarms.push(a);
     }
 
-    public List<Alarm> getAlarms()
+    public List<Notification> getAlarms()
     {
         return alarms;
     }

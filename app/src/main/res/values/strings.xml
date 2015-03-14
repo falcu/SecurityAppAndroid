@@ -6,6 +6,7 @@
     <string name="group_store_key">group</string>
     <string name="register_id_store_key">register_id</string>
     <string name="alarms_store_key">alarms</string>
+    <string name="locality_notifications_store_key">locality_notifications</string>
     <string name="panic_message_store_key">panic_message</string>
     <string name="localities_store_key">localities</string>
     <string name="global_preferences_key">global</string>
@@ -19,6 +20,7 @@
     <string name="BACK_BUTTON_PRESSED">back_pressed</string>
     <string name="UPDATE_GROUP">update_group</string>
     <string name="UPDATE_ALARM">update_alarm</string>
+    <string name="UPDATE_LOCALITY_NOTIFICATIONS">update_locality_notifications</string>
     <string name="UPDATE_LAST_ALARM">update_last_alarm</string>
     <string name="UPDATE_SINGLE_LOCALITY">update_single_locality</string>
     <string name="title_activity_group_configuration">GroupConfigurationActivity</string>
@@ -48,6 +50,7 @@
     </string-array>
 
     <string name="alarm_type">notification_alarm</string>
+    <string name="locality_notification_type">notification_insecure_location</string>
     <string name="title_activity_alarms_history">AlarmsHistoryActivity</string>
     <string name="default_panic_message">I need help</string>
     <string name="save_changes">Save Changes</string>

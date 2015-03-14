@@ -6,8 +6,8 @@ import android.support.v4.app.NotificationCompat;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
-import com.example.guido.securityapp.builders.services.BuilderServiceAlarm;
-import com.example.guido.securityapp.commands.AlarmReceivedCommand;
+import com.example.guido.securityapp.builders.services.BuilderServiceAlarmStore;
+import com.example.guido.securityapp.commands.NotificationReceivedCommand;
 import com.example.guido.securityapp.commands.GroupChangedGcmCommand;
 import com.example.guido.securityapp.converters.json.GcmGroupToJson;
 import com.example.guido.securityapp.converters.json.JsonToObject;
@@ -15,7 +15,7 @@ import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.interfaces.IDataStore;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.models.Group;
-import com.example.guido.securityapp.services.ServiceAlarm;
+import com.example.guido.securityapp.services.ServiceAlarmStore;
 import com.example.guido.securityapp.services.ServiceStore;
 
 import java.util.ArrayList;
@@ -56,12 +56,17 @@ public class GcmHelper {
         IDataStore groupStore = new ServiceStore(MyApplication.getContext().getString(R.string.group_store_key), new JsonToObject(Group.class),new GcmGroupToJson());
         GroupGcmHandler groupHandler = new GroupGcmHandler(parser,intent,intentService,new GroupChangedGcmCommand(intent,eventAggregator,groupStore));
 
-        ServiceAlarm serviceAlarm = BuilderServiceAlarm.build();
-        AlarmReceivedCommand alarmReceivedCommand = new AlarmReceivedCommand(intent,serviceAlarm);
+        ServiceAlarmStore serviceAlarmStore = BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.ALARM);
+        NotificationReceivedCommand alarmReceivedCommand = new NotificationReceivedCommand(intent, serviceAlarmStore,"alarm_info");
         AlarmGcmHandler alarmHandler = new AlarmGcmHandler(parser,intent,intentService,alarmReceivedCommand);
+
+        ServiceAlarmStore serviceLocalityNotificationStore = BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.LOCALITY_NOTIFICATION);
+        NotificationReceivedCommand localityNotificationReceivedCommand = new NotificationReceivedCommand(intent, serviceLocalityNotificationStore,"locality_notification_info");
+        LocalityNotificationGcmHandler localityNotificationGcmHandler = new LocalityNotificationGcmHandler(parser,intent,intentService,localityNotificationReceivedCommand);
 
         gcmHandlers.add(groupHandler);
         gcmHandlers.add(alarmHandler);
+        gcmHandlers.add(localityNotificationGcmHandler);
     }
 
     private GcmHandler getHandler()

@@ -3,12 +3,12 @@ package com.example.guido.securityapp.models;
 /**
  * Created by guido on 2/21/15.
  */
-public class Alarm {
+public class Notification {
     private String location;
     private Member sender;
     private String message;
 
-    public Alarm(String url, Member sender, String message) {
+    public Notification(String url, Member sender, String message) {
         this.setUrl(url);
         this.setSender(sender);
         this.setMessage(message);

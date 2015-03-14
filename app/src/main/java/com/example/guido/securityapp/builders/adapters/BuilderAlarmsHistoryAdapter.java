@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.widget.BaseAdapter;
 
 import com.example.guido.securityapp.adapters.AlarmsHistoryAdapter;
-import com.example.guido.securityapp.builders.services.BuilderServiceAlarm;
+import com.example.guido.securityapp.builders.services.BuilderServiceAlarmStore;
 import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.interfaces.IBuildAdapter;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
-import com.example.guido.securityapp.models.AlarmsHistory;
+import com.example.guido.securityapp.models.NotificationsHistory;
 
 /**
  * Created by guido on 2/22/15.
@@ -23,7 +23,7 @@ public class BuilderAlarmsHistoryAdapter implements IBuildAdapter{
 
     @Override
     public BaseAdapter buildAdapter() throws Exception {
-        AlarmsHistory alarmsHistory = BuilderServiceAlarm.build().getAlarmsHistory();
+        NotificationsHistory alarmsHistory = BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.ALARM).getNotificationsHistory();
         IEventAggregator eventAggregator = FactoryEventAggregator.getInstance();
         AlarmsHistoryAdapter adapter = new AlarmsHistoryAdapter(alarmsHistory,eventAggregator,activity);
 

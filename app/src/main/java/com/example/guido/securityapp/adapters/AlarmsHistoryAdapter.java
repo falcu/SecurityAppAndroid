@@ -15,19 +15,19 @@ import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.interfaces.ISubscriber;
-import com.example.guido.securityapp.models.Alarm;
-import com.example.guido.securityapp.models.AlarmsHistory;
+import com.example.guido.securityapp.models.Notification;
+import com.example.guido.securityapp.models.NotificationsHistory;
 
 /**
  * Created by guido on 2/22/15.
  */
 public class AlarmsHistoryAdapter extends BaseAdapter implements ISubscriber, AdapterView.OnItemClickListener{
 
-    private AlarmsHistory alarmsHistory;
+    private NotificationsHistory alarmsHistory;
     private IEventAggregator eventAggregator;
     private Activity activity;
 
-    public AlarmsHistoryAdapter(AlarmsHistory alarmsHistory, IEventAggregator eventAggregator, Activity activity) {
+    public AlarmsHistoryAdapter(NotificationsHistory alarmsHistory, IEventAggregator eventAggregator, Activity activity) {
         this.alarmsHistory = alarmsHistory;
         this.eventAggregator = eventAggregator;
         this.activity = activity;
@@ -56,7 +56,7 @@ public class AlarmsHistoryAdapter extends BaseAdapter implements ISubscriber, Ad
             convertView = inflater.inflate(R.layout.alarms_history_layout, parent, false);
         }
 
-        Alarm currentItem = alarmsHistory.getAlarms().get(position);
+        Notification currentItem = alarmsHistory.getAlarms().get(position);
         TextView sender = (TextView) convertView.findViewById(R.id.alarm_sender);
         TextView message = (TextView) convertView.findViewById(R.id.alarm_message);
 
@@ -73,7 +73,7 @@ public class AlarmsHistoryAdapter extends BaseAdapter implements ISubscriber, Ad
         this.activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                alarmsHistory = (AlarmsHistory) data;
+                alarmsHistory = (NotificationsHistory) data;
                 notifyDataSetChanged();
             }
         });

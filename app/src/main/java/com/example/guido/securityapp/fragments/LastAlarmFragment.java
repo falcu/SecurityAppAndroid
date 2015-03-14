@@ -9,25 +9,24 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
-import com.example.guido.securityapp.builders.services.BuilderServiceAlarm;
+import com.example.guido.securityapp.builders.services.BuilderServiceAlarmStore;
 import com.example.guido.securityapp.exceptions.NotRecentAlarm;
 import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.interfaces.ISubscriber;
-import com.example.guido.securityapp.models.Alarm;
+import com.example.guido.securityapp.models.Notification;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class LastAlarmFragment extends Fragment implements ISubscriber,View.OnClickListener {
 
-    protected Alarm lastAlarm = null;
+    protected Notification lastAlarm = null;
     protected View alarmDetailsView;
     protected View noAlarmView;
     protected TextView senderDetails;
@@ -55,7 +54,7 @@ public class LastAlarmFragment extends Fragment implements ISubscriber,View.OnCl
         alarmDetailsView = theView.findViewById(R.id.last_alarm_details);
         try
         {
-            lastAlarm = BuilderServiceAlarm.build().getMostRecentAlarm();
+            lastAlarm = BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.ALARM).getMostRecentNotification();
             updateView();
             showView(alarmDetailsView);
             hideView(noAlarmView);
@@ -88,7 +87,7 @@ public class LastAlarmFragment extends Fragment implements ISubscriber,View.OnCl
 
     @Override
     public void onEvent(Object data) {
-        lastAlarm = (Alarm) data;
+        lastAlarm = (Notification) data;
         Activity currentActivity = getActivity();
         if(currentActivity!=null)
         {
