@@ -56,5 +56,6 @@
     <string name="save_changes">Save Changes</string>
     <string name="title_activity_panic_message_configuration">PanicMessageConfigurationActivity</string>
     <string name="title_activity_localities_customization">LocalitiesCustomizationActivity</string>
+    <string name="title_activity_localities_notification_history">LocalitiesNotificationHistoryActivity</string>
 
 </resources>

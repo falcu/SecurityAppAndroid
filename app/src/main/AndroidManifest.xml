@@ -72,7 +72,7 @@
         </receiver>
 
         <service android:name=".gcm.GcmIntentService" />
-        <service android:name=".services.ServiceLocationNotifierListener"/>
+        <service android:name=".services.ServiceLocationNotifierListener" />
 
         <activity
             android:name=".activities.AlarmsHistoryActivity"
@@ -85,6 +85,10 @@
         <activity
             android:name=".activities.LocalitiesCustomizationActivity"
             android:label="@string/title_activity_localities_customization" >
+        </activity>
+        <activity
+            android:name=".activities.LocalitiesNotificationHistoryActivity"
+            android:label="@string/title_activity_localities_notification_history" >
         </activity>
     </application>
 

@@ -1,10 +1,7 @@
 package com.example.guido.securityapp.activities;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.builders.adapters.BuilderAlarmsHistoryAdapter;
@@ -16,7 +13,12 @@ public class AlarmsHistoryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarms_history);
-        IListFragment listFragment = (IListFragment) getFragmentManager().findFragmentById(R.id.alarms_history_fragment);
+        IListFragment listFragment = (IListFragment) getFragmentManager().findFragmentById(R.id.notifications_history_fragment);
+        configureList(listFragment);
+    }
+
+    protected void configureList(IListFragment listFragment)
+    {
         listFragment.setBuilderAdapter(new BuilderAlarmsHistoryAdapter(this));
         listFragment.setEmptyListText("The alarm's history is empty");
     }

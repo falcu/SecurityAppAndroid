@@ -11,10 +11,13 @@
     <item android:id="@+id/action_alarms_history" android:title="@string/action_alarms_history"
         android:orderInCategory="2" app:showAsAction="never" />
 
-    <item android:id="@+id/action_panic_message" android:title="@string/action_panic_message"
+    <item android:id="@+id/action_localities_notification_history" android:title="@string/action_localities_notification_history"
         android:orderInCategory="3" app:showAsAction="never" />
 
-    <item android:id="@+id/action_localities_customization" android:title="@string/action_customize_localities"
+    <item android:id="@+id/action_panic_message" android:title="@string/action_panic_message"
         android:orderInCategory="4" app:showAsAction="never" />
+
+    <item android:id="@+id/action_localities_customization" android:title="@string/action_customize_localities"
+        android:orderInCategory="5" app:showAsAction="never" />
 
 </menu>

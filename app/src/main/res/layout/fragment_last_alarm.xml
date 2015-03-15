@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
     <include android:id="@+id/last_alarm_row"
-        android:layout_gravity="left" android:layout_width="wrap_content" android:layout_height="wrap_content" layout="@layout/alarm_row_details_layout"></include>
+        android:layout_gravity="left" android:layout_width="wrap_content" android:layout_height="wrap_content" layout="@layout/notification_row_details_layout"></include>
 
         <ImageButton
             android:id="@+id/view_location_action"

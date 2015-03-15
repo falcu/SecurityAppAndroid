@@ -46,8 +46,8 @@ public class LastAlarmFragment extends Fragment implements ISubscriber,View.OnCl
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View theView = inflater.inflate(R.layout.fragment_last_alarm, container, false);
-        senderDetails = (TextView) theView.findViewById(R.id.alarm_sender);
-        message = (TextView) theView.findViewById(R.id.alarm_message);
+        senderDetails = (TextView) theView.findViewById(R.id.notification_sender);
+        message = (TextView) theView.findViewById(R.id.notification_message);
         viewLocationAction = (ImageButton) theView.findViewById(R.id.view_location_action);
         viewLocationAction.setOnClickListener(this);
         noAlarmView = theView.findViewById(R.id.no_last_alarm_view);

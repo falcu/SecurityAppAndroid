@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
@@ -21,27 +22,27 @@ import com.example.guido.securityapp.models.NotificationsHistory;
 /**
  * Created by guido on 2/22/15.
  */
-public class AlarmsHistoryAdapter extends BaseAdapter implements ISubscriber, AdapterView.OnItemClickListener{
+public class AlarmHistoryAdapter extends BaseAdapter implements ISubscriber, AdapterView.OnItemClickListener{
 
-    private NotificationsHistory alarmsHistory;
-    private IEventAggregator eventAggregator;
-    private Activity activity;
+    protected NotificationsHistory notificationHistory;
+    protected IEventAggregator eventAggregator;
+    protected Activity activity;
 
-    public AlarmsHistoryAdapter(NotificationsHistory alarmsHistory, IEventAggregator eventAggregator, Activity activity) {
-        this.alarmsHistory = alarmsHistory;
+    public AlarmHistoryAdapter(NotificationsHistory notificationHistory, IEventAggregator eventAggregator, Activity activity, String listenerKey) {
+        this.notificationHistory = notificationHistory;
         this.eventAggregator = eventAggregator;
         this.activity = activity;
-        this.eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_ALARM));
+        this.eventAggregator.Subscribe(this, listenerKey);
     }
 
     @Override
     public int getCount() {
-        return alarmsHistory.getAlarms().size();
+        return notificationHistory.getAlarms().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return alarmsHistory.getAlarms().get(position);
+        return notificationHistory.getAlarms().get(position);
     }
 
     @Override
@@ -53,12 +54,14 @@ public class AlarmsHistoryAdapter extends BaseAdapter implements ISubscriber, Ad
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.alarms_history_layout, parent, false);
+            convertView = inflater.inflate(R.layout.notifications_history_layout, parent, false);
         }
 
-        Notification currentItem = alarmsHistory.getAlarms().get(position);
-        TextView sender = (TextView) convertView.findViewById(R.id.alarm_sender);
-        TextView message = (TextView) convertView.findViewById(R.id.alarm_message);
+        Notification currentItem = notificationHistory.getAlarms().get(position);
+        TextView sender = (TextView) convertView.findViewById(R.id.notification_sender);
+        TextView message = (TextView) convertView.findViewById(R.id.notification_message);
+        ImageView image = (ImageView) convertView.findViewById(R.id.notification_icon);
+        setIcon(image);
 
         sender.setText(currentItem.getSender().getName()+"("+currentItem.getSender().getEmail()+")");
         message.setText(currentItem.getMessage());
@@ -68,12 +71,17 @@ public class AlarmsHistoryAdapter extends BaseAdapter implements ISubscriber, Ad
         return convertView;
     }
 
+    protected void setIcon(ImageView imageView)
+    {
+        imageView.setImageDrawable(MyApplication.getContext().getResources().getDrawable(R.drawable.panic_icon_small));
+    }
+
     @Override
     public void onEvent(final Object data) {
         this.activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                alarmsHistory = (NotificationsHistory) data;
+                notificationHistory = (NotificationsHistory) data;
                 notifyDataSetChanged();
             }
         });
@@ -82,7 +90,7 @@ public class AlarmsHistoryAdapter extends BaseAdapter implements ISubscriber, Ad
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        String url = alarmsHistory.getAlarms().get(position).getUrl();
+        String url = notificationHistory.getAlarms().get(position).getUrl();
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         activity.startActivity(i);

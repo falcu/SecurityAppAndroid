@@ -140,6 +140,11 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler 
             Intent i = new Intent(this,LocalitiesCustomizationActivity.class);
             startActivity(i);
         }
+        else if(id == R.id.action_localities_notification_history)
+        {
+            Intent i = new Intent(this,LocalitiesNotificationHistoryActivity.class);
+            startActivity(i);
+        }
 
         return super.onOptionsItemSelected(item);
     }
