@@ -1,5 +1,7 @@
 package com.example.guido.securityapp.services;
 
+import android.text.format.Time;
+
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.converters.Converter;
@@ -9,6 +11,9 @@ import com.example.guido.securityapp.interfaces.IDataStore;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.models.Notification;
 import com.example.guido.securityapp.models.NotificationsHistory;
+
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by guido on 2/21/15.
@@ -31,8 +36,11 @@ public class ServiceAlarmStore {
     {
         try {
             Notification alarm = (Notification)converter.convert(alarmJson);
+            alarm.generateUniqueId();
+            alarm.setReceivedTimeToNow();
             NotificationsHistory alarmsHistory = loadNotifications();
             alarmsHistory.addAlarm(alarm);
+            alarmsHistory.sortFromRecentToOldest();
             store.save(alarmsHistory);
             update(alarmsHistory,alarm);
 
@@ -64,6 +72,43 @@ public class ServiceAlarmStore {
 
     }
 
+    public void markNotificationAsSeen(Notification notification) throws Exception
+    {
+        NotificationsHistory alarmsHistory = (NotificationsHistory) store.load();
+        List<Notification> notifications = alarmsHistory.getAlarms();
+        int i = 0;
+        boolean notificationFound = false;
+        Notification searchedNotification = null;
+        while(!notificationFound && i<notifications.size())
+        {
+            if(notifications.get(i).getUid().equals(notification.getUid()))
+            {
+                notificationFound = true;
+                searchedNotification = notifications.get(i);
+            }
+            i++;
+        }
+
+        if(searchedNotification!=null)
+        {
+            searchedNotification.setWasSeen(true);
+            store.save(alarmsHistory);
+            updateMarkedNotification(alarmsHistory,searchedNotification);
+        }
+    }
+
+    protected void updateMarkedNotification(NotificationsHistory notificationsHistory,Notification updatedNotification)
+    {
+        eventAggregator.Publish(MyApplication.getContext().getResources().getString(R.string.UPDATE_ALARM),notificationsHistory);
+
+        Notification firstNotification = notificationsHistory.getAlarms().get(0);
+
+        if(updatedNotification.getUid().equals(firstNotification.getUid()))
+        {
+            eventAggregator.Publish(MyApplication.getContext().getResources().getString(R.string.UPDATE_LAST_ALARM),updatedNotification);
+        }
+    }
+
     private NotificationsHistory loadNotifications()
     {
         try
@@ -81,4 +126,5 @@ public class ServiceAlarmStore {
             //TODO HANDLE GENERALE EXCEPTION
         }
     }
+
 }

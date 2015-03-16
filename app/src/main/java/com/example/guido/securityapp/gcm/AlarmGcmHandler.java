@@ -9,6 +9,7 @@ import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.builders.services.BuilderServiceAlarmStore;
 import com.example.guido.securityapp.commands.Command;
+import com.example.guido.securityapp.exceptions.NotRecentAlarm;
 import com.example.guido.securityapp.models.Notification;
 import com.example.guido.securityapp.models.NotificationsHistory;
 
@@ -28,8 +29,7 @@ public class AlarmGcmHandler extends GcmHandler{
 
     @Override
     protected PendingIntent getIntent() {
-         NotificationsHistory alarmsHistory = getNotificationsHistory();
-        Notification recentAlarm = alarmsHistory.getAlarms().get(0);
+        Notification recentAlarm = getRecentNotification();
         String url = recentAlarm.getUrl();
 
         Intent i = new Intent(Intent.ACTION_VIEW);
@@ -39,9 +39,14 @@ public class AlarmGcmHandler extends GcmHandler{
                 i, 0);
     }
 
-    protected NotificationsHistory getNotificationsHistory()
+    protected Notification getRecentNotification()
     {
-        return BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.ALARM).getNotificationsHistory();
+        try {
+            return BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.ALARM).getMostRecentNotification();
+        } catch (NotRecentAlarm notRecentAlarm) {
+           //TODO HANDLE
+            return null;
+        }
     }
 
     @Override

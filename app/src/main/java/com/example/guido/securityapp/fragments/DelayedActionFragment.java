@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.asyncTasks.DelayedAction;
 import com.example.guido.securityapp.commands.Command;
 import com.example.guido.securityapp.interfaces.IFragmentDelayedButton;
 
@@ -83,26 +84,6 @@ public class DelayedActionFragment extends Fragment implements View.OnTouchListe
     @Override
     public void setDelayTime(int milliseconds) {
         this.pressedDuration = milliseconds;
-    }
-
-    public class DelayedAction implements Runnable
-    {
-       private long timeToDelayAction; //in milliseconds
-       private Command command;
-        public DelayedAction(long timeToDelayAction, Command command)
-        {
-            this.timeToDelayAction = timeToDelayAction;
-            this.command = command;
-        }
-        @Override
-        public void run() {
-            try
-            {
-                Thread.sleep(timeToDelayAction);
-                command.execute();
-            }
-            catch (Exception e){return;}
-        }
     }
 
 

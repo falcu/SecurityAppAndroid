@@ -22,12 +22,14 @@ public class BuilderServiceDeleteAll {
             ServiceDeleteData deleteAlarms = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.alarms_store_key));
             ServiceDeleteData deletePanicMessage = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.panic_message_store_key));
             ServiceDeleteData deleteLocalities = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.localities_store_key));
+            ServiceDeleteData deleteNotifications = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.locality_notifications_store_key));
             serviceSignOut = new ServiceDeleteAll();
             serviceSignOut.addRemover(deleteUserService);
             serviceSignOut.addRemover(deleteGroup);
             serviceSignOut.addRemover(deleteAlarms);
             serviceSignOut.addRemover(deletePanicMessage);
             serviceSignOut.addRemover(deleteLocalities);
+            serviceSignOut.addRemover(deleteNotifications);
         }
 
         return serviceSignOut;
@@ -38,8 +40,10 @@ public class BuilderServiceDeleteAll {
         if(serviceQuitGroup==null)
         {
             ServiceDeleteData deleteAlarms = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.alarms_store_key));
+            ServiceDeleteData deleteNotifications = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.locality_notifications_store_key));
             serviceQuitGroup = new ServiceDeleteAll();
             serviceQuitGroup.addRemover(deleteAlarms);
+            serviceQuitGroup.addRemover(deleteNotifications);
         }
         return serviceQuitGroup;
     }

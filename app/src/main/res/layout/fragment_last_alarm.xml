@@ -15,12 +15,24 @@
     <include android:id="@+id/last_alarm_row"
         android:layout_gravity="left" android:layout_width="wrap_content" android:layout_height="wrap_content" layout="@layout/notification_row_details_layout"></include>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/warning_sign"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
         <ImageButton
             android:id="@+id/view_location_action"
             android:background="@drawable/google_maps_icon"
-            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
             android:layout_width="40dp"
             android:layout_height="40dp" />
+
+        </LinearLayout>
 
 
     </LinearLayout>

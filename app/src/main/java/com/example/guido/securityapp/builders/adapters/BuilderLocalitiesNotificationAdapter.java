@@ -12,6 +12,7 @@ import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.interfaces.IBuildAdapter;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.models.NotificationsHistory;
+import com.example.guido.securityapp.services.ServiceAlarmStore;
 
 /**
  * Created by guido on 3/14/15.
@@ -29,7 +30,8 @@ public class BuilderLocalitiesNotificationAdapter implements IBuildAdapter {
         NotificationsHistory alarmsHistory = BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.LOCALITY_NOTIFICATION).getNotificationsHistory();
         IEventAggregator eventAggregator = FactoryEventAggregator.getInstance();
         String listenerKey = MyApplication.getContext().getResources().getString(R.string.UPDATE_LOCALITY_NOTIFICATIONS);
-        LocalitiesNotificationHistoryAdapter adapter = new LocalitiesNotificationHistoryAdapter(alarmsHistory,eventAggregator,activity,listenerKey);
+        ServiceAlarmStore serviceLocalityStore = BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.LOCALITY_NOTIFICATION);
+        LocalitiesNotificationHistoryAdapter adapter = new LocalitiesNotificationHistoryAdapter(alarmsHistory,eventAggregator,activity,listenerKey,serviceLocalityStore);
 
         return adapter;
     }

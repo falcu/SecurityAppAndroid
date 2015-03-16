@@ -7,6 +7,8 @@ import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.builders.services.BuilderServiceAlarmStore;
 import com.example.guido.securityapp.commands.Command;
+import com.example.guido.securityapp.exceptions.NotRecentAlarm;
+import com.example.guido.securityapp.models.Notification;
 import com.example.guido.securityapp.models.NotificationsHistory;
 
 /**
@@ -23,8 +25,14 @@ public class LocalityNotificationGcmHandler extends AlarmGcmHandler {
     }
 
     @Override
-    protected NotificationsHistory getNotificationsHistory() {
-        return BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.LOCALITY_NOTIFICATION).getNotificationsHistory();
+    protected Notification getRecentNotification()
+    {
+        try {
+            return BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.LOCALITY_NOTIFICATION).getMostRecentNotification();
+        } catch (NotRecentAlarm notRecentAlarm) {
+            //TODO HANDLE
+            return null;
+        }
     }
 
     @Override

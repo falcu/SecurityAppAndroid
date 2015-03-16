@@ -18,21 +18,25 @@ import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.interfaces.ISubscriber;
 import com.example.guido.securityapp.models.Notification;
 import com.example.guido.securityapp.models.NotificationsHistory;
+import com.example.guido.securityapp.services.ServiceAlarmStore;
 
 /**
  * Created by guido on 2/22/15.
  */
 public class AlarmHistoryAdapter extends BaseAdapter implements ISubscriber, AdapterView.OnItemClickListener{
 
+    protected ImageView yesIcon;
     protected NotificationsHistory notificationHistory;
     protected IEventAggregator eventAggregator;
     protected Activity activity;
+    protected ServiceAlarmStore serviceAlarmStore;
 
-    public AlarmHistoryAdapter(NotificationsHistory notificationHistory, IEventAggregator eventAggregator, Activity activity, String listenerKey) {
+    public AlarmHistoryAdapter(NotificationsHistory notificationHistory, IEventAggregator eventAggregator, Activity activity, String listenerKey,ServiceAlarmStore serviceAlarmStore) {
         this.notificationHistory = notificationHistory;
         this.eventAggregator = eventAggregator;
         this.activity = activity;
         this.eventAggregator.Subscribe(this, listenerKey);
+        this.serviceAlarmStore = serviceAlarmStore;
     }
 
     @Override
@@ -60,15 +64,28 @@ public class AlarmHistoryAdapter extends BaseAdapter implements ISubscriber, Ada
         Notification currentItem = notificationHistory.getAlarms().get(position);
         TextView sender = (TextView) convertView.findViewById(R.id.notification_sender);
         TextView message = (TextView) convertView.findViewById(R.id.notification_message);
+        yesIcon = (ImageView) convertView.findViewById(R.id.yes_icon);
         ImageView image = (ImageView) convertView.findViewById(R.id.notification_icon);
-        setIcon(image);
 
+        setIcon(image);
         sender.setText(currentItem.getSender().getName()+"("+currentItem.getSender().getEmail()+")");
         message.setText(currentItem.getMessage());
-
+        showYesIconIfSeen(currentItem);
 
 
         return convertView;
+    }
+
+    protected void showYesIconIfSeen(Notification notification)
+    {
+        if(notification.getWasSeen())
+        {
+            yesIcon.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            yesIcon.setVisibility(View.INVISIBLE);
+        }
     }
 
     protected void setIcon(ImageView imageView)
@@ -89,10 +106,16 @@ public class AlarmHistoryAdapter extends BaseAdapter implements ISubscriber, Ada
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        String url = notificationHistory.getAlarms().get(position).getUrl();
+        Notification notification =  notificationHistory.getAlarms().get(position);
+        String url = notification.getUrl();
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
+        try {
+            if(!notification.getWasSeen())
+             serviceAlarmStore.markNotificationAsSeen(notification);
+        } catch (Exception e) {
+            //TODO HANDLE EXCEPTION
+        }
         activity.startActivity(i);
     }
 }

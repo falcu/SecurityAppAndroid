@@ -11,6 +11,7 @@ import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.interfaces.IBuildAdapter;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.models.NotificationsHistory;
+import com.example.guido.securityapp.services.ServiceAlarmStore;
 
 /**
  * Created by guido on 2/22/15.
@@ -28,7 +29,8 @@ public class BuilderAlarmsHistoryAdapter implements IBuildAdapter{
         NotificationsHistory alarmsHistory = BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.ALARM).getNotificationsHistory();
         IEventAggregator eventAggregator = FactoryEventAggregator.getInstance();
         String listenerKey = MyApplication.getContext().getResources().getString(R.string.UPDATE_ALARM);
-        AlarmHistoryAdapter adapter = new AlarmHistoryAdapter(alarmsHistory,eventAggregator,activity,listenerKey);
+        ServiceAlarmStore serviceAlarmStore = BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.ALARM);
+        AlarmHistoryAdapter adapter = new AlarmHistoryAdapter(alarmsHistory,eventAggregator,activity,listenerKey,serviceAlarmStore);
 
         return adapter;
     }

@@ -20,4 +20,9 @@ public class ServiceLocalityNotificationStore extends ServiceAlarmStore {
     protected void update(NotificationsHistory notificationsHistory, Notification notification) {
         eventAggregator.Publish(MyApplication.getContext().getResources().getString(R.string.UPDATE_LOCALITY_NOTIFICATIONS),notificationsHistory);
     }
+
+    @Override
+    protected void updateMarkedNotification(NotificationsHistory notificationsHistory, Notification updatedNotification) {
+        update(notificationsHistory,updatedNotification);
+    }
 }

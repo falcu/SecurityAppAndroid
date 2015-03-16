@@ -3,6 +3,7 @@ package com.example.guido.securityapp.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
@@ -33,6 +35,7 @@ public class LastAlarmFragment extends Fragment implements ISubscriber,View.OnCl
     protected TextView message;
     protected IEventAggregator eventAggregator;
     protected ImageButton viewLocationAction;
+    protected ImageView warningIcon;
 
 
     public LastAlarmFragment() {
@@ -50,6 +53,9 @@ public class LastAlarmFragment extends Fragment implements ISubscriber,View.OnCl
         message = (TextView) theView.findViewById(R.id.notification_message);
         viewLocationAction = (ImageButton) theView.findViewById(R.id.view_location_action);
         viewLocationAction.setOnClickListener(this);
+        warningIcon = (ImageView) theView.findViewById(R.id.warning_sign);
+        warningIcon.setBackgroundResource(R.drawable.warning_animation);
+        warningIcon.setVisibility(View.INVISIBLE);
         noAlarmView = theView.findViewById(R.id.no_last_alarm_view);
         alarmDetailsView = theView.findViewById(R.id.last_alarm_details);
         try
@@ -82,8 +88,20 @@ public class LastAlarmFragment extends Fragment implements ISubscriber,View.OnCl
     {
         senderDetails.setText(lastAlarm.getSender().getName());
         message.setText(lastAlarm.getMessage());
-    }
+        if(lastAlarm.getWasSeen())
+        {
+            warningIcon.setVisibility(View.INVISIBLE);
+            AnimationDrawable animationDrawable = (AnimationDrawable) warningIcon.getBackground();
+            animationDrawable.stop();
+        }
+        else
+        {
+            warningIcon.setVisibility(View.VISIBLE);
+            AnimationDrawable animationDrawable = (AnimationDrawable) warningIcon.getBackground();
+            animationDrawable.start();
+        }
 
+    }
 
     @Override
     public void onEvent(Object data) {
@@ -107,6 +125,12 @@ public class LastAlarmFragment extends Fragment implements ISubscriber,View.OnCl
         String url = lastAlarm.getUrl();
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
+        try {
+            if(!lastAlarm.getWasSeen())
+                BuilderServiceAlarmStore.build(BuilderServiceAlarmStore.NotificationType.ALARM).markNotificationAsSeen(lastAlarm);
+        } catch (Exception e) {
+            //TODO HANDLE
+        }
         getActivity().startActivity(i);
     }
 }
