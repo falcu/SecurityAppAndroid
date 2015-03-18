@@ -31,7 +31,7 @@ public class ServiceGroupInformation extends ServiceBase{
         {
             store.save(data);
             Group group = getGroup();
-            eventAggregator.Publish(MyApplication.getContext().getResources().getString(R.string.group_updated_event),group);
+            eventAggregator.Publish(MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP),group);
         }
 
     }

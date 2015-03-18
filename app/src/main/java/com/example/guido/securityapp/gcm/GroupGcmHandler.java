@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MainActivity;
 import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.activities.SecurityActivity;
 import com.example.guido.securityapp.commands.Command;
 
 import java.util.Arrays;
@@ -37,8 +38,9 @@ public class GroupGcmHandler extends GcmHandler {
 
     @Override
     protected PendingIntent getIntent() {
-        return PendingIntent.getActivity(service, 0,
-                new Intent(service, MainActivity.class), 0);
+        Intent i = new Intent(service, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return PendingIntent.getActivity(service, 0,i, 0);
     }
 
     @Override

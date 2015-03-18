@@ -7,6 +7,7 @@ import android.support.v4.app.NotificationCompat;
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.builders.services.BuilderServiceAlarmStore;
+import com.example.guido.securityapp.commands.DeletedFromGroupCommand;
 import com.example.guido.securityapp.commands.NotificationReceivedCommand;
 import com.example.guido.securityapp.commands.GroupChangedGcmCommand;
 import com.example.guido.securityapp.converters.json.GcmGroupToJson;
@@ -64,9 +65,12 @@ public class GcmHelper {
         NotificationReceivedCommand localityNotificationReceivedCommand = new NotificationReceivedCommand(intent, serviceLocalityNotificationStore,"locality_notification_info");
         LocalityNotificationGcmHandler localityNotificationGcmHandler = new LocalityNotificationGcmHandler(parser,intent,intentService,localityNotificationReceivedCommand);
 
+        DeletedFromGroupGcmHandler deletedHandler = new DeletedFromGroupGcmHandler(parser,intent,intentService,new DeletedFromGroupCommand());
+
         gcmHandlers.add(groupHandler);
         gcmHandlers.add(alarmHandler);
         gcmHandlers.add(localityNotificationGcmHandler);
+        gcmHandlers.add(deletedHandler);
     }
 
     private GcmHandler getHandler()

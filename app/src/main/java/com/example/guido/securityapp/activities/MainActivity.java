@@ -32,6 +32,12 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initializeApp();
+
+    }
+
+    private void initializeApp()
+    {
         try
         {
             progressBar = (IProgressBar) getFragmentManager().findFragmentById(R.id.progress_bar_fragment);
@@ -47,12 +53,16 @@ public class MainActivity extends Activity {
         catch (Exception e){
             String message = e.getMessage();
         }
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        initializeApp();
     }
 
     @Override

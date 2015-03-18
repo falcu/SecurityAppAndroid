@@ -19,7 +19,7 @@ public class ServiceLocationNotifierListener extends Service {
     LocationNotifier networkListenerTimeBased;
     LocationNotifier gpsListenerTimeBased;
     private long minTimeForNextLocation = 3600000; // 1 hour
-    private float minDistanceForNextLocation = 5f; // metres
+    private float minDistanceForNextLocation = 500f; // metres
 
 
     public void startTheService()

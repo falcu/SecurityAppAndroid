@@ -1,7 +1,6 @@
 package com.example.guido.securityapp.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -38,7 +37,7 @@ public class CreateGroupActivity extends Activity implements IFragmentResultHand
         progressBar = (IProgressBar) getFragmentManager().findFragmentById(R.id.progress_bar_fragment);
         progressBar.setControllableView(findViewById(R.id.group_form));
         eventAggregator = FactoryEventAggregator.getInstance();
-        eventAggregator.Subscribe(this,MyApplication.getContext().getResources().getString(R.string.group_updated_event));
+        eventAggregator.Subscribe(this,MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP));
         factoryFragments = new FactoryCreateGroupFragments(this);
         initialize();
     }

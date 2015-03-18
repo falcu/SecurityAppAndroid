@@ -12,6 +12,7 @@ public class BuilderServiceDeleteAll {
 
     private static ServiceDeleteAll serviceSignOut = null;
     private static ServiceDeleteAll serviceQuitGroup = null;
+    private static ServiceDeleteAll serviceDeleteFromGroup = null;
 
     public static ServiceDeleteAll buildSignOut()
     {
@@ -48,6 +49,21 @@ public class BuilderServiceDeleteAll {
         return serviceQuitGroup;
     }
 
+    public static ServiceDeleteAll buildDeletedFromGroup()
+    {
+        if(serviceDeleteFromGroup==null)
+        {
+            ServiceDeleteData deleteAlarms = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.alarms_store_key));
+            ServiceDeleteData deleteNotifications = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.locality_notifications_store_key));
+            ServiceDeleteData deleteGroup = new ServiceDeleteData(MyApplication.getContext().getResources().getString(R.string.group_store_key));
+            serviceDeleteFromGroup = new ServiceDeleteAll();
+            serviceDeleteFromGroup.addRemover(deleteAlarms);
+            serviceDeleteFromGroup.addRemover(deleteNotifications);
+            serviceDeleteFromGroup.addRemover(deleteGroup);
+        }
+        return serviceDeleteFromGroup;
+    }
+
     public static void setServiceSignOut(ServiceDeleteAll service)
     {
        serviceSignOut = service;
@@ -58,10 +74,13 @@ public class BuilderServiceDeleteAll {
         serviceQuitGroup = service;
     }
 
+    public static void setServiceDeletedFromGroup(ServiceDeleteAll service){serviceDeleteFromGroup = service;}
+
     public static void clean()
     {
         serviceSignOut = null;
         serviceQuitGroup = null;
+        serviceDeleteFromGroup = null;
     }
 
 }

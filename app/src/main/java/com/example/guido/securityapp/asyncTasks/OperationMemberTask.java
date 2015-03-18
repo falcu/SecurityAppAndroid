@@ -61,7 +61,7 @@ public abstract class OperationMemberTask extends AsynTaskWithHandlers{
             try
             {
                 Group group = BuilderServiceGroup.buildGroupInformationService().getGroup();
-                eventAggregator.Publish(MyApplication.getContext().getResources().getString(R.string.group_updated_event),group);
+                eventAggregator.Publish(MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP),group);
 
             }
             catch (Exception e)

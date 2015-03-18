@@ -16,7 +16,6 @@ import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.interfaces.IFragmentExceptionHandler;
 import com.example.guido.securityapp.interfaces.ISubscriber;
-import com.example.guido.securityapp.interfaces.IUpdate;
 import com.example.guido.securityapp.models.Group;
 
 /**
@@ -32,7 +31,7 @@ public class GroupDetailsFragment extends Fragment implements ISubscriber {
 
     public GroupDetailsFragment() {
         eventAggregator = FactoryEventAggregator.getInstance();
-        eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.group_updated_event));
+        eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP));
     }
 
     @Override

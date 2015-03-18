@@ -10,7 +10,7 @@
     <string name="panic_message_store_key">panic_message</string>
     <string name="localities_store_key">localities</string>
     <string name="global_preferences_key">global</string>
-    <string name="sever_url">http://192.168.1.110:3000</string>
+    <string name="sever_url">http://192.168.1.145:3000</string>
     <string name="title_activity_create_group">CreateGroupActivity</string>
 
     <integer name="ACTIVITY_FINISH">1</integer>
@@ -18,11 +18,12 @@
     <string name="FORCE_FINISH_ACTIVITY">activity_finish</string>
     <string name="QUIT_GROUP">quit_group</string>
     <string name="BACK_BUTTON_PRESSED">back_pressed</string>
-    <string name="UPDATE_GROUP">update_group</string>
+    <string name="UPDATE_GROUP">group_updated</string>
     <string name="UPDATE_ALARM">update_alarm</string>
     <string name="UPDATE_LOCALITY_NOTIFICATIONS">update_locality_notifications</string>
     <string name="UPDATE_LAST_ALARM">update_last_alarm</string>
     <string name="UPDATE_SINGLE_LOCALITY">update_single_locality</string>
+    <string name ="DELETED_FROM_GROUP">deleted_from_group</string>
     <string name="title_activity_group_configuration">GroupConfigurationActivity</string>
     <string name="action_settings">Settings</string>
     <string name="operation_member_action_text">Operation Member</string>
@@ -38,16 +39,16 @@
     <string name="remove_member_action_description">Remove Member</string>
     <string name="rename_group_action_description">Rename Group</string>
     <string name="refresh_group_action_description">Refresh Group</string>
-    <string name="group_updated_event">group_updated</string>
+
 
     <string-array name="group_gcm_types">
         <item>name_changed</item>
         <item>member_added</item>
         <item>added</item>
         <item>member_deleted</item>
-        <item>deleted</item>
         <item>member_quitted</item>
     </string-array>
+    <string name="deleted_from_group_type">deleted</string>
 
     <string name="alarm_type">notification_alarm</string>
     <string name="locality_notification_type">notification_insecure_location</string>
