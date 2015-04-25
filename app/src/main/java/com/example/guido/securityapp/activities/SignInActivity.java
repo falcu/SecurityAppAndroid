@@ -66,6 +66,7 @@ public class SignInActivity extends SignActivity {
             UserTO userTO = new UserTO();
             userTO.setEmail(email);
             userTO.setPassword(password);
+            userTO.setPasswordConfirmation(password);
             UserSignInTask task = new UserSignInTask(userTO);
             task.addHandler(this);
             return task;

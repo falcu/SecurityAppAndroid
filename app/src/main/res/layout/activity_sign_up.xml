@@ -22,19 +22,12 @@
             android:layout_height="match_parent" android:orientation="vertical">
 
 
-            <EditText android:id="@+id/name" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="@string/prompt_name"
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
-                android:imeOptions="actionUnspecified" android:inputType="text"
-                android:maxLines="1" android:singleLine="true" />
-
             <fragment
-                android:name="com.example.guido.securityapp.fragments.SignInFragment"
+                android:name="com.example.guido.securityapp.fragments.SignUpFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/signup_fragment"
-                tools:layout="@layout/fragment_sign_in" />
+                tools:layout="@layout/fragment_sign_up" />
 
 
             <Button android:id="@+id/email_sign_button" style="?android:textAppearanceSmall"

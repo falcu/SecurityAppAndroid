@@ -1,0 +1,38 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.guido.securityapp.fragments.SignUpFragment">
+
+    <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:orientation="vertical">
+
+            <EditText android:id="@+id/name" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="@string/prompt_name"
+                android:imeActionId="@+id/login"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionUnspecified" android:inputType="text"
+                android:maxLines="1" android:singleLine="true" />
+
+        <include android:id="@+id/signin_layout" layout="@layout/sign_in_layout" android:layout_height="match_parent" android:layout_width="match_parent" />
+
+            <EditText
+                android:id="@+id/reentry_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_reentry_password"
+                android:imeActionId="@+id/login"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

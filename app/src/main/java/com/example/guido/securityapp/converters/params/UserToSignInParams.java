@@ -26,7 +26,7 @@ public class UserToSignInParams extends Converter {
         JSONObject userJSON = new JSONObject();
         user_details.put("email", maybeUser.getEmail());
         user_details.put("password", maybeUser.getPassword());
-        user_details.put("password_confirmation", maybeUser.getPassword());
+        user_details.put("password_confirmation", maybeUser.getPasswordConfirmation());
         JSONObject deviceJSON = new JSONObject();
         if(maybeUser.getRegistrationId()!=null) {
             deviceJSON.put("registration_id", maybeUser.getRegistrationId());

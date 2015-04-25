@@ -5,6 +5,7 @@ import com.example.guido.securityapp.validators.ComposedValidator;
 import com.example.guido.securityapp.validators.EmailValidator;
 import com.example.guido.securityapp.validators.EmptyStringValidator;
 import com.example.guido.securityapp.validators.LongStringValidator;
+import com.example.guido.securityapp.validators.PasswordConfirmationValidator;
 import com.example.guido.securityapp.validators.ShortStringValidator;
 
 /**
@@ -24,6 +25,8 @@ public class BuilderValidator {
                 return getNameValidator();
             case GROUP_NAME:
                 return getGroupNameValidator();
+            case PASSWORD_CONFIRMATION:
+                return getPasswordConfirmationValidator();
         }
 
         throw new IllegalArgumentException("There is not a validator for that type");
@@ -64,6 +67,11 @@ public class BuilderValidator {
         return composedValidator;
     }
 
+    private IValidate getPasswordConfirmationValidator()
+    {
+        return new PasswordConfirmationValidator();
+    }
+
     private ComposedValidator makeComposedValidatorWith(IValidate validator)
     {
         ComposedValidator composedValidator = new ComposedValidator();
@@ -76,6 +84,7 @@ public class BuilderValidator {
     {
         EMAIL,
         PASSWORD,
+        PASSWORD_CONFIRMATION,
         NAME,
         GROUP_NAME
     }

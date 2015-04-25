@@ -33,10 +33,11 @@ import java.util.List;
  */
 public class SignInFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, ISetFragmentError, IFragmentGetData, IValidateFragment {
 
-    private AutoCompleteTextView emailView;
-    private EditText passwordView;
+    protected AutoCompleteTextView emailView;
+    protected EditText passwordView;
     protected IValidate emailValidator;
     protected IValidate passwordValidator;
+    protected BuilderValidator builderValidator;
 
 
     public SignInFragment() {
@@ -49,22 +50,31 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
-
-        emailView = (AutoCompleteTextView) view.findViewById(R.id.email);
-        passwordView = (EditText) view.findViewById(R.id.password);
-        populateAutoComplete();
-        setValidators();
+        initialize(view);
         return view;
     }
 
-    private void setValidators()
+    protected void initialize(View view)
     {
-        BuilderValidator builderValidator = new BuilderValidator();
+        emailView = (AutoCompleteTextView) view.findViewById(R.id.email);
+        passwordView = (EditText) view.findViewById(R.id.password);
+        builderValidator = makeValidatorBuilder();
+        populateAutoComplete();
+        setValidators();
+    }
+
+    protected void setValidators()
+    {
         emailValidator = builderValidator.buildValidator(BuilderValidator.ValidatorType.EMAIL);
         passwordValidator = builderValidator.buildValidator(BuilderValidator.ValidatorType.PASSWORD);
     }
 
-    private void populateAutoComplete() {
+    protected BuilderValidator makeValidatorBuilder()
+    {
+        return new BuilderValidator();
+    }
+
+    protected void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
     }
 
@@ -98,7 +108,7 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
         addEmailsToAutoComplete(emails);
     }
 
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
+    protected void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(this.getActivity(),
@@ -135,8 +145,8 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public boolean validateFragment() {
-        boolean emailIsCorrect = validateEmail();
         boolean passwordIsCorrect = validatePassword();
+        boolean emailIsCorrect = validateEmail();
         return emailIsCorrect && passwordIsCorrect;
     }
 
@@ -147,6 +157,7 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
         if(!passwordError.isEmpty())
         {
             passwordView.setError(passwordError);
+            passwordView.requestFocus();
             return false;
         }
         return true;
@@ -158,12 +169,13 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
         if(!emailError.isEmpty())
         {
             emailView.setError(emailError);
+            emailView.requestFocus();
             return false;
         }
         return true;
     }
 
-    private interface ProfileQuery {
+    protected interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
                 ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
@@ -177,8 +189,8 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
     public HashMap<String, Object> getData() {
 
         HashMap<String,Object> data = new HashMap<>();
-        data.put(getString(R.string.email_key), emailView.getText());
-        data.put(getString(R.string.password_key), passwordView.getText());
+        data.put(getString(R.string.email_key), emailView.getText().toString());
+        data.put(getString(R.string.password_key), passwordView.getText().toString());
 
         return data;
     }

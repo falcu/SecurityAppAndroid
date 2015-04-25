@@ -2,9 +2,12 @@
 <resources>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
+    <string name="prompt_reentry_password">Re-entry password</string>
     <string name="email_error_key">email_error</string>
     <string name="password_error_key">password_error</string>
     <string name="email_key">email</string>
     <string name="password_key">password</string>
+    <string name="name_key">name</string>
+    <string name="reentry_password_key">reentry_password</string>
     <string name="action_sign_in">Sign in</string>
 </resources>

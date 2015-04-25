@@ -25,17 +25,9 @@ import com.example.guido.securityapp.models.UserTO;
  */
 public class SignUpActivity extends SignActivity {
 
-    private EditText nameView;
-    private IValidate nameValidator;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        nameView = (EditText) findViewById(R.id.name);
-        BuilderValidator builderValidator = new BuilderValidator();
-        nameValidator = builderValidator.buildValidator(BuilderValidator.ValidatorType.NAME);
-
     }
 
     @Override
@@ -47,13 +39,15 @@ public class SignUpActivity extends SignActivity {
     protected AsynTaskWithHandlers getSignTask() {
         String email = getFragmentData().getData().get(getString(R.string.email_key)).toString();
         String password = getFragmentData().getData().get(getString(R.string.password_key)).toString();
-        String name = nameView.getText().toString();
+        String passwordConfirmation = getFragmentData().getData().get(getString(R.string.reentry_password_key)).toString();
+        String name = getFragmentData().getData().get(getString(R.string.name_key)).toString();
         try
         {
             UserTO userTO = new UserTO();
             userTO.setName(name);
             userTO.setEmail(email);
             userTO.setPassword(password);
+            userTO.setPasswordConfirmation(passwordConfirmation);
             UserSignUpTask task = new UserSignUpTask(userTO,this);
             task.addHandler(this);
             return task;
@@ -73,9 +67,7 @@ public class SignUpActivity extends SignActivity {
     @Override
     protected boolean validateFields() {
         IValidateFragment fragment = (IValidateFragment) getFragmentManager().findFragmentById(getFragmentId());
-        boolean nameIsCorrect = validateName();
-        boolean fragmentIsCorrect = fragment.validateFragment();
-        return nameIsCorrect && fragmentIsCorrect;
+        return fragment.validateFragment();
     }
 
     @Override
@@ -83,20 +75,6 @@ public class SignUpActivity extends SignActivity {
         super.beforeFinish();
         ToastHelper helper = new ToastHelper();
         helper.showLongDurationMessage(this,"You had successfully created a new user!");
-    }
-
-    private boolean validateName()
-    {
-        nameView.setError(null);
-        String name = nameView.getText().toString();
-        String nameError = nameValidator.getError(name);
-        if(!nameError.isEmpty())
-        {
-            nameView.setError(nameError);
-            nameView.requestFocus();
-            return false;
-        }
-        return true;
     }
 
 }
