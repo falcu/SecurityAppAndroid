@@ -6,7 +6,7 @@ import com.example.guido.securityapp.interfaces.IValidate;
  * Created by guido on 1/24/15.
  */
 public class ShortStringValidator implements IValidate {
-    private String error = "too short";
+    private String error = "Too short";
     private int minLength;
 
     public ShortStringValidator(int length)

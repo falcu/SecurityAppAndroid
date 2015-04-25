@@ -17,6 +17,7 @@ import com.example.guido.securityapp.builders.BuilderValidator;
 import com.example.guido.securityapp.helpers.ToastHelper;
 import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.IValidate;
+import com.example.guido.securityapp.interfaces.IValidateFragment;
 import com.example.guido.securityapp.models.UserTO;
 
 /**
@@ -71,7 +72,10 @@ public class SignUpActivity extends SignActivity {
 
     @Override
     protected boolean validateFields() {
-        return validateName() && validateEmail() && validatePassword();
+        IValidateFragment fragment = (IValidateFragment) getFragmentManager().findFragmentById(getFragmentId());
+        boolean nameIsCorrect = validateName();
+        boolean fragmentIsCorrect = fragment.validateFragment();
+        return nameIsCorrect && fragmentIsCorrect;
     }
 
     @Override

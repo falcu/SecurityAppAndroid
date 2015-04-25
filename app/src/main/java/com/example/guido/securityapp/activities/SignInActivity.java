@@ -10,6 +10,7 @@ import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.AsynTaskWithHandlers;
 import com.example.guido.securityapp.asyncTasks.UserSignInTask;
 import com.example.guido.securityapp.helpers.ToastHelper;
+import com.example.guido.securityapp.interfaces.IValidateFragment;
 import com.example.guido.securityapp.models.UserTO;
 
 public class SignInActivity extends SignActivity {
@@ -84,7 +85,8 @@ public class SignInActivity extends SignActivity {
 
     @Override
     protected boolean validateFields() {
-        return validateEmail() && validatePassword();
+        IValidateFragment fragment = (IValidateFragment) getFragmentManager().findFragmentById(getFragmentId());
+        return fragment.validateFragment();
     }
 
     @Override

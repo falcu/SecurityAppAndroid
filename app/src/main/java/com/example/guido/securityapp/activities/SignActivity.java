@@ -86,32 +86,6 @@ public abstract class SignActivity extends Activity implements ITaskHandler {
     protected abstract int getFragmentId();
 
     protected abstract boolean validateFields();
-
-    protected boolean validateEmail()
-    {
-        String email = getFragmentData().getData().get(getString(R.string.email_key)).toString();
-        String emailError = emailValidator.getError(email);
-        if(!emailError.isEmpty())
-        {
-            getFragmentErrorSetter().setError(getString(R.string.email_error_key), emailError);
-            return false;
-        }
-        return true;
-    }
-
-    protected boolean validatePassword()
-    {
-        String password = getFragmentData().getData().get(getString(R.string.password_key)).toString();
-        String passwordError = passwordValidator.getError(password);
-
-        if(!passwordError.isEmpty())
-        {
-            getFragmentErrorSetter().setError(getString(R.string.password_error_key), getString(R.string.error_invalid_password));
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public void onPreExecute(String identifier)
     {

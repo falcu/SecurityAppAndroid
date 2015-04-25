@@ -18,8 +18,11 @@ import android.widget.EditText;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.builders.BuilderValidator;
 import com.example.guido.securityapp.interfaces.IFragmentGetData;
 import com.example.guido.securityapp.interfaces.ISetFragmentError;
+import com.example.guido.securityapp.interfaces.IValidate;
+import com.example.guido.securityapp.interfaces.IValidateFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,10 +31,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignInFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, ISetFragmentError, IFragmentGetData {
+public class SignInFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, ISetFragmentError, IFragmentGetData, IValidateFragment {
 
     private AutoCompleteTextView emailView;
     private EditText passwordView;
+    protected IValidate emailValidator;
+    protected IValidate passwordValidator;
 
 
     public SignInFragment() {
@@ -48,7 +53,15 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
         emailView = (AutoCompleteTextView) view.findViewById(R.id.email);
         passwordView = (EditText) view.findViewById(R.id.password);
         populateAutoComplete();
+        setValidators();
         return view;
+    }
+
+    private void setValidators()
+    {
+        BuilderValidator builderValidator = new BuilderValidator();
+        emailValidator = builderValidator.buildValidator(BuilderValidator.ValidatorType.EMAIL);
+        passwordValidator = builderValidator.buildValidator(BuilderValidator.ValidatorType.PASSWORD);
     }
 
     private void populateAutoComplete() {
@@ -118,6 +131,36 @@ public class SignInFragment extends Fragment implements LoaderManager.LoaderCall
     public void clearErrors() {
         emailView.setError(null);
         passwordView.setError(null);
+    }
+
+    @Override
+    public boolean validateFragment() {
+        boolean emailIsCorrect = validateEmail();
+        boolean passwordIsCorrect = validatePassword();
+        return emailIsCorrect && passwordIsCorrect;
+    }
+
+    protected boolean validatePassword()
+    {
+        String passwordError = passwordValidator.getError(passwordView.getText().toString());
+
+        if(!passwordError.isEmpty())
+        {
+            passwordView.setError(passwordError);
+            return false;
+        }
+        return true;
+    }
+
+    protected boolean validateEmail()
+    {
+        String emailError = emailValidator.getError(emailView.getText().toString());
+        if(!emailError.isEmpty())
+        {
+            emailView.setError(emailError);
+            return false;
+        }
+        return true;
     }
 
     private interface ProfileQuery {
