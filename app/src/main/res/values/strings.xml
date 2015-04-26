@@ -10,7 +10,7 @@
     <string name="panic_message_store_key">panic_message</string>
     <string name="localities_store_key">localities</string>
     <string name="global_preferences_key">global</string>
-    <string name="sever_url">http://192.168.1.120:3000</string>
+    <string name="sever_url">http://securityapp-env-prod.elasticbeanstalk.com</string>
     <string name="title_activity_create_group">CreateGroupActivity</string>
 
     <integer name="ACTIVITY_FINISH">1</integer>
