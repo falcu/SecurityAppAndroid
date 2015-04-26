@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 
 import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
+import com.example.guido.securityapp.builders.services.BuilderServiceSign;
 import com.example.guido.securityapp.fragments.BaseFragmentOption;
 import com.example.guido.securityapp.fragments.CreateGroupFragment;
 import com.example.guido.securityapp.fragments.DescriptionFragment;
@@ -82,7 +83,13 @@ public class FactoryCreateGroupFragments extends FactoryFragmentsOptions{
         {
             description = MyApplication.getContext().getResources().getString(R.string.join_group_text);
             fragment = new JoinGroupFragment();
-            ((JoinGroupFragment)fragment).setMessageToUser(MyApplication.getContext().getResources().getString(R.string.join_group_description));
+            String email = "";
+            try {
+                email = BuilderServiceSign.buildServiceSign(BuilderServiceSign.SignOptions.SIGN_IN).getSignedUser().getEmail();
+            } catch (Exception e) {
+                //TODO HANDLE EXCEPTION
+            }
+            ((JoinGroupFragment) fragment).setMessageToUser(MyApplication.getContext().getResources().getString(R.string.join_group_description)+email);
         }
         else if(key.equals(MyApplication.getContext().getResources().getString(R.string.synchronize_group_key)))
         {
