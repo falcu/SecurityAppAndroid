@@ -31,7 +31,7 @@ public class GroupDetailsFragment extends Fragment implements ISubscriber {
 
     public GroupDetailsFragment() {
         eventAggregator = FactoryEventAggregator.getInstance();
-        eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP));
+        eventAggregator.subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP));
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.example.guido.securityapp.fragments;
 
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +12,8 @@ import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.activities.MyApplication;
 import com.example.guido.securityapp.asyncTasks.QuitGroupTask;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
-import com.example.guido.securityapp.builders.http_requests.BuilderGetGroupInfoRequest;
 import com.example.guido.securityapp.builders.services.BuilderServiceGroup;
 import com.example.guido.securityapp.builders.services.BuilderServiceUserToken;
-import com.example.guido.securityapp.commands.NullCommand;
 import com.example.guido.securityapp.exceptions.UnableToLoadGroupException;
 import com.example.guido.securityapp.exceptions.UnableToLoadTokenException;
 import com.example.guido.securityapp.helpers.ConfirmDialogHelper;

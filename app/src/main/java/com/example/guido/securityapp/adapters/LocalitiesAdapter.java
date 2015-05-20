@@ -1,18 +1,13 @@
 package com.example.guido.securityapp.adapters;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
@@ -22,14 +17,12 @@ import com.example.guido.securityapp.converters.Converter;
 import com.example.guido.securityapp.helpers.ProgressBarHelper;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
 import com.example.guido.securityapp.interfaces.IGetFilterLabel;
-import com.example.guido.securityapp.interfaces.IProgressBar;
 import com.example.guido.securityapp.interfaces.ISubscriber;
 import com.example.guido.securityapp.models.Locality;
 import com.example.guido.securityapp.models.LocalityModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -51,7 +44,7 @@ public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFi
         Collections.sort(model,new LocalitiesComparator());
         allData.addAll(model);
         filteredData.addAll(allData);
-        this.eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_SINGLE_LOCALITY));
+        this.eventAggregator.subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_SINGLE_LOCALITY));
     }
 
     @Override

@@ -35,7 +35,7 @@ public class AlarmHistoryAdapter extends BaseAdapter implements ISubscriber, Ada
         this.notificationHistory = notificationHistory;
         this.eventAggregator = eventAggregator;
         this.activity = activity;
-        this.eventAggregator.Subscribe(this, listenerKey);
+        this.eventAggregator.subscribe(this, listenerKey);
         this.serviceAlarmStore = serviceAlarmStore;
     }
 

@@ -35,7 +35,7 @@ public class GroupChangedGcmCommand extends Command {
         try {
             store.save(intent.getStringExtra("group_info"));
             Group group = (Group) store.load();
-            eventAggregator.Publish(MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP),group);
+            eventAggregator.publish(MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP), group);
         } catch (Exception e) {
             //TODO HANDLE EXCEPTION
         }

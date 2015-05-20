@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_activity_security">SecurityActivity</string>
+    <string name="title_activity_security">Guardian</string>
     <string name="action_group_configuration">Group Configuration</string>
     <string name="action_sign_out">Sign Out</string>
     <string name="quit_action_key">quit</string>

@@ -36,7 +36,7 @@ public class ServiceSetLocalityClassification extends ServiceBase {
         {
             updatedLocality = (Locality) httpToLocalityConverter.convert(data);
             updateStoredLocalities(updatedLocality);
-            eventAggregator.Publish(MyApplication.getContext().getResources().getString(R.string.UPDATE_SINGLE_LOCALITY),updatedLocality);
+            eventAggregator.publish(MyApplication.getContext().getResources().getString(R.string.UPDATE_SINGLE_LOCALITY), updatedLocality);
         }
 
         return updatedLocality;

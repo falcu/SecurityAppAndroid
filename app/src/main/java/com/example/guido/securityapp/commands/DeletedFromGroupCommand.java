@@ -18,6 +18,6 @@ public class DeletedFromGroupCommand extends Command{
     @Override
     protected void executeImplementation() {
         BuilderServiceDeleteAll.buildDeletedFromGroup().deleteAll();
-        FactoryEventAggregator.getInstance().Publish(MyApplication.getContext().getResources().getString(R.string.DELETED_FROM_GROUP), new GroupDeleted());
+        FactoryEventAggregator.getInstance().publish(MyApplication.getContext().getResources().getString(R.string.DELETED_FROM_GROUP), new GroupDeleted());
     }
 }
