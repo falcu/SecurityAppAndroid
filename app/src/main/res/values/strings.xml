@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SecurityApp</string>
+    <string name="app_name">Guardian</string>
     <string name="signed_user_store_key">signed_user</string>
     <string name="group_store_key">group</string>
     <string name="register_id_store_key">register_id</string>

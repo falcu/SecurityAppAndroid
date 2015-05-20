@@ -11,8 +11,6 @@ import com.example.guido.securityapp.R;
 import com.example.guido.securityapp.asyncTasks.TaskResult;
 import com.example.guido.securityapp.builders.adapters.BuilderGroupMembersAdapter;
 import com.example.guido.securityapp.builders.services.BuilderServiceDeleteAll;
-import com.example.guido.securityapp.builders.services.BuilderServiceLocationSingleton;
-import com.example.guido.securityapp.commands.Command;
 import com.example.guido.securityapp.commands.PanicNotificationCommand;
 import com.example.guido.securityapp.factories.FactoryEventAggregator;
 import com.example.guido.securityapp.helpers.ConfirmDialogHelper;
@@ -25,8 +23,6 @@ import com.example.guido.securityapp.interfaces.ISubscriber;
 import com.example.guido.securityapp.interfaces.ITaskHandler;
 import com.example.guido.securityapp.interfaces.OnYesClickListener;
 import com.example.guido.securityapp.models.GroupDeleted;
-import com.example.guido.securityapp.models.MyLocation;
-import com.example.guido.securityapp.services.ServiceLocation;
 import com.example.guido.securityapp.services.ServiceDeleteAll;
 
 public class SecurityActivity extends ActionBarActivity implements ITaskHandler, ISubscriber {
@@ -55,7 +51,7 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler,
             }
         });
         eventAggregator = FactoryEventAggregator.getInstance();
-        eventAggregator.Subscribe(this,MyApplication.getContext().getResources().getString(R.string.DELETED_FROM_GROUP));
+        eventAggregator.subscribe(this, MyApplication.getContext().getResources().getString(R.string.DELETED_FROM_GROUP));
     }
 
     @Override

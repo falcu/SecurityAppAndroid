@@ -18,7 +18,7 @@ public class ServiceLocalityNotificationStore extends ServiceAlarmStore {
 
     @Override
     protected void update(NotificationsHistory notificationsHistory, Notification notification) {
-        eventAggregator.Publish(MyApplication.getContext().getResources().getString(R.string.UPDATE_LOCALITY_NOTIFICATIONS),notificationsHistory);
+        eventAggregator.publish(MyApplication.getContext().getResources().getString(R.string.UPDATE_LOCALITY_NOTIFICATIONS), notificationsHistory);
     }
 
     @Override

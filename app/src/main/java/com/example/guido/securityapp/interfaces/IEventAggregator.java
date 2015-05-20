@@ -5,6 +5,6 @@ package com.example.guido.securityapp.interfaces;
  */
 public interface IEventAggregator {
 
-    public void Subscribe(ISubscriber subscriber,String key);
-    public void Publish(String key,Object dataToPublish);
+    public void subscribe(ISubscriber subscriber, String key);
+    public void publish(String key, Object dataToPublish);
 }

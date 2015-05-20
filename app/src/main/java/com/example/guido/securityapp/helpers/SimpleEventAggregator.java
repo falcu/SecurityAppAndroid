@@ -24,13 +24,13 @@ public class SimpleEventAggregator implements IEventAggregator{
     }
 
     @Override
-    public void Subscribe(ISubscriber subscriber, String key) {
+    public void subscribe(ISubscriber subscriber, String key) {
         addSubscriber(subscriber,key);
 
     }
 
     @Override
-    public void Publish(String key, Object dataToPublish) {
+    public void publish(String key, Object dataToPublish) {
 
         synchronized (lock)
         {

@@ -40,7 +40,7 @@ public class LastAlarmFragment extends Fragment implements ISubscriber,View.OnCl
 
     public LastAlarmFragment() {
         eventAggregator = FactoryEventAggregator.getInstance();
-        eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_LAST_ALARM));
+        eventAggregator.subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_LAST_ALARM));
     }
 
 

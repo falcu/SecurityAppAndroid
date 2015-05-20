@@ -33,7 +33,7 @@ public class GroupMembersAdapter extends BaseAdapter implements ISubscriber {
         this.activity = activity;
         this.groupToMembersConverter = groupToMembersConverter;
         this.eventAggregator = eventAggregator;
-        this.eventAggregator.Subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP));
+        this.eventAggregator.subscribe(this, MyApplication.getContext().getResources().getString(R.string.UPDATE_GROUP));
         updateSourceData(group);
     }
 
