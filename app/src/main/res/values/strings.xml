@@ -53,6 +53,7 @@
     <string name="locality_notification_type">notification_insecure_location</string>
     <string name="title_activity_alarms_history">AlarmsHistoryActivity</string>
     <string name="default_panic_message">I need help</string>
+    <string name="panic_message_hint">Message</string>
     <string name="save_changes">Save Changes</string>
     <string name="title_activity_panic_message_configuration">PanicMessageConfigurationActivity</string>
     <string name="title_activity_localities_customization">LocalitiesCustomizationActivity</string>

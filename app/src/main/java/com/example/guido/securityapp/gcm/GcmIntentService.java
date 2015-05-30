@@ -16,22 +16,17 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
  */
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
-    private NotificationManager notificationManager;
-    private GcmHelper helper;
 
     public GcmIntentService() {
         super("GcmIntentService");
     }
-    public static final String TAG = "GCM Demo";
 
     @Override
     protected void onHandleIntent(Intent intent) {
+
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
-        helper = new GcmHelper(this,intent);
-       // parser = new GcmParser(intent);
-        // The getMessageType() intent parameter must be the intent you received
-        // in your BroadcastReceiver.
+        GcmHelper helper = new GcmHelper(this,intent);
         String messageType = gcm.getMessageType(intent);
 
         if (!extras.isEmpty()) {  // has effect of unparcelling Bundle
@@ -47,29 +42,14 @@ public class GcmIntentService extends IntentService {
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // This loop represents the service doing some work.
                  //TODO PROCESS MESSAGE
+                NotificationManager notificationManager = (NotificationManager)
+                        this.getSystemService(Context.NOTIFICATION_SERVICE);
 
                 helper.handleGcmMessage();
-
-                Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
-                // Post notification of received message.
-                sendNotification(intent);
-                Log.i(TAG, "Received: " + extras.toString());
+                helper.sendNotification(notificationManager,NOTIFICATION_ID);
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
         GcmBroadcastReceiver.completeWakefulIntent(intent);
-    }
-
-    // Put the message into a notification and post it.
-    // This is just one simple example of what you might choose to do with
-    // a GCM message.
-    private void sendNotification(Intent intent) {
-
-
-        notificationManager = (NotificationManager)
-                this.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        NotificationCompat.Builder builder = helper.getNotificationBuilder();
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 }

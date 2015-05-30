@@ -21,7 +21,7 @@ public class LocalityNotificationGcmHandler extends AlarmGcmHandler {
 
     @Override
     public boolean canHandle() {
-        return (intent.getStringExtra("type").equals(MyApplication.getContext().getResources().getString(R.string.locality_notification_type)));
+        return (intent.getStringExtra("type")!=null && intent.getStringExtra("type").equals(MyApplication.getContext().getResources().getString(R.string.locality_notification_type)));
     }
 
     @Override

@@ -47,9 +47,4 @@ public class GroupGcmHandler extends GcmHandler {
     protected String getTitle() {
         return "Group notification";
     }
-
-    @Override
-    protected int getIcon() {
-        return R.drawable.ic_launcher;
-    }
 }
