@@ -78,7 +78,12 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".gcm.GcmIntentService" />
+        <service android:name=".gcm.GcmIntentService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
         <service android:name=".services.ServiceLocationNotifierListener" />
 
         <activity

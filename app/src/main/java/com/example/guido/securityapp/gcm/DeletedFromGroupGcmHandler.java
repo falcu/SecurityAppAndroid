@@ -17,6 +17,6 @@ public class DeletedFromGroupGcmHandler extends GroupGcmHandler{
 
     @Override
     public boolean canHandle() {
-        return intent.getStringExtra("type").equals(MyApplication.getContext().getResources().getString(R.string.deleted_from_group_type));
+        return intent.getStringExtra("type")!=null && intent.getStringExtra("type").equals(MyApplication.getContext().getResources().getString(R.string.deleted_from_group_type));
     }
 }

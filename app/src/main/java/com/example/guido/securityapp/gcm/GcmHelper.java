@@ -1,6 +1,7 @@
 package com.example.guido.securityapp.gcm;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
@@ -48,6 +49,13 @@ public class GcmHelper {
         getHandler().handle();
     }
 
+    public void sendNotification(NotificationManager notificationManager,int id)
+    {
+        NotificationCompat.Builder builder = this.getNotificationBuilder();
+        if(builder!=null)
+            notificationManager.notify(id, builder.build());
+    }
+
     private void initialize()
     {
         gcmHandlers = new ArrayList<>();
@@ -89,7 +97,9 @@ public class GcmHelper {
                 i++;
             }
         }
-
-        return gcmHandlers.get(i);
+        if(i<gcmHandlers.size())
+            return gcmHandlers.get(i);
+        else
+            return new NullGcmHandler();
     }
 }

@@ -59,6 +59,6 @@ public abstract class GcmHandler {
 
     protected abstract String getTitle();
 
-    protected abstract int getIcon();
+    protected int getIcon(){return R.drawable.guardian_icon;}
 
 }

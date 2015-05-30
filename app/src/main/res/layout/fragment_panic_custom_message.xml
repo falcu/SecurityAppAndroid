@@ -9,22 +9,19 @@
 
     <TableRow android:layout_width="wrap_content" android:layout_height="wrap_content">
 
-        <LinearLayout android:orientation="horizontal">
-
-        <TextView
-            style="@style/LabelFont"
-            android:layout_gravity="center"
-            android:text="Message: "/>
-
         <EditText
             android:layout_width="match_parent"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:hint="@string/panic_message_hint"
             android:id="@+id/custom_message"
             android:text="@string/default_panic_message"
+            android:layout_marginRight="5dp"
+            android:inputType="text"
             style="@style/DetailFont"
-            android:layout_marginLeft="0dp"
             />
 
-        </LinearLayout>
 
     </TableRow>
 

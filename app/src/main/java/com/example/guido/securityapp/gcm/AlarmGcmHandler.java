@@ -24,7 +24,7 @@ public class AlarmGcmHandler extends GcmHandler{
 
     @Override
     public boolean canHandle() {
-        return (intent.getStringExtra("type").equals(MyApplication.getContext().getResources().getString(R.string.alarm_type)));
+        return (intent.getStringExtra("type")!=null && intent.getStringExtra("type").equals(MyApplication.getContext().getResources().getString(R.string.alarm_type)));
     }
 
     @Override
@@ -52,10 +52,5 @@ public class AlarmGcmHandler extends GcmHandler{
     @Override
     protected String getTitle() {
         return "ALARM";
-    }
-
-    @Override
-    protected int getIcon() {
-        return R.drawable.ic_launcher;
     }
 }

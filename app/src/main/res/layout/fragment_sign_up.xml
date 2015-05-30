@@ -14,6 +14,7 @@
                 android:layout_height="wrap_content" android:hint="@string/prompt_name"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="@string/action_sign_in_short"
+                android:maxLength="30"
                 android:imeOptions="actionUnspecified" android:inputType="text"
                 android:maxLines="1" android:singleLine="true" />
 
