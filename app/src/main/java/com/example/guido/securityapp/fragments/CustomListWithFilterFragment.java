@@ -19,6 +19,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.guido.securityapp.R;
+import com.example.guido.securityapp.interfaces.IGetFilterHint;
 import com.example.guido.securityapp.interfaces.IGetFilterLabel;
 import com.example.guido.securityapp.interfaces.IListMenuHandler;
 
@@ -76,6 +77,7 @@ public class CustomListWithFilterFragment extends CustomListFragment {
     protected void setAdapterOnList() {
         super.setAdapterOnList();
         setFilterLabel();
+        setFilterHint();
     }
 
     protected void setFilterLabel()
@@ -88,6 +90,19 @@ public class CustomListWithFilterFragment extends CustomListFragment {
         catch (Exception e)
         {
             filterLabel.setText("Filter");
+        }
+    }
+
+    protected void setFilterHint()
+    {
+        try
+        {
+            String hint = ((IGetFilterHint)adapter).getFilterHint();
+            filterText.setHint(hint);
+        }
+        catch (Exception e)
+        {
+            filterText.setHint("Name");
         }
     }
 

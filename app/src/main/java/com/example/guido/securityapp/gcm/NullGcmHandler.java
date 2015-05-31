@@ -32,9 +32,4 @@ public class NullGcmHandler extends GcmHandler{
     protected PendingIntent getIntent() {
         return null;
     }
-
-    @Override
-    protected String getTitle() {
-        return null;
-    }
 }

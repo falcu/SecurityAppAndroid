@@ -17,6 +17,7 @@ import com.example.guido.securityapp.models.NotificationsHistory;
 public class LocalityNotificationGcmHandler extends AlarmGcmHandler {
     public LocalityNotificationGcmHandler(GcmParser parser, Intent intent, IntentService service, Command command) {
         super(parser, intent, service, command);
+        title = MyApplication.getContext().getResources().getString(R.string.location_notification_title);
     }
 
     @Override
@@ -33,10 +34,5 @@ public class LocalityNotificationGcmHandler extends AlarmGcmHandler {
             //TODO HANDLE
             return null;
         }
-    }
-
-    @Override
-    protected String getTitle() {
-        return "LOCATION NOTIFICATION";
     }
 }

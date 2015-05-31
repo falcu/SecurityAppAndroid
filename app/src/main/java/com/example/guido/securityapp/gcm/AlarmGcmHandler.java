@@ -20,6 +20,7 @@ public class AlarmGcmHandler extends GcmHandler{
 
     public AlarmGcmHandler(GcmParser parser, Intent intent, IntentService service, Command command) {
         super(parser, intent, service, command);
+        title = MyApplication.getContext().getResources().getString(R.string.alarm_notification_title);
     }
 
     @Override
@@ -47,10 +48,5 @@ public class AlarmGcmHandler extends GcmHandler{
            //TODO HANDLE
             return null;
         }
-    }
-
-    @Override
-    protected String getTitle() {
-        return "ALARM";
     }
 }
