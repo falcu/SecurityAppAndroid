@@ -19,6 +19,7 @@ public abstract class GcmHandler {
     protected Intent intent;
     protected IntentService service;
     protected Command command;
+    protected String title = "Title";
 
     public GcmHandler(GcmParser parser, Intent intent, IntentService service, Command command) {
         this.parser = parser;
@@ -57,7 +58,9 @@ public abstract class GcmHandler {
     protected abstract PendingIntent getIntent();
 
 
-    protected abstract String getTitle();
+    protected String getTitle(){
+        return title;
+    }
 
     protected int getIcon(){return R.drawable.guardian_icon;}
 

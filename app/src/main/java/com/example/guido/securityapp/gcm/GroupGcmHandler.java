@@ -20,6 +20,7 @@ public class GroupGcmHandler extends GcmHandler {
 
     public GroupGcmHandler(GcmParser parser, Intent intent, IntentService service, Command command) {
         super(parser, intent, service, command);
+        title = MyApplication.getContext().getResources().getString(R.string.group_notification_title);
     }
 
     @Override
@@ -41,10 +42,5 @@ public class GroupGcmHandler extends GcmHandler {
         Intent i = new Intent(service, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return PendingIntent.getActivity(service, 0,i, 0);
-    }
-
-    @Override
-    protected String getTitle() {
-        return "Group notification";
     }
 }

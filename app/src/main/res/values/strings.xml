@@ -59,4 +59,8 @@
     <string name="title_activity_localities_customization">LocalitiesCustomizationActivity</string>
     <string name="title_activity_localities_notification_history">LocalitiesNotificationHistoryActivity</string>
 
+    <string name="alarm_notification_title">Alarm</string>
+    <string name="group_notification_title">Group Notification</string>
+    <string name="location_notification_title">Location Notification</string>
+
 </resources>

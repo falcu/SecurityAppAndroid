@@ -16,6 +16,7 @@ import com.example.guido.securityapp.comparators.LocalitiesComparator;
 import com.example.guido.securityapp.converters.Converter;
 import com.example.guido.securityapp.helpers.ProgressBarHelper;
 import com.example.guido.securityapp.interfaces.IEventAggregator;
+import com.example.guido.securityapp.interfaces.IGetFilterHint;
 import com.example.guido.securityapp.interfaces.IGetFilterLabel;
 import com.example.guido.securityapp.interfaces.ISubscriber;
 import com.example.guido.securityapp.models.Locality;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * Created by guido on 2/23/15.
  */
-public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFilterLabel, ISubscriber{
+public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFilterLabel,IGetFilterHint, ISubscriber{
     private List<LocalityModel> allData = new ArrayList<>();
     private List<LocalityModel> filteredData = new ArrayList<>();
 
@@ -140,7 +141,12 @@ public class LocalitiesAdapter extends BaseAdapter implements Filterable, IGetFi
 
     @Override
     public String getFilterLabel() {
-        return "Localities";
+        return "Search by name: ";
+    }
+
+    @Override
+    public String getFilterHint() {
+        return "";
     }
 
     @Override
