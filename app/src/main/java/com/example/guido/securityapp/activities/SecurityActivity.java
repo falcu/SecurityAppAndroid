@@ -28,7 +28,6 @@ import com.example.guido.securityapp.services.ServiceDeleteAll;
 public class SecurityActivity extends ActionBarActivity implements ITaskHandler, ISubscriber {
 
     private IProgressBar progressBar;
-    private ConfirmDialogHelper signOutConfigmDialog;
     private IEventAggregator eventAggregator;
 
     @Override
@@ -36,20 +35,6 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_security);
         initializeFragments();
-        signOutConfigmDialog = new ConfirmDialogHelper();
-        signOutConfigmDialog.setOnYesClickListener(new OnYesClickListener() {
-            @Override
-            public void onYesClicked() {
-                ServiceDeleteAll serviceSignOut = BuilderServiceDeleteAll.buildSignOut();
-                serviceSignOut.deleteAll();
-                if(!serviceSignOut.wasRequestWithError())
-                {
-                    ToastHelper toastHelper= new ToastHelper();
-                    toastHelper.showLongDurationMessage(SecurityActivity.this,"You signed out!");
-                    SecurityActivity.this.finishActivity();
-                }
-            }
-        });
         eventAggregator = FactoryEventAggregator.getInstance();
         eventAggregator.subscribe(this, MyApplication.getContext().getResources().getString(R.string.DELETED_FROM_GROUP));
     }
@@ -123,10 +108,6 @@ public class SecurityActivity extends ActionBarActivity implements ITaskHandler,
         if (id == R.id.action_group_configuration) {
             Intent i = new Intent(this,GroupConfigurationCreatorActivity.class);
             startActivityForResult(i, MyApplication.getContext().getResources().getInteger(R.integer.ACTIVITY_FINISH));
-        }
-        else if(id == R.id.action_sign_out)
-        {
-            signOutConfigmDialog.showYesNoDialog(this,"SIGN OUT","Are you sure you want to sign out?");
         }
         else if(id == R.id.action_alarms_history)
         {
