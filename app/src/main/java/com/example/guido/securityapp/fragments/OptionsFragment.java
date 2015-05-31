@@ -3,6 +3,7 @@ package com.example.guido.securityapp.fragments;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -59,12 +60,19 @@ public class OptionsFragment extends Fragment implements IFragmentOptions, View.
         customButton.setText(option.getText());
         customButton.setId(id);
         customButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        addPaddingForOldApi(customButton);
 
-      //  newOption.setId(id);
-     //   newOption.setText(option.getText());
-          optionsGroup.addView(customButton);
+        optionsGroup.addView(customButton);
 
         setupClickListener(getView(),id);
+    }
+
+    //This fixes a known Android bug
+    private void addPaddingForOldApi(RadioButton radioButton)
+    {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1){
+            radioButton.setPadding(45,0,0,0);
+        }
     }
 
     private void setupClickListener(View theView, int childViewId) {
